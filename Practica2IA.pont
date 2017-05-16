@@ -1,0 +1,321 @@
+; Wed May 17 01:41:15 CEST 2017
+; 
+;+ (version "3.5")
+;+ (build "Build 663")
+
+
+(defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
+	(is-a USER)
+	(role abstract)
+	(single-slot picante
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot alcohol
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot pais
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot origen
+		(type INSTANCE)
+;+		(allowed-classes Origen)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot platos
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(create-accessor read-write))
+	(single-slot intervaloMin
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot tipo
+		(type INSTANCE)
+;+		(allowed-classes Tipo)
+		(create-accessor read-write))
+	(single-slot valor
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot precio
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot primero
+		(type INSTANCE)
+;+		(allowed-classes Primero)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot intervaloMax
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot segundo
+		(type INSTANCE)
+;+		(allowed-classes Segundo)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot postre
+		(type INSTANCE)
+;+		(allowed-classes Postre)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot caliente
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot precioPorPersona
+		(type INSTANCE)
+;+		(allowed-classes Precio)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esComidaFamiliar
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot epoca
+		(type INSTANCE)
+;+		(allowed-classes Epoca)
+		(create-accessor read-write))
+	(multislot ingredientes
+		(type INSTANCE)
+;+		(allowed-classes Ingrediente)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot complejo
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot estilo
+		(type INSTANCE)
+;+		(allowed-classes EstiloCocina)
+		(create-accessor read-write))
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot bebidas
+		(type INSTANCE)
+;+		(allowed-classes Bebida)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(multislot compatible
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write)))
+
+(defclass Plato
+	(is-a USER)
+	(role abstract)
+	(single-slot picante
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot epoca
+		(type INSTANCE)
+;+		(allowed-classes Epoca)
+		(create-accessor read-write))
+	(single-slot precio
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot caliente
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot origen
+		(type INSTANCE)
+;+		(allowed-classes Origen)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot ingredientes
+		(type INSTANCE)
+;+		(allowed-classes Ingrediente)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot complejo
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot tipo
+		(type INSTANCE)
+;+		(allowed-classes Tipo)
+		(create-accessor read-write))
+	(multislot compatible
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(multislot estilo
+		(type INSTANCE)
+;+		(allowed-classes EstiloCocina)
+		(create-accessor read-write)))
+
+(defclass Primero
+	(is-a Plato)
+	(role concrete))
+
+(defclass Segundo
+	(is-a Plato)
+	(role concrete))
+
+(defclass Postre
+	(is-a Plato)
+	(role concrete)
+	(single-slot alcohol
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Bebida
+	(is-a USER)
+	(role concrete)
+	(single-slot precio
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot alcohol
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot compatible
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write)))
+
+(defclass Menu
+	(is-a USER)
+	(role concrete)
+	(single-slot esComidaFamiliar
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot bebidas
+		(type INSTANCE)
+;+		(allowed-classes Bebida)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot segundo
+		(type INSTANCE)
+;+		(allowed-classes Segundo)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot postre
+		(type INSTANCE)
+;+		(allowed-classes Postre)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot primero
+		(type INSTANCE)
+;+		(allowed-classes Primero)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot precioPorPersona
+		(type INSTANCE)
+;+		(allowed-classes Precio)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Precio
+	(is-a USER)
+	(role concrete)
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot intervaloMin
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot valor
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot intervaloMax
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Tipo
+	(is-a USER)
+	(role concrete)
+	(multislot platos
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(create-accessor read-write))
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Ingrediente
+	(is-a USER)
+	(role concrete)
+	(multislot platos
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(create-accessor read-write))
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Epoca
+	(is-a USER)
+	(role concrete)
+	(multislot platos
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(create-accessor read-write))
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Origen
+	(is-a USER)
+	(role concrete)
+	(single-slot pais
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot platos
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(create-accessor read-write)))
+
+(defclass EstiloCocina
+	(is-a USER)
+	(role concrete)
+	(multislot platos
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(create-accessor read-write))
+	(single-slot nombre
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
