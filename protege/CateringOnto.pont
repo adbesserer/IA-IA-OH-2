@@ -1,4 +1,4 @@
-; Wed May 17 16:20:13 CEST 2017
+; Wed May 17 16:55:35 CEST 2017
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -22,7 +22,7 @@
 		(create-accessor read-write))
 	(single-slot postre
 		(type INSTANCE)
-;+		(allowed-classes Postre)
+;+		(allowed-classes)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot platos_del_origen
@@ -42,7 +42,7 @@
 		(create-accessor read-write))
 	(single-slot primero
 		(type INSTANCE)
-;+		(allowed-classes Primero)
+;+		(allowed-classes)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot intervaloMax
@@ -103,6 +103,11 @@
 		(cardinality 1 ?VARIABLE)
 ;+		(inverse-slot tipo_de_comida)
 		(create-accessor read-write))
+	(single-slot orden_del_plato
+		(type SYMBOL)
+		(allowed-values Primero Segundo Postre)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot valor
 		(type FLOAT)
 ;+		(cardinality 1 1)
@@ -122,12 +127,7 @@
 		(create-accessor read-write))
 	(single-slot segundo
 		(type INSTANCE)
-;+		(allowed-classes Segundo)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot caliente
-		(type SYMBOL)
-		(allowed-values FALSE TRUE)
+;+		(allowed-classes)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot platos_del_estilo
@@ -135,6 +135,11 @@
 ;+		(allowed-classes Plato)
 		(cardinality 1 ?VARIABLE)
 ;+		(inverse-slot estilo_del_plato)
+		(create-accessor read-write))
+	(single-slot caliente
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot ingredientes_del_plato
 		(type INSTANCE)
@@ -185,7 +190,7 @@
 ;+		(inverse-slot temporada_del_plato)
 		(create-accessor read-write)))
 
-(defclass Plato
+(defclass Plato "Un plato puede ser un primero, segundo o postre. Es el componente esencial del menú junto a la bebida, y contiene varios atributos que sirven para distinguir unos platos de otros."
 	(is-a USER)
 	(role concrete)
 	(multislot tipo_de_comida
@@ -216,6 +221,11 @@
 		(allowed-values FALSE TRUE)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(single-slot orden_del_plato
+		(type SYMBOL)
+		(allowed-values Primero Segundo Postre)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot origen_del_plato
 		(type INSTANCE)
 ;+		(allowed-classes Origen)
@@ -232,19 +242,7 @@
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write)))
 
-(defclass Primero
-	(is-a Plato)
-	(role concrete))
-
-(defclass Segundo
-	(is-a Plato)
-	(role concrete))
-
-(defclass Postre
-	(is-a Plato)
-	(role concrete))
-
-(defclass Bebida
+(defclass Bebida "La bebida se trata a parte del plato, puede tener gas o alcohol, lo que la hace más adecuada para diferentes tipos de menús"
 	(is-a USER)
 	(role concrete)
 	(single-slot tiene_alcohol
@@ -267,7 +265,7 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass Tipo
+(defclass Tipo "El tipo de comida, a diferencia del estilo, nos dice si un plato es vegetariano, si es marisco, si es adecuado para un menú infantil... Un plato puede ser de varios tipos"
 	(is-a USER)
 	(role concrete)
 	(single-slot tipo
@@ -280,7 +278,7 @@
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write)))
 
-(defclass Ingrediente
+(defclass Ingrediente "Un plato esta compuesto de sus ingredientes, y nos puede interesar descartar o seleccionar platos en función de los elementos que contienen"
 	(is-a USER)
 	(role concrete)
 	(single-slot ingrediente
@@ -293,7 +291,7 @@
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write)))
 
-(defclass Temporada
+(defclass Temporada "Los platos pueden ser más adecuados para diferentes temporadas: por ejemplo, el gazpacho para el verano, o la escudella para el invierno."
 	(is-a USER)
 	(role concrete)
 	(single-slot temporada
@@ -305,7 +303,7 @@
 ;+		(allowed-classes Plato)
 		(create-accessor read-write)))
 
-(defclass Origen
+(defclass Origen "El origen del plato es el país o región de donde proviene, los clientes pueden pedir un menú de comida italiana o japonesa, por ejemplo."
 	(is-a USER)
 	(role concrete)
 	(single-slot origen
@@ -317,7 +315,7 @@
 ;+		(allowed-classes Plato)
 		(create-accessor read-write)))
 
-(defclass EstiloCocina
+(defclass EstiloCocina "El estilo de cocina representa cosas como si un plato es tradicional, moderno, de alta cocina, etc."
 	(is-a USER)
 	(role concrete)
 	(single-slot estilo_cocina

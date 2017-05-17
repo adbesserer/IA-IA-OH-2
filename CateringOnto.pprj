@@ -1,4 +1,4 @@
-; Wed May 17 16:43:11 CEST 2017
+; Wed May 17 16:54:11 CEST 2017
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -20,21 +20,21 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[CateringOnto_ProjectKB_Class78]
-		[CateringOnto_ProjectKB_Class79]
-		[CateringOnto_ProjectKB_Class80]))
+		[CateringOnto_ProjectKB_Class90]
+		[CateringOnto_ProjectKB_Class91]
+		[CateringOnto_ProjectKB_Class92]))
 
-([CateringOnto_ProjectKB_Class78] of  String
+([CateringOnto_ProjectKB_Class90] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([CateringOnto_ProjectKB_Class79] of  String
+([CateringOnto_ProjectKB_Class91] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([CateringOnto_ProjectKB_Class80] of  String
+([CateringOnto_ProjectKB_Class92] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
