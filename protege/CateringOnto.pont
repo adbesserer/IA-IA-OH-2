@@ -1,0 +1,331 @@
+; Wed May 17 16:20:13 CEST 2017
+; 
+;+ (version "3.5")
+;+ (build "Build 663")
+
+
+(defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
+	(is-a USER)
+	(role abstract)
+	(single-slot tiene_alcohol
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot bebida
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nombre_del_plato
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot postre
+		(type INSTANCE)
+;+		(allowed-classes Postre)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot platos_del_origen
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+;+		(inverse-slot origen_del_plato)
+		(create-accessor read-write))
+	(single-slot precioPorPersona
+		(type INSTANCE)
+;+		(allowed-classes)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot picante
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot primero
+		(type INSTANCE)
+;+		(allowed-classes Primero)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot intervaloMax
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot estilo_del_plato
+		(type INSTANCE)
+;+		(allowed-classes EstiloCocina)
+		(cardinality 1 ?VARIABLE)
+;+		(inverse-slot platos_del_estilo)
+		(create-accessor read-write))
+	(multislot bebidas
+		(type INSTANCE)
+;+		(allowed-classes Bebida)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot intervaloMin
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot origen_del_plato
+		(type INSTANCE)
+;+		(allowed-classes Origen)
+;+		(cardinality 1 1)
+;+		(inverse-slot platos_del_origen)
+		(create-accessor read-write))
+	(multislot platos_con_ingrediente
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+;+		(inverse-slot ingredientes_del_plato)
+		(create-accessor read-write))
+	(multislot temporada_del_plato
+		(type INSTANCE)
+;+		(allowed-classes Temporada)
+		(cardinality 1 ?VARIABLE)
+;+		(inverse-slot platos_de_temporada)
+		(create-accessor read-write))
+	(single-slot origen
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot origen_plato
+		(type INSTANCE)
+;+		(allowed-classes Origen)
+;+		(cardinality 0 1)
+;+		(inverse-slot tipo)
+		(create-accessor read-write))
+	(multislot compatible
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(multislot platos_del_tipo
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+;+		(inverse-slot tipo_de_comida)
+		(create-accessor read-write))
+	(single-slot valor
+		(type FLOAT)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot tipo_de_comida
+		(type INSTANCE)
+;+		(allowed-classes Tipo)
+;+		(inverse-slot platos_del_tipo)
+		(create-accessor read-write))
+	(single-slot estilo_cocina
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot ingrediente
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot segundo
+		(type INSTANCE)
+;+		(allowed-classes Segundo)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot caliente
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot platos_del_estilo
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+;+		(inverse-slot estilo_del_plato)
+		(create-accessor read-write))
+	(multislot ingredientes_del_plato
+		(type INSTANCE)
+;+		(allowed-classes Ingrediente)
+		(cardinality 1 ?VARIABLE)
+;+		(inverse-slot platos_con_ingrediente)
+		(create-accessor read-write))
+	(single-slot temporada
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot precio
+		(type FLOAT)
+		(range 0.0 %3FVARIABLE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot tipo
+		(type STRING)
+;+		(cardinality 1 1)
+;+		(inverse-slot origen_plato)
+		(create-accessor read-write))
+	(single-slot con_gas
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot epoca
+		(type INSTANCE)
+;+		(allowed-classes Temporada)
+		(create-accessor read-write))
+	(multislot inverse_of_platos_de_temporada
+		(type INSTANCE)
+;+		(allowed-classes Tipo Ingrediente Temporada Origen EstiloCocina)
+		(create-accessor read-write))
+	(single-slot complejo
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot esComidaFamiliar
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot platos_de_temporada
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+;+		(inverse-slot temporada_del_plato)
+		(create-accessor read-write)))
+
+(defclass Plato
+	(is-a USER)
+	(role concrete)
+	(multislot tipo_de_comida
+		(type INSTANCE)
+;+		(allowed-classes Tipo)
+		(create-accessor read-write))
+	(multislot temporada_del_plato
+		(type INSTANCE)
+;+		(allowed-classes Temporada)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot precio
+		(type FLOAT)
+		(range 0.0 %3FVARIABLE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot picante
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot nombre_del_plato
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot caliente
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot origen_del_plato
+		(type INSTANCE)
+;+		(allowed-classes Origen)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot ingredientes_del_plato
+		(type INSTANCE)
+;+		(allowed-classes Ingrediente)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(multislot estilo_del_plato
+		(type INSTANCE)
+;+		(allowed-classes EstiloCocina)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write)))
+
+(defclass Primero
+	(is-a Plato)
+	(role concrete))
+
+(defclass Segundo
+	(is-a Plato)
+	(role concrete))
+
+(defclass Postre
+	(is-a Plato)
+	(role concrete))
+
+(defclass Bebida
+	(is-a USER)
+	(role concrete)
+	(single-slot tiene_alcohol
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot precio
+		(type FLOAT)
+		(range 0.0 %3FVARIABLE)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot bebida
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot con_gas
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass Tipo
+	(is-a USER)
+	(role concrete)
+	(single-slot tipo
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot platos_del_tipo
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write)))
+
+(defclass Ingrediente
+	(is-a USER)
+	(role concrete)
+	(single-slot ingrediente
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot platos_con_ingrediente
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write)))
+
+(defclass Temporada
+	(is-a USER)
+	(role concrete)
+	(single-slot temporada
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot platos_de_temporada
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(create-accessor read-write)))
+
+(defclass Origen
+	(is-a USER)
+	(role concrete)
+	(single-slot origen
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot platos_del_origen
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(create-accessor read-write)))
+
+(defclass EstiloCocina
+	(is-a USER)
+	(role concrete)
+	(single-slot estilo_cocina
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot platos_del_estilo
+		(type INSTANCE)
+;+		(allowed-classes Plato)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write)))
