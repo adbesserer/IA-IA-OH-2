@@ -1,4 +1,4 @@
-; Wed May 17 16:55:35 CEST 2017
+; Wed May 17 19:18:38 CEST 2017
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -20,9 +20,16 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[CateringOnto_ProjectKB_Class75]
-		[CateringOnto_ProjectKB_Class76]
-		[CateringOnto_ProjectKB_Class77]))
+		[CateringOnto_ProjectKB_Class10532]
+		[CateringOnto_ProjectKB_Class10533]
+		[CateringOnto_ProjectKB_Class10534]
+		[CateringOnto_ProjectKB_Class10535]
+		[CateringOnto_ProjectKB_Class10536]
+		[CateringOnto_ProjectKB_Class10537]
+		[CateringOnto_ProjectKB_Class10538]
+		[CateringOnto_ProjectKB_Class10539]
+		[CateringOnto_ProjectKB_Class10540]
+		[CateringOnto_ProjectKB_Class10541]))
 
 ([CateringOnto_ProjectKB_Class1] of  Widget
 
@@ -32,6 +39,105 @@
 
 ([CateringOnto_ProjectKB_Class10] of  Property_List
 )
+
+([CateringOnto_ProjectKB_Class10125] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "tipo")
+	(property_list [CateringOnto_ProjectKB_Class10126])
+	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
+	(width 200)
+	(x 0)
+	(y 0))
+
+([CateringOnto_ProjectKB_Class10126] of  Property_List
+)
+
+([CateringOnto_ProjectKB_Class10133] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name ":NAME")
+	(property_list [CateringOnto_ProjectKB_Class10134])
+	(widget_class_name "edu.stanford.smi.protege.widget.InstanceNameWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([CateringOnto_ProjectKB_Class10134] of  Property_List
+)
+
+([CateringOnto_ProjectKB_Class10532] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([CateringOnto_ProjectKB_Class10533] of  String
+
+	(name "Origen")
+	(string_value "origen"))
+
+([CateringOnto_ProjectKB_Class10534] of  String
+
+	(name "Plato")
+	(string_value "nombre_del_plato"))
+
+([CateringOnto_ProjectKB_Class10535] of  String
+
+	(name "Temporada")
+	(string_value "temporada"))
+
+([CateringOnto_ProjectKB_Class10536] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([CateringOnto_ProjectKB_Class10537] of  String
+
+	(name "Tipo")
+	(string_value "tipo"))
+
+([CateringOnto_ProjectKB_Class10538] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([CateringOnto_ProjectKB_Class10539] of  String
+
+	(name "Ingrediente")
+	(string_value "ingrediente"))
+
+([CateringOnto_ProjectKB_Class10540] of  String
+
+	(name "Bebida")
+	(string_value "bebida"))
+
+([CateringOnto_ProjectKB_Class10541] of  String
+
+	(name "EstiloCocina")
+	(string_value "estilo_cocina"))
+
+([CateringOnto_ProjectKB_Class10542] of  Map_Entry
+
+	(key "suppress_instance_counting")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([CateringOnto_ProjectKB_Class10543] of  Map_Entry
+
+	(key "add_name_on_instance_form")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([CateringOnto_ProjectKB_Class10544] of  Map_Entry
+
+	(key "change_tracking_active")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
 
 ([CateringOnto_ProjectKB_Class11] of  Widget
 
@@ -348,21 +454,6 @@
 ([CateringOnto_ProjectKB_Class74] of  Property_List
 )
 
-([CateringOnto_ProjectKB_Class75] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([CateringOnto_ProjectKB_Class76] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([CateringOnto_ProjectKB_Class77] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
 ([CateringOnto_ProjectKB_Class8] of  Property_List
 )
 
@@ -411,7 +502,7 @@
 
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_268728_Class0] of  Map
+([KB_622109_Class0] of  Map
 )
 
 ([KB_680207_Class0] of  String
@@ -420,7 +511,11 @@
 	(string_value "edu.stanford.smi.protege.storage.clips.ClipsKnowledgeBaseFactory"))
 
 ([KB_680207_Class1] of  Map
-)
+
+	(entries
+		[CateringOnto_ProjectKB_Class10542]
+		[CateringOnto_ProjectKB_Class10543]
+		[CateringOnto_ProjectKB_Class10544]))
 
 ([KB_680207_Class162] of  String
 
@@ -526,8 +621,9 @@
 	(display_hidden_classes TRUE)
 	(display_multi_parent_class_icon TRUE)
 	(is_readonly FALSE)
+	(tabbed_instance_form_layout FALSE)
 	(undo_enabled TRUE)
-	(update_modification_slots FALSE))
+	(update_modification_slots TRUE))
 
 ([PAL_DESCRIPTION_WIDGET] of  Widget
 
@@ -609,6 +705,7 @@
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protege.widget.FormWidget")
 	(default_slot_metaclass ":STANDARD-SLOT")
+	(journaling_enabled FALSE)
 	(next_frame_number 0)
 	(options [option_instance])
 	(property_map [KB_680207_Class1])

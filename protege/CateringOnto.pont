@@ -1,4 +1,4 @@
-; Wed May 17 16:55:35 CEST 2017
+; Wed May 17 19:18:38 CEST 2017
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -90,7 +90,6 @@
 		(type INSTANCE)
 ;+		(allowed-classes Origen)
 ;+		(cardinality 0 1)
-;+		(inverse-slot tipo)
 		(create-accessor read-write))
 	(multislot compatible
 		(type INSTANCE)
@@ -105,7 +104,7 @@
 		(create-accessor read-write))
 	(single-slot orden_del_plato
 		(type SYMBOL)
-		(allowed-values Primero Segundo Postre)
+		(allowed-values Primero Segundo Postre Primero%2FSegundo)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot valor
@@ -159,7 +158,6 @@
 	(single-slot tipo
 		(type STRING)
 ;+		(cardinality 1 1)
-;+		(inverse-slot origen_plato)
 		(create-accessor read-write))
 	(single-slot con_gas
 		(type SYMBOL)
@@ -223,7 +221,7 @@
 		(create-accessor read-write))
 	(single-slot orden_del_plato
 		(type SYMBOL)
-		(allowed-values Primero Segundo Postre)
+		(allowed-values Primero Segundo Postre Primero%2FSegundo)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot origen_del_plato
