@@ -165,7 +165,7 @@
 		(create-accessor read-write))
 	(single-slot precio
 		(type FLOAT)
-		(range 0.0 %3FVARIABLE)
+		(range 0.0 100.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot tipo
@@ -215,7 +215,7 @@
 		(create-accessor read-write))
 	(single-slot precio
 		(type FLOAT)
-		(range 0.0 %3FVARIABLE)
+		(range 0.0 100.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot picante
@@ -263,7 +263,7 @@
 		(create-accessor read-write))
 	(single-slot precio
 		(type FLOAT)
-		(range 0.0 %3FVARIABLE)
+		(range 0.0 100.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot bebida

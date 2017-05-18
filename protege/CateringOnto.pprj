@@ -1,4 +1,4 @@
-; Wed May 17 19:18:38 CEST 2017
+; Wed May 17 20:06:59 CEST 2017
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -20,16 +20,16 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[CateringOnto_ProjectKB_Class10532]
-		[CateringOnto_ProjectKB_Class10533]
-		[CateringOnto_ProjectKB_Class10534]
-		[CateringOnto_ProjectKB_Class10535]
-		[CateringOnto_ProjectKB_Class10536]
-		[CateringOnto_ProjectKB_Class10537]
-		[CateringOnto_ProjectKB_Class10538]
-		[CateringOnto_ProjectKB_Class10539]
-		[CateringOnto_ProjectKB_Class10540]
-		[CateringOnto_ProjectKB_Class10541]))
+		[CateringOnto_ProjectKB_Class10545]
+		[CateringOnto_ProjectKB_Class10546]
+		[CateringOnto_ProjectKB_Class10547]
+		[CateringOnto_ProjectKB_Class10548]
+		[CateringOnto_ProjectKB_Class10549]
+		[CateringOnto_ProjectKB_Class10550]
+		[CateringOnto_ProjectKB_Class10551]
+		[CateringOnto_ProjectKB_Class10552]
+		[CateringOnto_ProjectKB_Class10553]
+		[CateringOnto_ProjectKB_Class10554]))
 
 ([CateringOnto_ProjectKB_Class1] of  Widget
 
@@ -68,71 +68,71 @@
 ([CateringOnto_ProjectKB_Class10134] of  Property_List
 )
 
-([CateringOnto_ProjectKB_Class10532] of  String
+([CateringOnto_ProjectKB_Class10545] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([CateringOnto_ProjectKB_Class10533] of  String
+([CateringOnto_ProjectKB_Class10546] of  String
 
 	(name "Origen")
 	(string_value "origen"))
 
-([CateringOnto_ProjectKB_Class10534] of  String
+([CateringOnto_ProjectKB_Class10547] of  String
 
 	(name "Plato")
 	(string_value "nombre_del_plato"))
 
-([CateringOnto_ProjectKB_Class10535] of  String
+([CateringOnto_ProjectKB_Class10548] of  String
 
 	(name "Temporada")
 	(string_value "temporada"))
 
-([CateringOnto_ProjectKB_Class10536] of  String
+([CateringOnto_ProjectKB_Class10549] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([CateringOnto_ProjectKB_Class10537] of  String
+([CateringOnto_ProjectKB_Class10550] of  String
 
 	(name "Tipo")
 	(string_value "tipo"))
 
-([CateringOnto_ProjectKB_Class10538] of  String
+([CateringOnto_ProjectKB_Class10551] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([CateringOnto_ProjectKB_Class10539] of  String
+([CateringOnto_ProjectKB_Class10552] of  String
 
 	(name "Ingrediente")
 	(string_value "ingrediente"))
 
-([CateringOnto_ProjectKB_Class10540] of  String
+([CateringOnto_ProjectKB_Class10553] of  String
 
 	(name "Bebida")
 	(string_value "bebida"))
 
-([CateringOnto_ProjectKB_Class10541] of  String
+([CateringOnto_ProjectKB_Class10554] of  String
 
 	(name "EstiloCocina")
 	(string_value "estilo_cocina"))
 
-([CateringOnto_ProjectKB_Class10542] of  Map_Entry
+([CateringOnto_ProjectKB_Class10555] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([CateringOnto_ProjectKB_Class10543] of  Map_Entry
+([CateringOnto_ProjectKB_Class10556] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([CateringOnto_ProjectKB_Class10544] of  Map_Entry
+([CateringOnto_ProjectKB_Class10557] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
@@ -513,9 +513,9 @@
 ([KB_680207_Class1] of  Map
 
 	(entries
-		[CateringOnto_ProjectKB_Class10542]
-		[CateringOnto_ProjectKB_Class10543]
-		[CateringOnto_ProjectKB_Class10544]))
+		[CateringOnto_ProjectKB_Class10555]
+		[CateringOnto_ProjectKB_Class10556]
+		[CateringOnto_ProjectKB_Class10557]))
 
 ([KB_680207_Class162] of  String
 
