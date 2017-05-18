@@ -2457,3 +2457,45 @@
 ;							- - F I N   D E L   C Ó D I G O   D E   P R O T È G È - -
 ;
 ;********************************************************************************************************************
+
+;;; Fin del codigo generado con Protege ---------------		
+;;; ---------------------------------------------------
+		
+		
+;;; Declaración de clases propias
+
+;;; Fin de la declaración de clases propias -----------
+;;; ---------------------------------------------------
+
+
+;;; Declaracion de modulos
+
+;;; Fin de la declaracion de modulos ------------------
+;;; ---------------------------------------------------
+
+
+;;; Declaracion de mensajes
+
+;;; Fin de la declaracion de mensajes -----------------
+;;; ---------------------------------------------------
+
+
+;;; Declaracion de templates
+
+;;; Fin de la declaracion de templates ----------------
+;;; ---------------------------------------------------
+
+
+;;; Declaracion de funciones
+
+;;; Fin de la declaracion de funciones ----------------
+;;; ---------------------------------------------------
+
+
+;;; Declaracion de reglas y facts
+
+
+;;; Modulo de presentación del resultado --------------
+
+;;; Fin de la declaracion de reglas y facts -----------
+;;; ---------------------------------------------------
