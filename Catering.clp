@@ -2,7 +2,7 @@
 ;********************************************************************************************************************
 ;                               - - P R Á C T I C A   D E   I A   2 - -
 ;   Alumnos:
-;       Alejandro Domínguez Besserer
+;       Alejandro Dominguez Besserer
 ;       Miguel Ángel Muñoz
 ;       Adrià Munuera _
 ;********************************************************************************************************************
@@ -201,7 +201,7 @@
 ;+      (inverse-slot temporada_del_plato)
         (create-accessor read-write)))
 
-(defclass Plato "Un plato puede ser un primero, segundo o postre. Es el componente esencial del menú junto a la bebida, y contiene varios atributos que sirven para distinguir unos platos de otros."
+(defclass Plato "Un plato puede ser un primero, segundo o postre. Es el componente esencial del menu junto a la bebida, y contiene varios atributos que sirven para distinguir unos platos de otros."
     (is-a USER)
     (role concrete)
     (multislot tipo_de_comida
@@ -253,7 +253,7 @@
         (cardinality 1 ?VARIABLE)
         (create-accessor read-write)))
 
-(defclass Bebida "La bebida se trata a parte del plato, puede tener gas o alcohol, lo que la hace más adecuada para diferentes tipos de menús"
+(defclass Bebida "La bebida se trata a parte del plato, puede tener gas o alcohol, lo que la hace mas adecuada para diferentes tipos de menus"
     (is-a USER)
     (role concrete)
     (single-slot tiene_alcohol
@@ -276,7 +276,7 @@
 ;+      (cardinality 1 1)
         (create-accessor read-write)))
 
-(defclass Tipo "El tipo de comida, a diferencia del estilo, nos dice si un plato es vegetariano, si es marisco, si es adecuado para un menú infantil... Un plato puede ser de varios tipos"
+(defclass Tipo "El tipo de comida, a diferencia del estilo, nos dice si un plato es vegetariano, si es marisco, si es adecuado para un menu infantil... Un plato puede ser de varios tipos"
     (is-a USER)
     (role concrete)
     (single-slot tipo
@@ -289,7 +289,7 @@
         (cardinality 1 ?VARIABLE)
         (create-accessor read-write)))
 
-(defclass Ingrediente "Un plato esta compuesto de sus ingredientes, y nos puede interesar descartar o seleccionar platos en función de los elementos que contienen"
+(defclass Ingrediente "Un plato esta compuesto de sus ingredientes, y nos puede interesar descartar o seleccionar platos en funcion de los elementos que contienen"
     (is-a USER)
     (role concrete)
     (single-slot ingrediente
@@ -302,7 +302,7 @@
         (cardinality 1 ?VARIABLE)
         (create-accessor read-write)))
 
-(defclass Temporada "Los platos pueden ser más adecuados para diferentes temporadas: por ejemplo, el gazpacho para el verano, o la escudella para el invierno."
+(defclass Temporada "Los platos pueden ser mas adecuados para diferentes temporadas: por ejemplo, el gazpacho para el verano, o la escudella para el invierno."
     (is-a USER)
     (role concrete)
     (single-slot temporada
@@ -314,7 +314,7 @@
 ;+      (allowed-classes Plato)
         (create-accessor read-write)))
 
-(defclass Origen "El origen del plato es el país o región de donde proviene, los clientes pueden pedir un menú de comida italiana o japonesa, por ejemplo."
+(defclass Origen "El origen del plato es el pais o region de donde proviene, los clientes pueden pedir un menu de comida italiana o japonesa, por ejemplo."
     (is-a USER)
     (role concrete)
     (single-slot origen
@@ -441,7 +441,7 @@
     (caliente TRUE)
     (estilo_del_plato [CateringOnto_Class11])
     (ingredientes_del_plato [CateringOnto_Class105])
-    (nombre_del_plato "Escalopa de foie gras al aceite de saúco")
+    (nombre_del_plato "Escalopa de foie gras al aceite de sauco")
     (orden_del_plato Primero%2FSegundo)
     (origen_del_plato [CateringOnto_Class57])
     (precio 28.0)
@@ -481,7 +481,7 @@
 
     (estilo_del_plato [CateringOnto_Class10])
     (ingredientes_del_plato [CateringOnto_Class47])
-    (nombre_del_plato "Tataki de atún")
+    (nombre_del_plato "Tataki de atun")
     (orden_del_plato Primero%2FSegundo)
     (origen_del_plato [CateringOnto_Class25])
     (precio 19.0)
@@ -595,7 +595,7 @@
     (caliente TRUE)
     (estilo_del_plato [CateringOnto_Class9])
     (ingredientes_del_plato [CateringOnto_Class47])
-    (nombre_del_plato "Salmón a la brasa")
+    (nombre_del_plato "Salmon a la brasa")
     (orden_del_plato Segundo)
     (origen_del_plato [CateringOnto_Class57])
     (precio 8.0)
@@ -752,7 +752,7 @@
     (ingredientes_del_plato
         [CateringOnto_Class124]
         [CateringOnto_Class19])
-    (nombre_del_plato "Café")
+    (nombre_del_plato "Cafe")
     (orden_del_plato Postre)
     (origen_del_plato [CateringOnto_Class57])
     (precio 1.0)
@@ -765,7 +765,7 @@
 
 ([CateringOnto_Class124] of  Ingrediente
 
-    (ingrediente "Café")
+    (ingrediente "Cafe")
     (platos_con_ingrediente
         [CateringOnto_Class123]
         [CateringOnto_Class58]
@@ -777,7 +777,7 @@
         [CateringOnto_Class123]
         [CateringOnto_Class58]
         [CateringOnto_Class128])
-    (tipo "Café"))
+    (tipo "Cafe"))
 
 ([CateringOnto_Class126] of  Plato
 
@@ -826,7 +826,7 @@
         [CateringOnto_Class60]
         [CateringOnto_Class70]
         [CateringOnto_Class19])
-    (nombre_del_plato "Tarta de café")
+    (nombre_del_plato "Tarta de cafe")
     (orden_del_plato Postre)
     (origen_del_plato [CateringOnto_Class22])
     (precio 3.5)
@@ -1693,7 +1693,7 @@
         [CateringOnto_Class60]
         [CateringOnto_Class67]
         [CateringOnto_Class124])
-    (nombre_del_plato "Tiramisú")
+    (nombre_del_plato "Tiramisu")
     (orden_del_plato Postre)
     (origen_del_plato [CateringOnto_Class22])
     (precio 5.0)
@@ -2011,7 +2011,7 @@
     (ingredientes_del_plato
         [CateringOnto_Class14]
         [CateringOnto_Class20])
-    (nombre_del_plato "Entrecot de buey con guarnición")
+    (nombre_del_plato "Entrecot de buey con guarnicion")
     (orden_del_plato Segundo)
     (origen_del_plato [CateringOnto_Class24])
     (precio 19.5)
@@ -2148,7 +2148,7 @@
         [CateringOnto_Class16]
         [CateringOnto_Class45]
         [CateringOnto_Class20])
-    (nombre_del_plato "Canapés variados")
+    (nombre_del_plato "Canapes variados")
     (orden_del_plato Primero)
     (origen_del_plato [CateringOnto_Class57])
     (precio 10.0)
@@ -2366,7 +2366,7 @@
         [CateringOnto_Class16]
         [CateringOnto_Class45]
         [CateringOnto_Class20])
-    (nombre_del_plato "Ensalada césar")
+    (nombre_del_plato "Ensalada cesar")
     (orden_del_plato Primero)
     (origen_del_plato [CateringOnto_Class81])
     (precio 8.0)
@@ -2403,7 +2403,7 @@
 
     (estilo_del_plato [CateringOnto_Class9])
     (ingredientes_del_plato [CateringOnto_Class15])
-    (nombre_del_plato "Jamón ibérico")
+    (nombre_del_plato "Jamon iberico")
     (orden_del_plato Primero)
     (origen_del_plato [CateringOnto_Class23])
     (precio 7.5)
@@ -2460,9 +2460,9 @@
 
 		
 		
-;;; Declaración de clases propias
+;;; Declaracion de clases propias
 
-;;; Fin de la declaración de clases propias -----------
+;;; Fin de la declaracion de clases propias -----------
 ;;; ---------------------------------------------------
 
 
@@ -2473,6 +2473,25 @@
 
 
 ;;; Declaracion de mensajes
+(defmessage-handler MAIN::Plato imprimir ()
+    (format t "Nombre: %s %n" ?self:nombre_del_plato)
+    (printout t crlf)
+    (format t "Origen: %d" ?self:origen_del_plato)
+    (printout t crlf)
+    (printout t "Pais: ")
+    (progn$ (?curr-pais (send ?self get-hecha_en))
+        (format t "%s " (send ?curr-pais get-nacionalidad))
+    )
+    (printout t crlf)
+    (format t "Idioma: %s" (send ?self:en_idioma get-idioma))   
+    (printout t crlf)
+    (format t "Duracion: %d" ?self:duracion)
+    (printout t crlf)
+    (format t "Edad minima recomendada: %d" ?self:clasificacion_edades)
+    (printout t crlf)
+    (format t "Puntuacion de los usuarios: %d" ?self:puntuacion)
+    (printout t crlf)
+)
 
 ;;; Fin de la declaracion de mensajes -----------------
 ;;; ---------------------------------------------------
@@ -2551,7 +2570,7 @@
             (bind ?linea (format nil "  %d. %s" ?var-index ?var))
             (printout t ?linea crlf)
     )
-    (bind ?respuesta (pregunta-numerica "Escoge una opción:" 1 (length$ ?valores-posibles)))
+    (bind ?respuesta (pregunta-numerica "Escoge una opcion:" 1 (length$ ?valores-posibles)))
 	?respuesta
 )
 
@@ -2574,7 +2593,7 @@
     (printout t "***********************************************************************" crlf)
 )
 
-;;; Modulo de presentación del resultado --------------
+;;; Modulo de presentacion del resultado --------------
 
 ;;; Fin de la declaracion de reglas y facts -----------
 ;;; ---------------------------------------------------
