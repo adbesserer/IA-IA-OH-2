@@ -17,7 +17,7 @@
 
 
 
-(defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information lol"
+(defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
     (is-a USER)
     (role abstract)
     (single-slot tiene_alcohol
@@ -201,7 +201,7 @@
 ;+      (inverse-slot temporada_del_plato)
         (create-accessor read-write)))
 
-(defclass Plato "Un plato puede ser un primero, segundo o postre. Es el componente esencial del menu junto a la bebida, y contiene varios atributos que sirven para distinguir unos platos de otros."
+(defclass Plato "Un plato puede ser un primero, segundo o postre. Es el componente esencial del menú junto a la bebida, y contiene varios atributos que sirven para distinguir unos platos de otros."
     (is-a USER)
     (role concrete)
     (multislot tipo_de_comida
@@ -253,7 +253,7 @@
         (cardinality 1 ?VARIABLE)
         (create-accessor read-write)))
 
-(defclass Bebida "La bebida se trata a parte del plato, puede tener gas o alcohol, lo que la hace mas adecuada para diferentes tipos de menus"
+(defclass Bebida "La bebida se trata a parte del plato, puede tener gas o alcohol, lo que la hace más adecuada para diferentes tipos de menús"
     (is-a USER)
     (role concrete)
     (single-slot tiene_alcohol
@@ -276,7 +276,7 @@
 ;+      (cardinality 1 1)
         (create-accessor read-write)))
 
-(defclass Tipo "El tipo de comida, a diferencia del estilo, nos dice si un plato es vegetariano, si es marisco, si es adecuado para un menu infantil... Un plato puede ser de varios tipos"
+(defclass Tipo "El tipo de comida, a diferencia del estilo, nos dice si un plato es vegetariano, si es marisco, si es adecuado para un menú infantil... Un plato puede ser de varios tipos"
     (is-a USER)
     (role concrete)
     (single-slot tipo
@@ -289,7 +289,7 @@
         (cardinality 1 ?VARIABLE)
         (create-accessor read-write)))
 
-(defclass Ingrediente "Un plato esta compuesto de sus ingredientes, y nos puede interesar descartar o seleccionar platos en funcion de los elementos que contienen"
+(defclass Ingrediente "Un plato esta compuesto de sus ingredientes, y nos puede interesar descartar o seleccionar platos en función de los elementos que contienen"
     (is-a USER)
     (role concrete)
     (single-slot ingrediente
@@ -302,7 +302,7 @@
         (cardinality 1 ?VARIABLE)
         (create-accessor read-write)))
 
-(defclass Temporada "Los platos pueden ser mas adecuados para diferentes temporadas: por ejemplo, el gazpacho para el verano, o la escudella para el invierno."
+(defclass Temporada "Los platos pueden ser más adecuados para diferentes temporadas: por ejemplo, el gazpacho para el verano, o la escudella para el invierno."
     (is-a USER)
     (role concrete)
     (single-slot temporada
@@ -314,7 +314,7 @@
 ;+      (allowed-classes Plato)
         (create-accessor read-write)))
 
-(defclass Origen "El origen del plato es el pais o region de donde proviene, los clientes pueden pedir un menu de comida italiana o japonesa, por ejemplo."
+(defclass Origen "El origen del plato es el país o región de donde proviene, los clientes pueden pedir un menú de comida italiana o japonesa, por ejemplo."
     (is-a USER)
     (role concrete)
     (single-slot origen
@@ -340,13 +340,11 @@
         (create-accessor read-write)))
 
 
-
 ;********************************************************************************************************************
 ;
 ;                                   - - I N S T A N C I A S - -
 ;
 ;********************************************************************************************************************
-
 
 ([CateringOnto_Class1] of  Bebida
 
@@ -805,7 +803,7 @@
         [CateringOnto_Class51]
         [CateringOnto_Class16]
         [CateringOnto_Class20])
-    (nombre_del_plato "Escudella i carn d'olla")
+    (nombre_del_plato "Escudella")
     (orden_del_plato Primero%2FSegundo)
     (origen_del_plato [CateringOnto_Class23])
     (precio 9.0)
@@ -1749,7 +1747,7 @@
         [CateringOnto_Class15]
         [CateringOnto_Class51]
         [CateringOnto_Class20])
-    (nombre_del_plato "Callos a la madrileña")
+    (nombre_del_plato "Callos a la madrilenya")
     (orden_del_plato Segundo)
     (origen_del_plato [CateringOnto_Class23])
     (picante TRUE)
@@ -1957,7 +1955,7 @@
         [CateringOnto_Class76]
         [CateringOnto_Class72]
         [CateringOnto_Class20])
-    (nombre_del_plato "Acelgas con patatas y piñones")
+    (nombre_del_plato "Acelgas con patatas y pinyones")
     (orden_del_plato Primero)
     (origen_del_plato [CateringOnto_Class23])
     (precio 8.0)
