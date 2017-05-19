@@ -2542,26 +2542,40 @@
 
 
 (deffunction MAIN::pregunta_bool (?pregunta)
-    (format t "%s " ?pregunta)
+    (format t "%s" ?pregunta)
     (bind ?resp (read))
     (while
-        (and (not (eq ?resp SI)) (not(eq ?resp NO)))
+        (not (or (eq ?resp SI) (eq ?resp NO)))
+        (bind ?resp (read))
         (printout t "Su respuesta ha de ser SI/NO." crlf)
         (printout t "Por favor, responda otra vez." crlf)
-        (bind ?resp (read))
     )
-    (if (eq ?resp SI) then 
-		return TRUE
-		else return FALSE
-	)
+    ?resp
+)
+
+(deffunction MAIN::pregunta_int (?pregunta)
+    (format t "%s " ?pregunta)
+    (read)
+)
+
+(deffunction MAIN::pregunta_string (?pregunta $?posibles)
+    (bind ?out (format nil "%s " ?pregunta))
+    (printout t ?out crlf)
+    (progn$ (?var ?posibles)
+        (bind ?out (format nil "    %d. %s" ?var-index ?var))
+        (printout t ?out crlf)
+    )
+
+    (printout t "Su respuesta: ")
+    (read)
 )
 
 (deffunction MAIN::pregunta_multiple (?pregunta $?posibles)
     (bind ?out (format nil "%s " ?pregunta))
     (printout t ?out crlf)
     (progn$ (?var ?posibles)
-            (bind ?out (format nil "    %d. %s" ?var-index ?out))
-            (printout t ?out crlf)
+        (bind ?out (format nil "    %d. %s" ?var-index ?var))
+        (printout t ?out crlf)
     )
 
     (printout t "Separe sus respuestas con un espacio." clrf)
