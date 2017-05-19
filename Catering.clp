@@ -2540,28 +2540,55 @@
     (format t "%s" ?texto clrf)
 )
 
-;;; Funcion para hacer una pregunta con respuesta cualquiera
-(deffunction MAIN::general-question (?pregunta)
+
+(deffunction MAIN::pregunta_bool (?pregunta)
     (format t "%s " ?pregunta)
-    (bind ?respuesta (read))
-    (while (not (lexemep ?respuesta)) do
-        (format t "%s " ?pregunta)
-        (bind ?respuesta (read))
+    (bind ?resp (read))
+    (while
+        (and (not (eq ?resp SI)) (not(eq ?resp NO)))
+        (printout t "Su respuesta ha de ser SI/NO." crlf)
+        (printout t "Por favor, responda otra vez." crlf)
+        (bind ?resp (read))
     )
-    ?respuesta
+    (if (eq ?resp SI) then 
+		return TRUE
+		else return FALSE
+	)
 )
 
-;;; Funcion para hacer una pregunta con respuesta numerica unica
-(deffunction MAIN::question-low-high-numbers (?pregunta ?rangini ?rangfi)
-    (format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
-    (bind ?respuesta (read))
-    (while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
-        (format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
-        (bind ?respuesta (read))
+(deffunction MAIN::pregunta_multiple (?pregunta $?posibles)
+    (bind ?out (format nil "%s " ?pregunta))
+    (printout t ?out crlf)
+    (progn$ (?var ?posibles)
+            (bind ?out (format nil "    %d. %s" ?var-index ?out))
+            (printout t ?out crlf)
     )
-    ?respuesta
+
+    (printout t "Separe sus respuestas con un espacio." clrf)
+    (printout t "Sus opciones: ")
+    (bind ?resp (readline))
+    (bind $?num (explode$ ?resp))
+    (bind $?listado (create$ ))
+    (progn$ (?var ?num)
+        (if (and
+            (integerp ?var) 
+            (and (>= ?var 1) (<= ?var (length ?posibles)))
+            )
+            then
+            (if (not (member$ ?var ?listado))
+                then
+                (bind ?listado (insert$ ?listado (+ (length$ ?listado) 1) ?var))
+            )
+        )
+    )
+    ?listado
 )
 
+(deffunction pregunta1(?pregunta)
+	(printout t ?pregunta crlf)
+	(bind ?respuesta (read))
+	return ?respuesta
+)
 ;;; Fin de la declaracion de funciones ----------------
 ;;; ---------------------------------------------------
 
@@ -2580,9 +2607,40 @@
     (printout t "*                  - - - R I C O   R I C O ™ - - -                    *" crlf)
     (printout t "*                                                                     *" crlf)
     (printout t "***********************************************************************" crlf)
-
+	(assert (empezamos))
 )
 
+(defrule f1
+	(empezamos)
+	=>
+	(bind ?respuestaEstacion(pregunta1 "¿En que epoca del anyo se celebrara el evento?"))
+	(bind ?respuestaPersonasEspeciales(pregunta1 "¿Algunas de las siguientes personas atenderan al evento: vegetarianos, niños, abstemios...?"))
+	(bind ?respuestaMaxPrecio(pregunta1 "¿Cual es el precio maximo que deberia tener el menu?"))
+	(bind ?respuestaMinPrecio(pregunta1 "¿Cual es el precio minimo que deberia tener el menu?"))
+	(bind ?respuestaBebida(pregunta1 "¿Prefiere usted una sola bebida para toda la comida, o una adecuada para cada plato?"))
+	(bind ?respuestaVino(pregunta_bool "¿Le gustaria que se sirviera vino?"))
+	(bind ?respuestaIngredientes(pregunta1 "¿Hay algun ingrediente que deberiamos no usar? En caso afirmativo, cuales."))
+	(bind ?respuestaEstiloCocina(pregunta1 "¿Hay algun tipo de comida que se prefiera? En caso afirmativo, elija entre los siguientes: tradicional, moderno, rapida o alta cocina."))
+	(bind ?respuestaPais(pregunta1 "¿Prefiere usted recetas originales de algun pais en especial? Elijalo."))
+	(bind ?respuestaPicante(pregunta_bool "¿Le gusta la comida picante?"))
+	(bind ?respuestaCaliente(pregunta_bool "¿Quiere que se sirvan platos calientes?"))
+	(bind ?respuestaFrio(pregunta_bool "¿Quiere que se sirvan platos fríos?"))
+	(assert (Evento 
+		(evento_temporada ?respuestaEstacion)
+		(evento_tipo_personas ?respuestaPersonasEspeciales)
+		(maximo_precio ?respuestaMaxPrecio)
+		(minimo_precio ?respuestaMinPrecio)
+		(numero_bebidaB ?respuestaBebida)
+		(vinoB ?respuestaVino)
+		(ingredientes_prohibidos ?respuestaIngredientes)
+		(estilo_comida_preferente ?respuestaEstiloCocina)
+		(pais_preferente ?respuestaPais)
+		(comida_picanteB ?respuestaPicante)
+		(comida_calienteB ?respuestaCaliente)
+		(comida_friaB ?respuestaFrio)
+	))	
+)
+	
 ;;; Modulo de presentación del resultado --------------
 
 ;;; Fin de la declaracion de reglas y facts -----------
