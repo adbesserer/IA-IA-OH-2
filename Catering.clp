@@ -2457,6 +2457,41 @@
 ;                           - - F I N   D E L   C Ó D I G O   D E   P R O T È G È - -
 ;
 ;********************************************************************************************************************
+
+		
+		
+;;; Declaración de clases propias
+
+;;; Fin de la declaración de clases propias -----------
+;;; ---------------------------------------------------
+
+
+;;; Declaracion de modulos
+
+;;; Fin de la declaracion de modulos ------------------
+;;; ---------------------------------------------------
+
+
+;;; Declaracion de mensajes
+
+;;; Fin de la declaracion de mensajes -----------------
+;;; ---------------------------------------------------
+
+
+;;; Declaracion de templates
+
+;;; Fin de la declaracion de templates ----------------
+;;; ---------------------------------------------------
+
+
+;;; Declaracion de funciones
+
+;;; Fin de la declaracion de funciones ----------------
+;;; ---------------------------------------------------
+
+
+;;; - - - Declaracion de reglas y facts - - -
+
 (defrule MAIN::initialRule "Regla inicial"
     (declare (salience 10))
     =>
@@ -2469,3 +2504,9 @@
     (printout t "*                                                                     *" crlf)
     (printout t "***********************************************************************" crlf)
 )
+
+;;; Modulo de presentación del resultado --------------
+
+;;; Fin de la declaracion de reglas y facts -----------
+;;; ---------------------------------------------------
+
