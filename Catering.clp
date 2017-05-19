@@ -2454,44 +2454,77 @@
 
 		
 		
-;;; Declaracion de clases propias
+;;; Declaración de clases propias
 
-;;; Fin de la declaracion de clases propias -----------
+(defclass Menu
+    (is-a USER)
+    (role concrete)
+    (slot primer_plato
+        (type INSTANCE)
+        (create-accessor read-write))
+    (slot segundo_plato
+        (type INSTANCE)
+        (create-accessor read-write))
+    (slot postre
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot bebida
+        (type INSTANCE)
+        (create-accessor read-write))
+)
+
+;;; Fin de la declaración de clases propias -----------
 ;;; ---------------------------------------------------
 
 
 ;;; Declaracion de modulos
+
+(defmodule MAIN
+    (export ?ALL)
+)
+
+(defmodule informacion_evento
+    (import MAIN ?ALL)
+    (export ?ALL)
+)
 
 ;;; Fin de la declaracion de modulos ------------------
 ;;; ---------------------------------------------------
 
 
 ;;; Declaracion de mensajes
-(defmessage-handler MAIN::Plato imprimir ()
-    (format t "Nombre: %s %n" ?self:nombre_del_plato)
-    (printout t crlf)
-    (format t "Origen: %d" ?self:origen_del_plato)
-    (printout t crlf)
-    (printout t "Pais: ")
-    (progn$ (?curr-pais (send ?self get-hecha_en))
-        (format t "%s " (send ?curr-pais get-nacionalidad))
-    )
-    (printout t crlf)
-    (format t "Idioma: %s" (send ?self:en_idioma get-idioma))   
-    (printout t crlf)
-    (format t "Duracion: %d" ?self:duracion)
-    (printout t crlf)
-    (format t "Edad minima recomendada: %d" ?self:clasificacion_edades)
-    (printout t crlf)
-    (format t "Puntuacion de los usuarios: %d" ?self:puntuacion)
-    (printout t crlf)
-)
 
 ;;; Fin de la declaracion de mensajes -----------------
 ;;; ---------------------------------------------------
 
 
 ;;; Declaracion de templates
+
+(deftemplate MAIN::Evento
+    (slot evento_temporada (type INSTANCE))
+    
+    (multislot evento_tipo_personas (type INSTANCE))
+    
+    (slot maximo_precio (type FLOAT))
+    (slot minimo_precio (type FLOAT))
+    (slot numero_bebidaB (type SYMBOL) (allowed-values TRUE FALSE))
+    (slot vinoB (type SYMBOL) (allowed-values TRUE FALSE))
+    
+    (multislot ingredientes_prohibidos (type INSTANCE))
+    (multislot estilo_comida_preferente (type INSTANCE))
+    (multislot pais_preferente (type INSTANCE))
+
+    (slot comida_picanteB (type SYMBOL) (allowed-values TRUE FALSE))
+    (slot comida_calienteB (type SYMBOL) (allowed-values TRUE FALSE))
+    (slot comida_friaB (type SYMBOL) (allowed-values TRUE FALSE))
+)
+
+(deftemplate MAIN::Recomendacion_de_Menus
+    (slot menubarato (type INSTANCE))
+    (slot menumediano (type INSTANCE))
+    (slot menucaro (type INSTANCE))
+    (multislot menu_restringido (type INSTANCE))
+)
 
 ;;; Fin de la declaracion de templates ----------------
 ;;; ---------------------------------------------------
@@ -2501,75 +2534,34 @@
 
 ;;; Funcion para imprimir el texto que se le pase
 (deffunction MAIN::print-text (?texto)
-	(format t "%s" ?texto clrf)
+    (format t "%s" ?texto clrf)
 )
 
 ;;; Funcion para hacer una pregunta con respuesta cualquiera
 (deffunction MAIN::general-question (?pregunta)
     (format t "%s " ?pregunta)
-	(bind ?respuesta (read))
-	(while (not (lexemep ?respuesta)) do
-		(format t "%s " ?pregunta)
-		(bind ?respuesta (read))
+    (bind ?respuesta (read))
+    (while (not (lexemep ?respuesta)) do
+        (format t "%s " ?pregunta)
+        (bind ?respuesta (read))
     )
-	?respuesta
-)
-
-;;; Funcion para hacer una pregunta general con una serie de respuestas admitidas
-(deffunction MAIN::question-with-options (?question $?allowed-values)
-   (format t "%s "?question)
-   (progn$ (?curr-value $?allowed-values)
-		(format t "[%s]" ?curr-value)
-	)
-   (printout t ": ")
-   (bind ?answer (read))
-   (if (lexemep ?answer) 
-       then (bind ?answer (lowcase ?answer)))
-   (while (not (member ?answer ?allowed-values)) do
-      (format t "%s "?question)
-	  (progn$ (?curr-value $?allowed-values)
-		(format t "[%s]" ?curr-value)
-	  )
-	  (printout t ": ")
-      (bind ?answer (read))
-      (if (lexemep ?answer) 
-          then (bind ?answer (lowcase ?answer))))
-   ?answer
-)
-   
-;;; Funcion para hacer una pregunta de tipo si/no
-(deffunction MAIN::boolean-question (?question)
-   (bind ?response (pregunta-opciones ?question si no))
-   (if (or (eq ?response si) (eq ?response s))
-       then TRUE 
-       else FALSE)
+    ?respuesta
 )
 
 ;;; Funcion para hacer una pregunta con respuesta numerica unica
 (deffunction MAIN::question-low-high-numbers (?pregunta ?rangini ?rangfi)
-	(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
-	(bind ?respuesta (read))
-	(while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
-		(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
-		(bind ?respuesta (read))
-	)
-	?respuesta
-)
-
-;;; Funcion para hacer pregunta con indice de respuestas posibles
-(deffunction MAIN::question-with-possible-answers (?pregunta $?valores-posibles)
-    (bind ?linea (format nil "%s" ?pregunta))
-    (printout t ?linea crlf)
-    (progn$ (?var ?valores-posibles) 
-            (bind ?linea (format nil "  %d. %s" ?var-index ?var))
-            (printout t ?linea crlf)
+    (format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
+    (bind ?respuesta (read))
+    (while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
+        (format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
+        (bind ?respuesta (read))
     )
-    (bind ?respuesta (pregunta-numerica "Escoge una opcion:" 1 (length$ ?valores-posibles)))
-	?respuesta
+    ?respuesta
 )
 
 ;;; Fin de la declaracion de funciones ----------------
 ;;; ---------------------------------------------------
+
 
 
 ;;; - - - Declaracion de reglas y facts - - -
@@ -2585,9 +2577,11 @@
     (printout t "*                  - - - R I C O   R I C O ™ - - -                    *" crlf)
     (printout t "*                                                                     *" crlf)
     (printout t "***********************************************************************" crlf)
+
+    (focus )
 )
 
-;;; Modulo de presentacion del resultado --------------
+;;; Modulo de presentación del resultado --------------
 
 ;;; Fin de la declaracion de reglas y facts -----------
 ;;; ---------------------------------------------------
