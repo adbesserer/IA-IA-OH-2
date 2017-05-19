@@ -1,4 +1,4 @@
-; Wed May 17 20:06:59 CEST 2017
+; Fri May 19 15:51:32 CEST 2017
 ; 
 ;+ (version "3.5")
 ;+ (build "Build 663")
@@ -96,7 +96,7 @@
 	(caliente TRUE)
 	(estilo_del_plato [CateringOnto_Class11])
 	(ingredientes_del_plato [CateringOnto_Class105])
-	(nombre_del_plato "Escalopa de foie gras al aceite de saúco")
+	(nombre_del_plato "Escalopa de foie gras al aceite de sauco")
 	(orden_del_plato Primero%2FSegundo)
 	(origen_del_plato [CateringOnto_Class57])
 	(precio 28.0)
@@ -136,7 +136,7 @@
 
 	(estilo_del_plato [CateringOnto_Class10])
 	(ingredientes_del_plato [CateringOnto_Class47])
-	(nombre_del_plato "Tataki de atún")
+	(nombre_del_plato "Tataki de atun")
 	(orden_del_plato Primero%2FSegundo)
 	(origen_del_plato [CateringOnto_Class25])
 	(precio 19.0)
@@ -250,7 +250,7 @@
 	(caliente TRUE)
 	(estilo_del_plato [CateringOnto_Class9])
 	(ingredientes_del_plato [CateringOnto_Class47])
-	(nombre_del_plato "Salmón a la brasa")
+	(nombre_del_plato "Salmon a la brasa")
 	(orden_del_plato Segundo)
 	(origen_del_plato [CateringOnto_Class57])
 	(precio 8.0)
@@ -407,7 +407,7 @@
 	(ingredientes_del_plato
 		[CateringOnto_Class124]
 		[CateringOnto_Class19])
-	(nombre_del_plato "Café")
+	(nombre_del_plato "Cafe")
 	(orden_del_plato Postre)
 	(origen_del_plato [CateringOnto_Class57])
 	(precio 1.0)
@@ -420,7 +420,7 @@
 
 ([CateringOnto_Class124] of  Ingrediente
 
-	(ingrediente "Café")
+	(ingrediente "Cafe")
 	(platos_con_ingrediente
 		[CateringOnto_Class123]
 		[CateringOnto_Class58]
@@ -432,7 +432,7 @@
 		[CateringOnto_Class123]
 		[CateringOnto_Class58]
 		[CateringOnto_Class128])
-	(tipo "Café"))
+	(tipo "Cafe"))
 
 ([CateringOnto_Class126] of  Plato
 
@@ -460,7 +460,7 @@
 		[CateringOnto_Class51]
 		[CateringOnto_Class16]
 		[CateringOnto_Class20])
-	(nombre_del_plato "Escudella i carn d'olla")
+	(nombre_del_plato "Escudella")
 	(orden_del_plato Primero%2FSegundo)
 	(origen_del_plato [CateringOnto_Class23])
 	(precio 9.0)
@@ -481,7 +481,7 @@
 		[CateringOnto_Class60]
 		[CateringOnto_Class70]
 		[CateringOnto_Class19])
-	(nombre_del_plato "Tarta de café")
+	(nombre_del_plato "Tarta de cafe")
 	(orden_del_plato Postre)
 	(origen_del_plato [CateringOnto_Class22])
 	(precio 3.5)
@@ -1348,7 +1348,7 @@
 		[CateringOnto_Class60]
 		[CateringOnto_Class67]
 		[CateringOnto_Class124])
-	(nombre_del_plato "Tiramisú")
+	(nombre_del_plato "Tiramisu")
 	(orden_del_plato Postre)
 	(origen_del_plato [CateringOnto_Class22])
 	(precio 5.0)
@@ -1404,7 +1404,7 @@
 		[CateringOnto_Class15]
 		[CateringOnto_Class51]
 		[CateringOnto_Class20])
-	(nombre_del_plato "Callos a la madrileña")
+	(nombre_del_plato "Callos a la madrilenya")
 	(orden_del_plato Segundo)
 	(origen_del_plato [CateringOnto_Class23])
 	(picante TRUE)
@@ -1612,7 +1612,7 @@
 		[CateringOnto_Class76]
 		[CateringOnto_Class72]
 		[CateringOnto_Class20])
-	(nombre_del_plato "Acelgas con patatas y piñones")
+	(nombre_del_plato "Acelgas con patatas y pinyones")
 	(orden_del_plato Primero)
 	(origen_del_plato [CateringOnto_Class23])
 	(precio 8.0)
@@ -1666,7 +1666,7 @@
 	(ingredientes_del_plato
 		[CateringOnto_Class14]
 		[CateringOnto_Class20])
-	(nombre_del_plato "Entrecot de buey con guarnición")
+	(nombre_del_plato "Entrecot de buey con guarnicion")
 	(orden_del_plato Segundo)
 	(origen_del_plato [CateringOnto_Class24])
 	(precio 19.5)
@@ -1803,7 +1803,7 @@
 		[CateringOnto_Class16]
 		[CateringOnto_Class45]
 		[CateringOnto_Class20])
-	(nombre_del_plato "Canapés variados")
+	(nombre_del_plato "Canapes variados")
 	(orden_del_plato Primero)
 	(origen_del_plato [CateringOnto_Class57])
 	(precio 10.0)
@@ -2021,7 +2021,7 @@
 		[CateringOnto_Class16]
 		[CateringOnto_Class45]
 		[CateringOnto_Class20])
-	(nombre_del_plato "Ensalada césar")
+	(nombre_del_plato "Ensalada cesar")
 	(orden_del_plato Primero)
 	(origen_del_plato [CateringOnto_Class81])
 	(precio 8.0)
@@ -2058,7 +2058,7 @@
 
 	(estilo_del_plato [CateringOnto_Class9])
 	(ingredientes_del_plato [CateringOnto_Class15])
-	(nombre_del_plato "Jamón ibérico")
+	(nombre_del_plato "Jamon iberico")
 	(orden_del_plato Primero)
 	(origen_del_plato [CateringOnto_Class23])
 	(precio 7.5)

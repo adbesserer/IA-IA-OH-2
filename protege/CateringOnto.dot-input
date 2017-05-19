@@ -1,0 +1,4 @@
+digraph "CateringOnto" {
+
+"Bebida" [shape=record, color="0.0,0.0,0.0", fontcolor="0.0,0.0,0.0", label="{Bebida|{tiene_alcohol|Boolean}|{precio|Float}|{bebida|String}|{con_gas|Boolean}}"]
+}
