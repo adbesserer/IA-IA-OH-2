@@ -2486,6 +2486,75 @@
 
 ;;; Declaracion de funciones
 
+;;; Funcion para imprimir el texto que se le pase
+(deffunction MAIN::print-text (?texto)
+	(format t "%s" ?texto clrf)
+)
+
+;;; Funcion para hacer una pregunta con respuesta cualquiera
+(deffunction MAIN::general-question (?pregunta)
+    (format t "%s " ?pregunta)
+	(bind ?respuesta (read))
+	(while (not (lexemep ?respuesta)) do
+		(format t "%s " ?pregunta)
+		(bind ?respuesta (read))
+    )
+	?respuesta
+)
+
+;;; Funcion para hacer una pregunta general con una serie de respuestas admitidas
+(deffunction MAIN::question-with-options (?question $?allowed-values)
+   (format t "%s "?question)
+   (progn$ (?curr-value $?allowed-values)
+		(format t "[%s]" ?curr-value)
+	)
+   (printout t ": ")
+   (bind ?answer (read))
+   (if (lexemep ?answer) 
+       then (bind ?answer (lowcase ?answer)))
+   (while (not (member ?answer ?allowed-values)) do
+      (format t "%s "?question)
+	  (progn$ (?curr-value $?allowed-values)
+		(format t "[%s]" ?curr-value)
+	  )
+	  (printout t ": ")
+      (bind ?answer (read))
+      (if (lexemep ?answer) 
+          then (bind ?answer (lowcase ?answer))))
+   ?answer
+)
+   
+;;; Funcion para hacer una pregunta de tipo si/no
+(deffunction MAIN::boolean-question (?question)
+   (bind ?response (pregunta-opciones ?question si no))
+   (if (or (eq ?response si) (eq ?response s))
+       then TRUE 
+       else FALSE)
+)
+
+;;; Funcion para hacer una pregunta con respuesta numerica unica
+(deffunction MAIN::question-low-high-numbers (?pregunta ?rangini ?rangfi)
+	(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
+	(bind ?respuesta (read))
+	(while (not(and(>= ?respuesta ?rangini)(<= ?respuesta ?rangfi))) do
+		(format t "%s [%d, %d] " ?pregunta ?rangini ?rangfi)
+		(bind ?respuesta (read))
+	)
+	?respuesta
+)
+
+;;; Funcion para hacer pregunta con indice de respuestas posibles
+(deffunction MAIN::question-with-possible-answers (?pregunta $?valores-posibles)
+    (bind ?linea (format nil "%s" ?pregunta))
+    (printout t ?linea crlf)
+    (progn$ (?var ?valores-posibles) 
+            (bind ?linea (format nil "  %d. %s" ?var-index ?var))
+            (printout t ?linea crlf)
+    )
+    (bind ?respuesta (pregunta-numerica "Escoge una opción:" 1 (length$ ?valores-posibles)))
+	?respuesta
+)
+
 ;;; Fin de la declaracion de funciones ----------------
 ;;; ---------------------------------------------------
 
