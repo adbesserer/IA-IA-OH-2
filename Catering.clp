@@ -2550,6 +2550,13 @@
         (printout t "Por favor, responda otra vez." crlf)
         (bind ?resp (lowcase (read)))
     )
+
+    (if
+        (eq ?resp si)
+        then (bind ?resp TRUE)
+        else (bind ?resp FALSE)
+    )
+
     ?resp
 )
 
@@ -2559,8 +2566,8 @@
 )
 
 (deffunction MAIN::pregunta_string (?pregunta $?posibles)
-    (bind ?out (format nil "%s " ?pregunta))
-    (printout t ?out crlf)
+    (printout t ?pregunta crlf)
+    (printout t "(Elija escribiendo con el numero correspondiente)" crlf)
     (progn$ (?var ?posibles)
         (bind ?out (format nil "    %d. %s" ?var-index ?var))
         (printout t ?out crlf)
@@ -2583,8 +2590,8 @@
 )
 
 (deffunction MAIN::pregunta_multiple (?pregunta $?posibles)
-    (bind ?out (format t "%s " ?pregunta))
-    (printout t ?out crlf)
+    (printout t ?pregunta crlf)
+    (printout t "(Elija escribiendo con los numeros correspondientes)" crlf)
     (progn$ (?var ?posibles)
         (bind ?out (format nil "    %d. %s" ?var-index ?var))
         (printout t ?out crlf)
