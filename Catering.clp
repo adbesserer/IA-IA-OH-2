@@ -2678,7 +2678,7 @@
 
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+    (bind ?respuestaPersonasEspeciales "")
     (bind ?espPeople (create$ "Vegetarianos" "Niños" "Abstenios al alcohol"))
     (if (eq (pregunta_bool "¿Habrá algún niño, algun abstenio al alcohol o algun invitado que prefiera comida vegetariana?") TRUE)
         then (bind
@@ -2713,37 +2713,38 @@
 
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(if (eq (pregunta_bool "¿Hay algun ingrediente que deberiamos no usar?") TRUE)
-    then (bind
-        ?respuestaIngredientes
-        (pregunta_multiple "¿Cuales son estos ingredientes?" (takeAllIngredientes))
-    )
-)
-
-;;;;Pregunta multiple respuesta
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(bind ?styles (create$ "Tradicional" "Moderno" "Rapida" "Alta Cocina"))
-
-(if (eq (pregunta_bool "¿Hay algun estilo de comida que se prefiera?") TRUE)
-    then (bind
-        ?respuestaEstiloCocina
-        (pregunta_multiple "Elija pues entre los siguentes: " ?styles)
-    )
-)
-
-;;;;Pregunta multiple respuesta
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(bind ?ctries (create$ "Espanya" "Francia" "Internacional" "Italia" "Japon" "Mexico" "USA"))
-
-(if (eq (pregunta_bool "¿Prefiere usted recetas originales de algun pais en especial?") TRUE)
-    then
-        (bind
-            ?respuestaPais
-            (pregunta_multiple "Elija pues entre los siguientes: " ?ctries)
+    (bind ?respuestaIngredientes "")
+    (if (eq (pregunta_bool "¿Hay algun ingrediente que deberiamos no usar?") TRUE)
+        then (bind
+            ?respuestaIngredientes
+            (pregunta_multiple "¿Cuales son estos ingredientes?" (takeAllIngredientes))
         )
-)
+    )
+
+;;;;Pregunta multiple respuesta
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    (bind ?styles (create$ "Tradicional" "Moderno" "Rapida" "Alta Cocina"))
+    (bind ?respuestaEstiloCocina "")
+    (if (eq (pregunta_bool "¿Hay algun estilo de comida que se prefiera?") TRUE)
+        then (bind
+            ?respuestaEstiloCocina
+            (pregunta_multiple "Elija pues entre los siguentes: " ?styles)
+        )
+    )
+
+;;;;Pregunta multiple respuesta
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    (bind ?ctries (create$ "Espanya" "Francia" "Internacional" "Italia" "Japon" "Mexico" "USA"))
+    (bind ?respuestaPais "")
+    (if (eq (pregunta_bool "¿Prefiere usted recetas originales de algun pais en especial?") TRUE)
+        then
+            (bind
+                ?respuestaPais
+                (pregunta_multiple "Elija pues entre los siguientes: " ?ctries)
+            )
+    )
 
 ;;;;Pregunta booleana
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
