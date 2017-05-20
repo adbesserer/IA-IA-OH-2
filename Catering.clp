@@ -2543,6 +2543,7 @@
 
 (deffunction MAIN::pregunta_bool (?pregunta)
     (format t "%s " ?pregunta)
+    (printout t "(Responda con un Si o un No)" crlf)
     (bind ?resp (lowcase (read)))
     (while
         (not (or (eq ?resp si) (eq ?resp no)))
