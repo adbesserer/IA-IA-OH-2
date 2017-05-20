@@ -2729,6 +2729,80 @@
 		(comida_friaB ?respuestaFrio)
 	))	
 )
+
+(defrule f2
+	(Evento (maximo_precio ?maxPrecio)(evento_temporada ?temporada)(comida_picanteB ?picante)(comida_friaB ?fria)(comida_calienteB ?caliente)(estilo_comida_preferente $?estilo_comida_preferente)(ingredientes_prohibidos $?ingredientes_prohibidos)(pais_preferente $?pais_preferente))
+	=>
+	(bind $?platos (find-all-instances ((?inst Plato)) TRUE))
+	(loop-for-count (?i 1 (length$ $?platos)) do
+		(bind ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato ?temporada ?maxPrecio ?picante ?fria ?caliente))
+		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-comida-pref $?estilo_comida_preferente)))
+		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-ing-proh $?ingredientes_prohibidos)))
+		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-pais-pref $?pais_preferente)))
+		(printout t ?res crlf)
+	)
+)
+
+(defmessage-handler MAIN::Plato asignar-puntuacion-plato-comida-pref ($?estilo_comida_preferente)
+	(bind ?resultado 0)
+	(progn$ (?a ?self:estilo_del_plato)
+		(progn$ (?b $?estilo_comida_preferente)
+			(if (eq ?a ?b) then 
+				(bind ?resultado (+ ?resultado 10))
+			)
+		)
+	)
+	return ?resultado
+)
+
+(defmessage-handler MAIN::Plato asignar-puntuacion-plato-ing-proh ($?ingredientes_prohibidos)
+	(bind ?resultado 0)
+	(progn$ (?i ?self:ingredientes_del_plato)
+		(progn$ (?j $?ingredientes_prohibidos)
+			(if(eq ?i ?j) then (bind ?resultado (- ?resultado 1000)))
+		)
+	)
+	return ?resultado
+)
+
+(defmessage-handler MAIN::Plato asignar-puntuacion-plato-pais-pref ($?pais_preferente)
+	(bind ?resultado 0)
+	(progn$ (?w $?pais_preferente)
+		(if (eq ?w (send ?self:origen_del_plato get-origen)) then
+			(bind ?resultado (+ ?resultado 10))
+		) 
+	)
+	return ?resultado
+)
+
+(defmessage-handler MAIN::Plato asignar-puntuacion-plato (?evento_temporada ?maximo_precio ?comida_picante ?comida_friaB ?comida_calienteB) 
+	(bind ?resultado 0)
+	(if(eq ?evento_temporada ?self:temporada_del_plato) then 
+		(bind ?resultado (+ ?resultado 10))
+	)
+	(if(> (float ?maximo_precio) ?self:precio) then
+		(bind ?resultado (+ ?resultado 10)) 
+		else (bind ?resultado (- ?resultado 1000))
+	)
+	(if(eq ?comida_picante TRUE) 
+	then 
+	 	(if(eq ?self:picante TRUE)
+			 then (bind ?resultado (+ ?resultado 10)) 
+		)
+	else
+	 	(if(eq ?self:picante TRUE)
+			 then (bind ?resultado (- ?resultado 1000)) 
+			 else (bind ?resultado (+ ?resultado 10))
+		)
+	)
+	(if (and (eq ?self:caliente FALSE) (eq ?comida_friaB TRUE))
+		then (bind ?resultado (+ ?resultado 10))
+	)
+	(if (and (eq ?self:caliente TRUE) (eq ?comida_calienteB TRUE))
+		then (bind ?resultado (+ ?resultado 10))
+	)
+	return ?resultado
+)
 	
 ;;; Modulo de presentación del resultado --------------
 
