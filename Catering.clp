@@ -2542,13 +2542,13 @@
 
 
 (deffunction MAIN::pregunta_bool (?pregunta)
-    (format t "%s" ?pregunta)
-    (bind ?resp (read))
+    (format t "%s " ?pregunta)
+    (bind ?resp (lowcase (read)))
     (while
-        (not (or (eq ?resp SI) (eq ?resp NO)))
-        (bind ?resp (read))
+        (not (or (eq ?resp si) (eq ?resp no)))
         (printout t "Su respuesta ha de ser SI/NO." crlf)
         (printout t "Por favor, responda otra vez." crlf)
+        (bind ?resp (lowcase (read)))
     )
     ?resp
 )
@@ -2567,18 +2567,30 @@
     )
 
     (printout t "Su respuesta: ")
-    (read)
+    (bind ?resp (read))
+    (while
+        (or (> ?resp (length $?posibles)) (< ?resp 1))
+        (printout t "Su respuesta ha de ser una de las opciones." crlf)
+        (printout t "Porfavor, responda otra vez." crlf)
+        (bind ?resp (read))
+    )
+
+    (bind
+        ?resp
+        (nth ?resp ?posibles)
+    )
+    ?resp
 )
 
 (deffunction MAIN::pregunta_multiple (?pregunta $?posibles)
-    (bind ?out (format nil "%s " ?pregunta))
+    (bind ?out (format t "%s " ?pregunta))
     (printout t ?out crlf)
     (progn$ (?var ?posibles)
         (bind ?out (format nil "    %d. %s" ?var-index ?var))
         (printout t ?out crlf)
     )
 
-    (printout t "Separe sus respuestas con un espacio." clrf)
+    (printout t "Separe sus respuestas con un espacio." crlf)
     (printout t "Sus opciones: ")
     (bind ?resp (readline))
     (bind $?num (explode$ ?resp))
@@ -2591,7 +2603,11 @@
             then
             (if (not (member$ ?var ?listado))
                 then
-                (bind ?listado (insert$ ?listado (+ (length$ ?listado) 1) ?var))
+                (bind ?value (nth ?var $?posibles))
+                (bind
+                    $?listado
+                    (insert$ ?listado (+ (length$ ?listado) 1) ?value)
+                )
             )
         )
     )
@@ -2603,6 +2619,21 @@
 	(bind ?respuesta (read))
 	return ?respuesta
 )
+
+(deffunction takeAllIngredientes ()
+    (bind $?ing (find-all-instances ((?i Ingrediente)) TRUE))
+    (bind $?nIng (create$ ))
+    (loop-for-count (?i 1 (length$ $?ing)) do
+        (bind ?curr-ing (nth$ ?i ?ing))
+        (bind ?nameIng (send ?curr-ing get-ingrediente))
+
+        (bind $?nIng (insert$ $?nIng (+ (length$ $?nIng) 1) ?nameIng))
+    )
+    ?nIng
+)
+
+
+
 ;;; Fin de la declaracion de funciones ----------------
 ;;; ---------------------------------------------------
 
@@ -2621,25 +2652,69 @@
     (printout t "*                  - - - R I C O   R I C O ™ - - -                    *" crlf)
     (printout t "*                                                                     *" crlf)
     (printout t "***********************************************************************" crlf)
-	(assert (empezamos))
+	(assert (formulario))
 )
 
-(defrule f1
-	(empezamos)
+(defrule formularioEvento
+	(formulario)
 	=>
-	(bind ?respuestaEstacion(pregunta1 "¿En que epoca del anyo se celebrara el evento?"))
-	(bind ?respuestaPersonasEspeciales(pregunta1 "¿Algunas de las siguientes personas atenderan al evento: vegetarianos, niños, abstemios...?"))
-	(bind ?respuestaMaxPrecio(pregunta1 "¿Cual es el precio maximo que deberia tener el menu?"))
-	(bind ?respuestaMinPrecio(pregunta1 "¿Cual es el precio minimo que deberia tener el menu?"))
-	(bind ?respuestaBebida(pregunta1 "¿Prefiere usted una sola bebida para toda la comida, o una adecuada para cada plato?"))
-	(bind ?respuestaVino(pregunta_bool "¿Le gustaria que se sirviera vino?"))
-	(bind ?respuestaIngredientes(pregunta1 "¿Hay algun ingrediente que deberiamos no usar? En caso afirmativo, cuales."))
-	(bind ?respuestaEstiloCocina(pregunta1 "¿Hay algun tipo de comida que se prefiera? En caso afirmativo, elija entre los siguientes: tradicional, moderno, rapida o alta cocina."))
-	(bind ?respuestaPais(pregunta1 "¿Prefiere usted recetas originales de algun pais en especial? Elijalo."))
-	(bind ?respuestaPicante(pregunta_bool "¿Le gusta la comida picante?"))
-	(bind ?respuestaCaliente(pregunta_bool "¿Quiere que se sirvan platos calientes?"))
-	(bind ?respuestaFrio(pregunta_bool "¿Quiere que se sirvan platos fríos?"))
-	(assert (Evento 
+    
+;;;;Pregunta unica respuesta de multiple opcion
+    (bind ?seasons (create$ "Otonyo" "Invierno" "Primavera" "Verano"))
+	(bind
+        ?respuestaEstacion
+        (pregunta_string "¿En que epoca del anyo se celebrara el evento?" ?seasons)
+    )
+
+
+;;;;Pregunta multiple respuesta
+	(bind ?espPeople (create$ "Vegetarianos" "Niños" "Abstenios al alcohol"))
+    (if (eq (pregunta_bool "¿Habrá algún invitado que prefiera comida vegetariana, algún niño o algún abstenio al alcohol?") TRUE)
+        then (bind
+            ?respuestaPersonasEspeciales
+            (pregunta_multiple "Cuales de las siguientes personas atenderan al evento?" ?espPeople)
+        )
+    )
+
+;;;;Pregunta Integer
+    (bind ?respuestaMaxPrecio(pregunta_int "¿Cual es el precio maximo que deberia tener el menu?"))
+
+;;;;Pregunta Integer
+    (bind ?respuestaMinPrecio(pregunta_int "¿Cual es el precio minimo que deberia tener el menu?"))
+	
+;;;;Pregunta unica respuesta de multiple opción
+    (bind ?nbebidas (create$ "Una bebida para todo el menú." "Una bebida por plato."))
+    (bind
+        ?respuestaBebida
+        (pregunta_string "¿Prefiere usted una sola bebida para toda la comida, o una adecuada para cada plato?" ?nbebidas)
+    )
+	
+    (bind ?respuestaVino (pregunta_bool "¿Le gustaria que se sirviera vino?"))
+	
+    (bind
+        ?respuestaIngredientes
+        (pregunta_multiple "¿Hay algun ingrediente que deberiamos no usar? En caso afirmativo, cuales." (takeAllIngredientes))
+    )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    
+    (bind ?styles (create$ "Tradicional" "Moderno" "Rapida" "Alta Cocina"))
+    (bind
+        ?respuestaEstiloCocina
+        (pregunta_multiple "¿Hay algun tipo de comida que se prefiera? En caso afirmativo, elija entre los siguientes:" ?styles)
+    )
+	
+    (printout t ?respuestaEstiloCocina crlf)
+
+    (bind ?respuestaPais(pregunta1 "¿Prefiere usted recetas originales de algun pais en especial? Elijalo."))
+	
+    (bind ?respuestaPicante(pregunta_bool "¿Le gusta la comida picante?"))
+	
+    (bind ?respuestaCaliente(pregunta_bool "¿Quiere que se sirvan platos calientes?"))
+	
+    (bind ?respuestaFrio(pregunta_bool "¿Quiere que se sirvan platos fríos?"))
+	
+    (assert (Evento 
 		(evento_temporada ?respuestaEstacion)
 		(evento_tipo_personas ?respuestaPersonasEspeciales)
 		(maximo_precio ?respuestaMaxPrecio)
