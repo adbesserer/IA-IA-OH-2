@@ -2656,20 +2656,24 @@
 )
 
 (defrule formularioEvento
-	(formulario)
-	=>
+    (formulario)
+    =>
     
 ;;;;Pregunta unica respuesta de multiple opcion
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     (bind ?seasons (create$ "Otonyo" "Invierno" "Primavera" "Verano"))
-	(bind
+    (bind
         ?respuestaEstacion
         (pregunta_string "¿En que epoca del anyo se celebrara el evento?" ?seasons)
     )
 
 
 ;;;;Pregunta multiple respuesta
-	(bind ?espPeople (create$ "Vegetarianos" "Niños" "Abstenios al alcohol"))
-    (if (eq (pregunta_bool "¿Habrá algún invitado que prefiera comida vegetariana, algún niño o algún abstenio al alcohol?") TRUE)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    (bind ?espPeople (create$ "Vegetarianos" "Niños" "Abstenios al alcohol"))
+    (if (eq (pregunta_bool "¿Habrá algún niño, algun abstenio al alcohol o algun invitado que prefiera comida vegetariana?") TRUE)
         then (bind
             ?respuestaPersonasEspeciales
             (pregunta_multiple "Cuales de las siguientes personas atenderan al evento?" ?espPeople)
@@ -2677,57 +2681,96 @@
     )
 
 ;;;;Pregunta Integer
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     (bind ?respuestaMaxPrecio(pregunta_int "¿Cual es el precio maximo que deberia tener el menu?"))
 
 ;;;;Pregunta Integer
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     (bind ?respuestaMinPrecio(pregunta_int "¿Cual es el precio minimo que deberia tener el menu?"))
-	
+    
 ;;;;Pregunta unica respuesta de multiple opción
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     (bind ?nbebidas (create$ "Una bebida para todo el menú." "Una bebida por plato."))
     (bind
         ?respuestaBebida
         (pregunta_string "¿Prefiere usted una sola bebida para toda la comida, o una adecuada para cada plato?" ?nbebidas)
     )
-	
-    (bind ?respuestaVino (pregunta_bool "¿Le gustaria que se sirviera vino?"))
-	
-    (bind
-        ?respuestaIngredientes
-        (pregunta_multiple "¿Hay algun ingrediente que deberiamos no usar? En caso afirmativo, cuales." (takeAllIngredientes))
-    )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;Pregunta booleana
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     
-    (bind ?styles (create$ "Tradicional" "Moderno" "Rapida" "Alta Cocina"))
-    (bind
-        ?respuestaEstiloCocina
-        (pregunta_multiple "¿Hay algun tipo de comida que se prefiera? En caso afirmativo, elija entre los siguientes:" ?styles)
-    )
-	
-    (printout t ?respuestaEstiloCocina crlf)
+    (bind ?respuestaVino (pregunta_bool "¿Le gustaria que se sirviera vino?"))
 
-    (bind ?respuestaPais(pregunta1 "¿Prefiere usted recetas originales de algun pais en especial? Elijalo."))
-	
+;;;;Pregunta multiple respuesta
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(if (eq (pregunta_bool "¿Hay algun ingrediente que deberiamos no usar?") TRUE)
+    then (bind
+        ?respuestaIngredientes
+        (pregunta_multiple "¿Cuales son estos ingredientes?" (takeAllIngredientes))
+    )
+)
+
+;;;;Pregunta multiple respuesta
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(bind ?styles (create$ "Tradicional" "Moderno" "Rapida" "Alta Cocina"))
+
+(if (eq (pregunta_bool "¿Hay algun estilo de comida que se prefiera?") TRUE)
+    then (bind
+        ?respuestaEstiloCocina
+        (pregunta_multiple "Elija pues entre los siguentes: " ?styles)
+    )
+)
+
+;;;;Pregunta multiple respuesta
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(bind ?ctries (create$ "Espanya" "Francia" "Internacional" "Italia" "Japon" "Mexico" "USA"))
+
+(if (eq (pregunta_bool "¿Prefiere usted recetas originales de algun pais en especial?") TRUE)
+    then
+        (bind
+            ?respuestaPais
+            (pregunta_multiple "Elija pues entre los siguientes: " ?ctries)
+        )
+)
+
+;;;;Pregunta booleana
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     (bind ?respuestaPicante(pregunta_bool "¿Le gusta la comida picante?"))
-	
+
+;;;;Pregunta booleana
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    
     (bind ?respuestaCaliente(pregunta_bool "¿Quiere que se sirvan platos calientes?"))
-	
+
+;;;;Pregunta booleana
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    
     (bind ?respuestaFrio(pregunta_bool "¿Quiere que se sirvan platos fríos?"))
-	
+
+
+;;;;                             A S S E R T S
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     (assert (Evento 
-		(evento_temporada ?respuestaEstacion)
-		(evento_tipo_personas ?respuestaPersonasEspeciales)
-		(maximo_precio ?respuestaMaxPrecio)
-		(minimo_precio ?respuestaMinPrecio)
-		(numero_bebidaB ?respuestaBebida)
-		(vinoB ?respuestaVino)
-		(ingredientes_prohibidos ?respuestaIngredientes)
-		(estilo_comida_preferente ?respuestaEstiloCocina)
-		(pais_preferente ?respuestaPais)
-		(comida_picanteB ?respuestaPicante)
-		(comida_calienteB ?respuestaCaliente)
-		(comida_friaB ?respuestaFrio)
-	))	
+        (evento_temporada ?respuestaEstacion)
+        (evento_tipo_personas ?respuestaPersonasEspeciales)
+        (maximo_precio ?respuestaMaxPrecio)
+        (minimo_precio ?respuestaMinPrecio)
+        (numero_bebidaB ?respuestaBebida)
+        (vinoB ?respuestaVino)
+        (ingredientes_prohibidos ?respuestaIngredientes)
+        (estilo_comida_preferente ?respuestaEstiloCocina)
+        (pais_preferente ?respuestaPais)
+        (comida_picanteB ?respuestaPicante)
+        (comida_calienteB ?respuestaCaliente)
+        (comida_friaB ?respuestaFrio)
+    ))  
 )
 
 (defrule f2
