@@ -2542,6 +2542,12 @@
     (multislot recomendaciones (type INSTANCE))
 )
 
+(deftemplate MAIN::lista-de-platos-por-precio
+    (multislot platos-baratos (type INSTANCE))
+    (multislot platos-medianos (type INSTANCE))
+    (multislot platos-caros (type INSTANCE))
+)
+
 ;;; Fin de la declaracion de templates ----------------
 ;;; ---------------------------------------------------
 
@@ -2682,6 +2688,30 @@
         (bind $?nIng (insert$ $?nIng (+ (length$ $?nIng) 1) ?nameIng))
     )
     ?nIng
+)
+
+(deffunction separar_por_precio ()
+    (bind $?platos (find-all-instances ((?p Plato)) TRUE))
+    (bind $?platoB (create$ ))
+    (bind $?platoM (create$ ))
+    (bind $?platoC (create$ ))
+
+    (loop-for-count (?i 1 (length$ $?platos)) do
+        (bind ?curr-pl (nth$ ?i ?platos))
+        (if (< (send ?curr-pl get-precio) 10)
+            then (bind $?platoB (insert$ $?platoB (+ (length$ $?platoB) 1) ?curr-pl))
+            else (if (< (send ?curr-pl get-precio) 18)
+                then (bind $?platoM (insert$ $?platoM (+ (length$ $?platoM) 1) ?curr-pl))
+                else (bind $?platoC (insert$ $?platoC (+ (length$ $?platoC) 1) ?curr-pl))
+                )
+        )
+    )
+
+    (assert (lista-de-platos-por-precio
+        (platos-baratos ?platoB)
+        (platos-medianos ?platoM)
+        (platos-caros ?platoC)
+    ))
 )
 
 
