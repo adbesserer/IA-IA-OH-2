@@ -3127,6 +3127,9 @@
 	)
 	return FALSE
 )
+(defmessage-handler MAIN::Menu imprimir ()
+
+)
 
 ;;; Modulo de presentación del resultado --------------
 
