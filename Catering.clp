@@ -2579,7 +2579,65 @@
         )
     )
     ?plato
-    ;devuelve la recomendacion, plato y puntos
+    ;devuelve la recomendacion: plato y puntos
+)
+
+(deffunction MAIN::elegir-bebidas (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?niños ?varias)
+	(if (eq ?varias TRUE)
+		then (
+			(bind ?result (create$ ))
+			(bind ?primeraBebida elegir_bebidas_una ?primero ?primero ?primero ?alcohol ?vino ?frutas ?niños)
+			(bind ?segundaBebida elegir_bebidas_una ?segundo ?segundo ?segundo ?alcohol ?vino ?frutas ?niños)
+			(bind ?ultimaBebida "Agua")
+			(if (eq ?alcohol TRUE)
+				then (bind ?ultimaBebida "Champagne")
+			)
+			(if(and (not (eq ?ultimaBebida ?primeraBebida)) (not (eq ?ultimaBebida ?primeraBebida)))
+				then (bind $?result (insert$ ?result 1 ?ultimaBebida))
+			)
+			(if (not (eq ?primeraBebida ?segundaBebida))
+				then (bind $?result (insert$ ?result 1 ?segundaBebida))
+			)
+			(bind $?result (insert$ ?result 1 ?primeraBebida))
+			return $?result
+			)
+		else (
+			(bind ?unicaBebida elegir_bebidas_una ?primero ?segundo ?postre ?alcohol ?vino ?frutas ?niños)
+			return ?unicaBebida
+			)	
+	)
+	return "Agua"
+)
+
+(deffunction MAIN::elegir-bebidas-una (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?niños)
+	(if (eq ?vino TRUE) 
+		then (if (send ?primero tiene-pescado-bool) 
+				then (return "Vino Blanco") 
+				else (if (send ?segundo tiene-pescado-bool)
+					then (return "Vino Blanco")
+					else(if (or (send ?primero tiene-carne-bool) (send ?segundo tiene-carne-bool))
+						then (return "Vino Tinto")
+						else (return "Vino Rosado")	
+					)
+				)
+			) 
+		else(if (eq ?niños TRUE) 
+				then (if (eq ?frutas TRUE) 
+					then (return "Fanta") 
+					else (return "Cola")
+					) 
+				else (if (eq ?alcohol TRUE) 
+					then (return "Cerveza") 
+					else (return "Agua")
+					)
+			)
+	)
+	return "Agua"
+)
+
+(deffunction MAIN::get-bebida-de-nombre (?nombre)
+	(bind ?bebida (find-all-instances ((?inst Bebida)) (eq ?inst:bebida ?nombre)))
+	return bebida 
 )
 
 (deffunction MAIN::pregunta_bool (?pregunta)
