@@ -2583,12 +2583,12 @@
     ;devuelve la recomendacion: plato y puntos
 )
 
-(deffunction MAIN::elegir-bebidas (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?niños ?varias)
+(deffunction MAIN::elegir-bebidas (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos ?varias)
 	(if (eq ?varias TRUE)
-		then (
+		then
 			(bind ?result (create$ ))
-			(bind ?primeraBebida elegir_bebidas_una ?primero ?primero ?primero ?alcohol ?vino ?frutas ?niños)
-			(bind ?segundaBebida elegir_bebidas_una ?segundo ?segundo ?segundo ?alcohol ?vino ?frutas ?niños)
+			(bind ?primeraBebida elegir_bebidas_una ?primero ?primero ?primero ?alcohol ?vino ?frutas ?ninyos)
+			(bind ?segundaBebida elegir_bebidas_una ?segundo ?segundo ?segundo ?alcohol ?vino ?frutas ?ninyos)
 			(bind ?ultimaBebida "Agua")
 			(if (eq ?alcohol TRUE)
 				then (bind ?ultimaBebida "Champagne")
@@ -2601,16 +2601,15 @@
 			)
 			(bind $?result (insert$ ?result 1 ?primeraBebida))
 			return $?result
-			)
-		else (
-			(bind ?unicaBebida elegir_bebidas_una ?primero ?segundo ?postre ?alcohol ?vino ?frutas ?niños)
+		else 
+			(bind ?unicaBebida elegir_bebidas_una ?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos)
 			return ?unicaBebida
-			)	
+				
 	)
 	return "Agua"
 )
 
-(deffunction MAIN::elegir-bebidas-una (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?niños)
+(deffunction MAIN::elegir-bebidas-una (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos)
 	(if (eq ?vino TRUE) 
 		then (if (send ?primero tiene-pescado-bool) 
 				then (return "Vino Blanco") 
@@ -2622,7 +2621,7 @@
 					)
 				)
 			) 
-		else(if (eq ?niños TRUE) 
+		else (if (eq ?ninyos TRUE) 
 				then (if (eq ?frutas TRUE) 
 					then (return "Fanta") 
 					else (return "Cola")
@@ -3025,12 +3024,14 @@
 
 	(make-instance menuB of Menu
 		(primer_plato (send ?pp get-plato))
-		(segundo_plato (send ?sp get-plato))
+		(segundo_plato (send ?sep get-plato))
 		(postre (send ?po get-plato))
 	)
 )
 
 ;;;;;DEMASES MENUS
+
+
 
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato-comida-pref ($?estilo_comida_preferente)
 	(bind ?resultado 0)
