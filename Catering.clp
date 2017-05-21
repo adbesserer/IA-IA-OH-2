@@ -2616,7 +2616,7 @@
     (while
         (or (lexemep ?resp) (or (> ?resp (length $?posibles)) (< ?resp 1)))
         (printout t "Su respuesta ha de ser una de las opciones." crlf)
-        (printout t "Porfavor, responda otra vez." crlf)
+        (printout t "Por favor, responda otra vez." crlf)
         (bind ?resp (read))
     )
 
@@ -2818,32 +2818,29 @@
         (comida_calienteB ?respuestaCaliente)
         (comida_friaB ?respuestaFrio)
     ))  
-	(assert (Puntuaciones
-		(plato)
-		(puntuacion)
-	))
 )
 
 (defrule f2
 	(Evento (maximo_precio ?maxPrecio)(evento_temporada ?temporada)(comida_picanteB ?picante)(comida_friaB ?fria)(comida_calienteB ?caliente)(estilo_comida_preferente $?estilo_comida_preferente)(ingredientes_prohibidos $?ingredientes_prohibidos)(pais_preferente $?pais_preferente))
-	;?p <- (Puntuaciones (plato ?plat)(puntuacion ?score))
-	(Puntuaciones)
 	=>
 	(bind $?platos (find-all-instances ((?inst Plato)) TRUE))
+	(bind ?recomendations(create$ ))
 	(loop-for-count (?i 1 (length$ $?platos)) do
+		(bind ?res 0)
 		(bind ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato ?temporada ?maxPrecio ?picante ?fria ?caliente))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-comida-pref $?estilo_comida_preferente)))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-ing-proh $?ingredientes_prohibidos)))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-pais-pref $?pais_preferente)))
-		(bind ?name (send (nth$ ?i ?platos) get-nombre_del_plato))
+		(bind ?name (sym-cat R**(send (nth$ ?i ?platos) get-nombre_del_plato)))
+		(bind ?aux (make-instance ?name of recomendacion(contenido (nth$ ?i ?platos))(puntuacion ?res)))
+		(bind $?recomendations (insert$ ?recomendations 1 ?aux))
 		(printout t ?name)
 		(printout t " ")
-		;;(bind $?plat (insert$ ?plat 1 ?name))
-		;;(bind $?name (insert$ ?score 1 ?res))
 		(printout t ?res crlf)
 	)
-	;;(modify ?p (plato ?name))
-	;;(modify ?p (puntuacion ?res))
+	(assert (lista-de-platos
+	    (recomendaciones $?recomendations)
+	))
 )
 
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato-comida-pref ($?estilo_comida_preferente)
