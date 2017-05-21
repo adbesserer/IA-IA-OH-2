@@ -2475,6 +2475,7 @@
         (type INSTANCE)
         (create-accessor read-write))
 )
+
 (defclass recomendacion 
     (is-a USER)
     (role concrete)
@@ -2673,12 +2674,6 @@
     ?listado
 )
 
-(deffunction pregunta1(?pregunta)
-	(printout t ?pregunta crlf)
-	(bind ?respuesta (read))
-	return ?respuesta
-)
-
 (deffunction takeAllIngredientes ()
     (bind $?ing (find-all-instances ((?i Ingrediente)) TRUE))
     (bind $?nIng (create$ ))
@@ -2691,8 +2686,8 @@
     ?nIng
 )
 
-(deffunction separar_por_precio ()
-    (bind $?platos (find-all-instances ((?p Plato)) TRUE))
+(deffunction separar_por_precio ($?x)
+    (bind $?platos ?x)
     (bind $?platoB (create$ ))
     (bind $?platoM (create$ ))
     (bind $?platoC (create$ ))
@@ -2713,6 +2708,57 @@
         (platos-medianos ?platoM)
         (platos-caros ?platoC)
     ))
+)
+
+(deffunction takePrimerPlato ($?platR)
+
+	(bind $?platos ?platR)
+	(bind $?resp (create$ ))
+
+	(loop-for-count (?i 1 (length$ $?platos))
+		(bind ?curr-pl (nth$ ?i ?platos))
+		(bind ?kindpl (send ?curr-pl get-orden_del_plato))
+		(printout t ?kindpl crlf)
+		(if (eq ?kindpl Primero)
+			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
+		)
+	)
+
+	?resp
+)
+
+(deffunction takeSegundoPlato ($?platR)
+
+	(bind $?platos ?platR)
+	(bind $?resp (create$ ))
+
+	(loop-for-count (?i 1 (length$ $?platos))
+		(bind ?curr-pl (nth$ ?i ?platos))
+		(bind ?kindpl (send ?curr-pl get-orden_del_plato))
+		(printout t ?kindpl crlf)
+		(if (eq ?kindpl Segundo)
+			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
+		)
+	)
+	
+	?resp
+)
+
+(deffunction takePostre ($?platR)
+
+	(bind $?platos $?platR)
+	(bind $?resp (create$ ))
+
+	(loop-for-count (?i 1 (length$ $?platos))
+		(bind ?curr-pl (nth$ ?i ?platos))
+		(bind ?kindpl (send ?curr-pl get-orden_del_plato))
+		(printout t ?kindpl crlf)
+		(if (eq ?kindpl Postre)
+			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
+		)
+	)
+	
+	?resp
 )
 
 
@@ -2755,7 +2801,7 @@
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (bind ?respuestaPersonasEspeciales "")
-    (bind ?espPeople (create$ "Vegetariano" "Infantil" "Abstemios del alcohol"))
+    (bind ?espPeople (create$ "Vegetariano" "Infantil"))
     (if (eq (pregunta_bool "¿Habrá algún niño, algun abstemio del alcohol o algun invitado que prefiera comida vegetariana?") TRUE)
         then (bind
             ?respuestaPersonasEspeciales
@@ -2789,18 +2835,13 @@
 
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (bind ?respuestaIngredientes (create$ ))
+    (bind ?respuestaIngredientes "")
     (if (eq (pregunta_bool "¿Hay algun ingrediente que deberiamos no usar?") TRUE)
         then (bind
             ?respuestaIngredientes
             (pregunta_multiple "¿Cuales son estos ingredientes?" (takeAllIngredientes))
         )
     )
-	(progn$ (?i $?respuestaPersonasEspeciales)
-		(if(eq ?i "Abstemios del alcohol") then
-			(bind $?respuestaIngredientes (insert$ ?respuestaIngredientes 1 "Licores"))
-		)
-	)
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -2897,6 +2938,25 @@
 ;    (printout t "Con puntuación: ")
 ;    (printout t ?punts crlf)
 ;)
+
+(defrule getMenuBarato
+	(lista-de-platos(recomendaciones $?x))
+    =>
+	(separar_por_precio ?x)
+	(bind ?pp (max-punts (takePrimerPlato platos-baratos)))
+	(bind ?sp (max-punts (takeSegundoPlato platos-baratos)))
+	(bind ?po (max-punts (takePostre platos-baratos)))
+	
+	(make-instance menuBarato of Menu
+		(primer_plato ?pp)
+		(segundo_plato ?sp)
+		(postre ?po)
+	)
+	(printout t crlf crlf crlf)
+	(printout t "MENU BARATO" crlf)
+)
+
+;;;;;DEMASES MENUS
 
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato-comida-pref ($?estilo_comida_preferente)
 	(bind ?resultado 0)
