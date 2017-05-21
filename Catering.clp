@@ -2474,7 +2474,9 @@
     (multislot bebida
         (type INSTANCE)
         (create-accessor read-write))
-    ()
+    (slot precio
+        (type FLOAT)
+        (create-accessor read-write))
 )
 
 (defclass recomendacion 
@@ -3022,13 +3024,22 @@
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	(make-instance menuB of Menu
+	(bind ?meba (make-instance menuB of Menu
 		(primer_plato (send ?pp get-plato))
 		(segundo_plato (send ?sep get-plato))
 		(postre (send ?po get-plato))
-	)
+	))
+    (assert (Recomendacion_de_Menus
+        (menubarato ?meba))
+    )
 )
 
+
+(defrule presentar
+    (Recomendacion_de_Menus (menubarato ?mb))
+    =>
+    (send ?mb imprimir)
+)
 ;;;;;DEMASES MENUS
 
 
@@ -3116,7 +3127,7 @@
 
 (defmessage-handler MAIN::Plato tiene-pescado-bool ()
 	(progn$ (?var ?self:ingredientes_del_plato)
-		(bind ?x (send ?var get-ingrediente))Pescado
+		(bind ?x (send ?var get-ingrediente))
 		(if (eq ?x "Pescado") then (return TRUE))
 	)
 	return FALSE
@@ -3124,13 +3135,40 @@
 
 (defmessage-handler MAIN::Plato tiene-carne-bool ()
 	(progn$ (?var ?self:ingredientes_del_plato)
-		(bind ?x (send ?var get-ingrediente))Pescado
+		(bind ?x (send ?var get-ingrediente))
 		(if (or (or (eq ?x "Pato") (eq ?x "Conejo")) (or (eq ?x "Pato") (eq ?x "Conejo"))) then (return TRUE))
 	)
 	return FALSE
 )
 (defmessage-handler MAIN::Menu imprimir ()
-
+    (printout t "1111111111111111111111111111111" crlf)
+    (bind ?primero (send ?self:primer_plato get-nombre_del_plato))
+    (printout t "1111111111111111111111111111111" crlf)
+    (bind ?segundo (send ?self:segundo_plato get-nombre_del_plato))
+    (printout t "1111111111111111111111111111111" crlf)
+    (bind ?postre (send ?self:postre get-nombre_del_plato))
+    (printout t "1111111111111111111111111111111" crlf)
+    (printout t "1111111111111111111111111111111" crlf)
+    (printout t "1111111111111111111111111111111" crlf)
+    (printout t "--------------------------------------------------" crlf)
+    (printout t "Primer plato: " crlf)
+    (format t "     %s" ?primero)
+    (printout t crlf)
+    (printout t "Segundo plato: " crlf)
+    (format t "     %s" ?segundo)
+    (printout t crlf)
+    (printout t "Postre: " crlf)
+    (format t "     %s" ?postre)
+    (printout t crlf)
+    (printout t "Bebida(s): " crlf)
+    (progn$ (?aux $?self:bebida)
+        (format t "     %s" (send ?aux get-bebida))
+        (printout t crlf)
+    )
+    (format t "El menú le saldra por un total de: %f" ?self:precio)
+    (printout t crlf)
+    (printout t "--------------------------------------------------" crlf)
+    (printout t crlf)
 )
 
 ;;; Modulo de presentación del resultado --------------
