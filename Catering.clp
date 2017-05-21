@@ -624,7 +624,7 @@
 
     (bebida "Cerveza")
     (con_gas TRUE)
-    (precio 3.0)
+    (precio 2.0)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class117] of  Plato
@@ -942,7 +942,7 @@
 ([CateringOnto_Class2] of  Bebida
 
     (bebida "Vino Blanco")
-    (precio 2.5)
+    (precio 2.0)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class20] of  Ingrediente
@@ -1309,7 +1309,7 @@
 ([CateringOnto_Class3] of  Bebida
 
     (bebida "Vino Tinto")
-    (precio 3.0)
+    (precio 2.0)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class37] of  Tipo
@@ -1384,7 +1384,7 @@
 
     (bebida "Champagne")
     (con_gas TRUE)
-    (precio 2.0)
+    (precio 2.5)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class40] of  Tipo
@@ -1542,7 +1542,7 @@
 
     (bebida "Cola")
     (con_gas TRUE)
-    (precio 2.0)
+    (precio 1.5)
     (tiene_alcohol FALSE))
 
 ([CateringOnto_Class50] of  Plato
@@ -1712,7 +1712,7 @@
 
     (bebida "Fanta")
     (con_gas TRUE)
-    (precio 2.0))
+    (precio 1.5))
 
 ([CateringOnto_Class60] of  Ingrediente
 
@@ -1857,7 +1857,7 @@
 
     (bebida "Agua con gas")
     (con_gas TRUE)
-    (precio 1.2))
+    (precio 1.0))
 
 ([CateringOnto_Class70] of  Ingrediente
 
@@ -2024,7 +2024,7 @@
 ([CateringOnto_Class8] of  Bebida
 
     (bebida "Vino Rosado")
-    (precio 3.0)
+    (precio 2.0)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class80] of  Plato
@@ -2556,19 +2556,18 @@
 ;;; Declaracion de funciones
 
 ;;; Funcion para imprimir el texto que se le pase
-(deffunction MAIN::print-text (?texto)
-    (format t "%s" ?texto clrf)
-)
 
 ;;; funcion para conseguir el plato con maxima puntuacion
 (deffunction max-punts ($?lista)
     (bind ?max -1)
     (bind ?plato nil)
+    (bind ?plato_aux nil)
     (if (not (eq (length ?lista) 0))
         then
         (bind ?firstRec (nth 1 ?lista))
+        (bind ?plato (nth 1 ?lista))
         (bind ?max (send ?firstRec get-puntuacion))
-        (bind ?plato (send ?firstRec get-plato))
+        (bind ?plato_aux (send ?firstRec get-plato))
     )
     (progn$ (?aux $?lista)
         (bind ?plato_aux (send ?aux get-plato))
@@ -2694,9 +2693,11 @@
 
     (loop-for-count (?i 1 (length$ $?platos)) do
         (bind ?curr-pl (nth$ ?i ?platos))
-        (if (< (send ?curr-pl get-precio) 10)
+        (bind ?curr-pl2 (send ?curr-pl get-plato))
+        (bind ?prec (send ?curr-pl2 get-precio))
+        (if (< ?prec 10.0)
             then (bind $?platoB (insert$ $?platoB (+ (length$ $?platoB) 1) ?curr-pl))
-            else (if (< (send ?curr-pl get-precio) 18)
+            else (if (< ?prec 18.0)
                 then (bind $?platoM (insert$ $?platoM (+ (length$ $?platoM) 1) ?curr-pl))
                 else (bind $?platoC (insert$ $?platoC (+ (length$ $?platoC) 1) ?curr-pl))
                 )
@@ -2713,54 +2714,56 @@
 (deffunction takePrimerPlato ($?platR)
 
 	(bind $?platos ?platR)
-	(bind $?resp (create$ ))
+	(bind $?respP(create$ ))
+
 
 	(loop-for-count (?i 1 (length$ $?platos))
 		(bind ?curr-pl (nth$ ?i ?platos))
-		(bind ?kindpl (send ?curr-pl get-orden_del_plato))
-		(printout t ?kindpl crlf)
-		(if (eq ?kindpl Primero)
-			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
+		(bind ?curr-pl2 (send ?curr-pl get-plato))
+		(bind ?kindpl (send ?curr-pl2 get-orden_del_plato))
+
+		(if (or (eq ?kindpl Primero) (eq ?kindpl Primero%2FSegundo))
+			then (bind $?respP (insert$ $?respP (+ (length$ $?respP) 1) ?curr-pl))
 		)
 	)
-
-	?resp
+	(printout t crlf "PRIMEROS" crlf)
+	(printout t ?respP)
+	?respP
 )
 
-(deffunction takeSegundoPlato ($?platR)
+(deffunction takeSegundoPlato (?pp $?platR)
 
 	(bind $?platos ?platR)
-	(bind $?resp (create$ ))
-
+	(bind $?respS (create$ ))
 	(loop-for-count (?i 1 (length$ $?platos))
 		(bind ?curr-pl (nth$ ?i ?platos))
-		(bind ?kindpl (send ?curr-pl get-orden_del_plato))
-		(printout t ?kindpl crlf)
-		(if (eq ?kindpl Segundo)
-			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
+		(bind ?curr-pl2 (send ?curr-pl get-plato))
+		(bind ?kindpl (send ?curr-pl2 get-orden_del_plato))
+		(if (and (or (eq ?kindpl Segundo) (eq ?kindpl Primero%2FSegundo)) (not (eq ?curr-pl2 ?pp)))
+			then (bind $?respS (insert$ $?respS (+ (length$ $?respS) 1) ?curr-pl))
 		)
 	)
-	
-	?resp
+	(printout t crlf "SEGUNDOS" crlf)
+	(printout t ?respS)
+	?respS
 )
 
 (deffunction takePostre ($?platR)
 
-	(bind $?platos $?platR)
+	(bind $?platos ?platR)
 	(bind $?resp (create$ ))
-
 	(loop-for-count (?i 1 (length$ $?platos))
 		(bind ?curr-pl (nth$ ?i ?platos))
-		(bind ?kindpl (send ?curr-pl get-orden_del_plato))
-		(printout t ?kindpl crlf)
+		(bind ?curr-pl2 (send ?curr-pl get-plato))
+		(bind ?kindpl (send ?curr-pl2 get-orden_del_plato))
 		(if (eq ?kindpl Postre)
 			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
 		)
 	)
-	
+	(printout t crlf "POSTRE" crlf)
+	(printout t ?resp)
 	?resp
 )
-
 
 
 ;;; Fin de la declaracion de funciones ----------------
@@ -2801,7 +2804,7 @@
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (bind ?respuestaPersonasEspeciales "")
-    (bind ?espPeople (create$ "Vegetariano" "Infantil"))
+    (bind ?espPeople (create$ "Vegetariano" "Infantil" "Abstemios del alcohol"))
     (if (eq (pregunta_bool "¿Habrá algún niño, algun abstemio del alcohol o algun invitado que prefiera comida vegetariana?") TRUE)
         then (bind
             ?respuestaPersonasEspeciales
@@ -2922,9 +2925,11 @@
 		(printout t " ")
 		(printout t ?res crlf)
 	)
+
 	(assert (lista-de-platos
 	    (recomendaciones $?recomendations)
 	))
+	(separar_por_precio $?recomendations)
 )
 
 ;(defrule getmax
@@ -2940,20 +2945,22 @@
 ;)
 
 (defrule getMenuBarato
-	(lista-de-platos(recomendaciones $?x))
+	(lista-de-platos-por-precio(platos-baratos $?pb))
     =>
-	(separar_por_precio ?x)
-	(bind ?pp (max-punts (takePrimerPlato platos-baratos)))
-	(bind ?sp (max-punts (takeSegundoPlato platos-baratos)))
-	(bind ?po (max-punts (takePostre platos-baratos)))
+
+	(bind ?pp (max-punts (takePrimerPlato $?pb)))
 	
-	(make-instance menuBarato of Menu
-		(primer_plato ?pp)
-		(segundo_plato ?sp)
-		(postre ?po)
-	)
+	(bind ?sep (max-punts (takeSegundoPlato ?pp $?pb)))
+	(printout t crlf ?sep crlf)
+	
+	(bind ?po (max-punts (takePostre $?pb)))
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 	(printout t crlf crlf crlf)
 	(printout t "MENU BARATO" crlf)
+	(printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
+	(printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
+	(printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
 )
 
 ;;;;;DEMASES MENUS
@@ -3038,7 +3045,23 @@
 	)
 	return ?resultado
 )
-	
+
+(defmessage-handler MAIN::Plato tiene-pescado-bool ()
+	(progn$ (?var ?self:ingredientes_del_plato)
+		(bind ?x (send ?var get-ingrediente))Pescado
+		(if (eq ?x "Pescado") then (return TRUE))
+	)
+	return FALSE
+)
+
+(defmessage-handler MAIN::Plato tiene-carne-bool ()
+	(progn$ (?var ?self:ingredientes_del_plato)
+		(bind ?x (send ?var get-ingrediente))Pescado
+		(if (or (or (eq ?x "Pato") (eq ?x "Conejo")) (or (eq ?x "Pato") (eq ?x "Conejo"))) then (return TRUE))
+	)
+	return FALSE
+)
+
 ;;; Modulo de presentación del resultado --------------
 
 ;;; Fin de la declaracion de reglas y facts -----------
