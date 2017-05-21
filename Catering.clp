@@ -2474,6 +2474,7 @@
     (multislot bebida
         (type INSTANCE)
         (create-accessor read-write))
+    ()
 )
 
 (defclass recomendacion 
@@ -3127,6 +3128,9 @@
 		(if (or (or (eq ?x "Pato") (eq ?x "Conejo")) (or (eq ?x "Pato") (eq ?x "Conejo"))) then (return TRUE))
 	)
 	return FALSE
+)
+(defmessage-handler MAIN::Menu imprimir ()
+
 )
 
 ;;; Modulo de presentación del resultado --------------
