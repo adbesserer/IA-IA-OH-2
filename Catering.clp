@@ -3024,12 +3024,14 @@
 
 	(make-instance menuB of Menu
 		(primer_plato (send ?pp get-plato))
-		(segundo_plato (send ?sp get-plato))
+		(segundo_plato (send ?sep get-plato))
 		(postre (send ?po get-plato))
 	)
 )
 
 ;;;;;DEMASES MENUS
+
+
 
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato-comida-pref ($?estilo_comida_preferente)
 	(bind ?resultado 0)
