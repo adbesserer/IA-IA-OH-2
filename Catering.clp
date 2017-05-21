@@ -2474,6 +2474,7 @@
     (multislot bebida
         (type INSTANCE)
         (create-accessor read-write))
+    ()
 )
 
 (defclass recomendacion 
