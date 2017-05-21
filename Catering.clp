@@ -2754,8 +2754,8 @@
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (bind ?respuestaPersonasEspeciales "")
-    (bind ?espPeople (create$ "Vegetariano" "Infantil" "Abstenios al alcohol"))
-    (if (eq (pregunta_bool "¿Habrá algún niño, algun abstenio al alcohol o algun invitado que prefiera comida vegetariana?") TRUE)
+    (bind ?espPeople (create$ "Vegetariano" "Infantil" "Abstemios del alcohol"))
+    (if (eq (pregunta_bool "¿Habrá algún niño, algun abstemio del alcohol o algun invitado que prefiera comida vegetariana?") TRUE)
         then (bind
             ?respuestaPersonasEspeciales
             (pregunta_multiple "Cuales de las siguientes personas atenderan al evento?" ?espPeople)
@@ -2796,7 +2796,7 @@
         )
     )
 	(progn$ (?i $?respuestaPersonasEspeciales)
-		(if(eq ?i "Abstenios al alcohol") then
+		(if(eq ?i "Abstemios del alcohol") then
 			(bind $?respuestaIngredientes (insert$ ?respuestaIngredientes 1 "Licores"))
 		)
 	)
