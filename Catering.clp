@@ -2475,6 +2475,7 @@
         (type INSTANCE)
         (create-accessor read-write))
 )
+
 (defclass recomendacion 
     (is-a USER)
     (role concrete)
@@ -2672,12 +2673,6 @@
     ?listado
 )
 
-(deffunction pregunta1(?pregunta)
-	(printout t ?pregunta crlf)
-	(bind ?respuesta (read))
-	return ?respuesta
-)
-
 (deffunction takeAllIngredientes ()
     (bind $?ing (find-all-instances ((?i Ingrediente)) TRUE))
     (bind $?nIng (create$ ))
@@ -2690,8 +2685,8 @@
     ?nIng
 )
 
-(deffunction separar_por_precio ()
-    (bind $?platos (find-all-instances ((?p Plato)) TRUE))
+(deffunction separar_por_precio ($?x)
+    (bind $?platos ?x)
     (bind $?platoB (create$ ))
     (bind $?platoM (create$ ))
     (bind $?platoC (create$ ))
@@ -2712,6 +2707,57 @@
         (platos-medianos ?platoM)
         (platos-caros ?platoC)
     ))
+)
+
+(deffunction takePrimerPlato ($?platR)
+
+	(bind $?platos ?platR)
+	(bind $?resp (create$ ))
+
+	(loop-for-count (?i 1 (length$ $?platos))
+		(bind ?curr-pl (nth$ ?i ?platos))
+		(bind ?kindpl (send ?curr-pl get-orden_del_plato))
+		(printout t ?kindpl crlf)
+		(if (eq ?kindpl Primero)
+			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
+		)
+	)
+
+	?resp
+)
+
+(deffunction takeSegundoPlato ($?platR)
+
+	(bind $?platos ?platR)
+	(bind $?resp (create$ ))
+
+	(loop-for-count (?i 1 (length$ $?platos))
+		(bind ?curr-pl (nth$ ?i ?platos))
+		(bind ?kindpl (send ?curr-pl get-orden_del_plato))
+		(printout t ?kindpl crlf)
+		(if (eq ?kindpl Segundo)
+			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
+		)
+	)
+	
+	?resp
+)
+
+(deffunction takePostre ($?platR)
+
+	(bind $?platos $?platR)
+	(bind $?resp (create$ ))
+
+	(loop-for-count (?i 1 (length$ $?platos))
+		(bind ?curr-pl (nth$ ?i ?platos))
+		(bind ?kindpl (send ?curr-pl get-orden_del_plato))
+		(printout t ?kindpl crlf)
+		(if (eq ?kindpl Postre)
+			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
+		)
+	)
+	
+	?resp
 )
 
 
@@ -2896,6 +2942,26 @@
 ;    (printout t "Con puntuación: ")
 ;    (printout t ?punts crlf)
 ;)
+
+(defrule getMenuBarato
+	(lista-de-platos(recomendaciones $?x))
+    =>
+	(separar_por_precio ?x)
+	(bind ?pp (max-punts (takePrimerPlato platos-baratos)))
+	(bind ?sp (max-punts (takeSegundoPlato platos-baratos)))
+	(bind ?po (max-punts (takePostre platos-baratos)))
+	
+	(make-instance menuBarato of Menu
+		(primer_plato ?pp)
+		(segundo_plato ?sp)
+		(postre ?po)
+	)
+	(printout t crlf crlf crlf)
+	(printout t "MENU BARATO" crlf)
+	(printout t ())
+)
+
+;;;;;DEMASES MENUS
 
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato-comida-pref ($?estilo_comida_preferente)
 	(bind ?resultado 0)
