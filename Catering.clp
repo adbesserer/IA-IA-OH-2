@@ -2555,7 +2555,6 @@
 
 ;;; funcion para conseguir el plato con maxima puntuacion
 (deffunction max-punts ($?lista)
-    (printout t "entro en la funsion" crlf)
     (bind ?max -1)
     (bind ?plato nil)
     (if (not (eq (length ?lista) 0))
