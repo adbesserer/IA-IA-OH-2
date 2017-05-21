@@ -3115,7 +3115,7 @@
 
 (defmessage-handler MAIN::Plato tiene-pescado-bool ()
 	(progn$ (?var ?self:ingredientes_del_plato)
-		(bind ?x (send ?var get-ingrediente))Pescado
+		(bind ?x (send ?var get-ingrediente))
 		(if (eq ?x "Pescado") then (return TRUE))
 	)
 	return FALSE
@@ -3123,7 +3123,7 @@
 
 (defmessage-handler MAIN::Plato tiene-carne-bool ()
 	(progn$ (?var ?self:ingredientes_del_plato)
-		(bind ?x (send ?var get-ingrediente))Pescado
+		(bind ?x (send ?var get-ingrediente))
 		(if (or (or (eq ?x "Pato") (eq ?x "Conejo")) (or (eq ?x "Pato") (eq ?x "Conejo"))) then (return TRUE))
 	)
 	return FALSE
