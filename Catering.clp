@@ -2476,6 +2476,11 @@
         (create-accessor read-write))
 )
 
+(deftemplate MAIN::Puntuaciones
+	(multislot plato (type STRING))
+	(multislot puntuacion (type FLOAT))
+)
+
 ;;; Fin de la declaración de clases propias -----------
 ;;; ---------------------------------------------------
 
@@ -2780,10 +2785,16 @@
         (comida_calienteB ?respuestaCaliente)
         (comida_friaB ?respuestaFrio)
     ))  
+	(assert (Puntuaciones
+		(plato)
+		(puntuacion)
+	))
 )
 
 (defrule f2
 	(Evento (maximo_precio ?maxPrecio)(evento_temporada ?temporada)(comida_picanteB ?picante)(comida_friaB ?fria)(comida_calienteB ?caliente)(estilo_comida_preferente $?estilo_comida_preferente)(ingredientes_prohibidos $?ingredientes_prohibidos)(pais_preferente $?pais_preferente))
+	;?p <- (Puntuaciones (plato ?plat)(puntuacion ?score))
+	(Puntuaciones)
 	=>
 	(bind $?platos (find-all-instances ((?inst Plato)) TRUE))
 	(loop-for-count (?i 1 (length$ $?platos)) do
@@ -2791,16 +2802,23 @@
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-comida-pref $?estilo_comida_preferente)))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-ing-proh $?ingredientes_prohibidos)))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-pais-pref $?pais_preferente)))
+		(bind ?name (send (nth$ ?i ?platos) get-nombre_del_plato))
+		(printout t ?name)
+		(printout t " ")
+		;;(bind $?plat (insert$ ?plat 1 ?name))
+		;;(bind $?name (insert$ ?score 1 ?res))
 		(printout t ?res crlf)
 	)
+	;;(modify ?p (plato ?name))
+	;;(modify ?p (puntuacion ?res))
 )
 
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato-comida-pref ($?estilo_comida_preferente)
 	(bind ?resultado 0)
 	(progn$ (?a ?self:estilo_del_plato)
 		(progn$ (?b $?estilo_comida_preferente)
-			(if (eq ?a ?b) then 
-				(bind ?resultado (+ ?resultado 10))
+			(if (eq (send ?a get-estilo_cocina) ?b) then 
+				(bind ?resultado (+ ?resultado 40))
 			)
 		)
 	)
@@ -2811,7 +2829,9 @@
 	(bind ?resultado 0)
 	(progn$ (?i ?self:ingredientes_del_plato)
 		(progn$ (?j $?ingredientes_prohibidos)
-			(if(eq ?i ?j) then (bind ?resultado (- ?resultado 1000)))
+			(if(eq (send ?i get-ingrediente) ?j) then 
+				(bind ?resultado (- ?resultado 1000))
+			)
 		)
 	)
 	return ?resultado
@@ -2821,7 +2841,7 @@
 	(bind ?resultado 0)
 	(progn$ (?w $?pais_preferente)
 		(if (eq ?w (send ?self:origen_del_plato get-origen)) then
-			(bind ?resultado (+ ?resultado 10))
+			(bind ?resultado (+ ?resultado 20))
 		) 
 	)
 	return ?resultado
