@@ -2725,7 +2725,7 @@
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (bind ?respuestaPersonasEspeciales "")
-    (bind ?espPeople (create$ "Vegetarianos" "Niños" "Abstenios al alcohol"))
+    (bind ?espPeople (create$ "Vegetariano" "Infantil" "Abstenios al alcohol"))
     (if (eq (pregunta_bool "¿Habrá algún niño, algun abstenio al alcohol o algun invitado que prefiera comida vegetariana?") TRUE)
         then (bind
             ?respuestaPersonasEspeciales
@@ -2829,7 +2829,7 @@
 
 
 (defrule f2
-	(Evento (maximo_precio ?maxPrecio)(evento_temporada ?temporada)(comida_picanteB ?picante)(comida_friaB ?fria)(comida_calienteB ?caliente)(estilo_comida_preferente $?estilo_comida_preferente)(ingredientes_prohibidos $?ingredientes_prohibidos)(pais_preferente $?pais_preferente))
+	(Evento (evento_tipo_personas ?respuestaPersonasEspeciales)(maximo_precio ?maxPrecio)(evento_temporada ?temporada)(comida_picanteB ?picante)(comida_friaB ?fria)(comida_calienteB ?caliente)(estilo_comida_preferente $?estilo_comida_preferente)(ingredientes_prohibidos $?ingredientes_prohibidos)(pais_preferente $?pais_preferente))
 	=>
 	(bind $?platos (find-all-instances ((?inst Plato)) TRUE))
 	(bind ?recomendations(create$ ))
@@ -2839,6 +2839,7 @@
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-comida-pref $?estilo_comida_preferente)))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-ing-proh $?ingredientes_prohibidos)))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-pais-pref $?pais_preferente)))
+		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-tipo $?respuestaPersonasEspeciales)))
 		(bind ?name (sym-cat R**(send (nth$ ?i ?platos) get-nombre_del_plato)))
 		(bind ?aux (make-instance ?name of recomendacion(plato (nth$ ?i ?platos))(puntuacion ?res)))
 		(bind $?recomendations (insert$ ?recomendations 1 ?aux))
@@ -2850,6 +2851,7 @@
 	    (recomendaciones $?recomendations)
 	))
 )
+
 ;(defrule getmax
 ;   (lista-de-platos(recomendaciones $?x))
 ;   =>
@@ -2868,6 +2870,19 @@
 		(progn$ (?b $?estilo_comida_preferente)
 			(if (eq (send ?a get-estilo_cocina) ?b) then 
 				(bind ?resultado (+ ?resultado 40))
+			)
+		)
+	)
+	return ?resultado
+)
+
+(defmessage-handler MAIN::Plato asignar-puntuacion-plato-tipo ($?evento_tipo_personas)
+	tipo_de_comida
+	(bind ?resultado 0)
+	(progn$ (?i ?self:tipo_de_comida)
+		(progn$ (?j $?evento_tipo_personas)
+			(if(eq (send ?i get-tipo) ?j) then
+				(bind ?resultado (+ ?resultado 50))
 			)
 		)
 	)
@@ -2898,6 +2913,11 @@
 
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato (?evento_temporada ?maximo_precio ?comida_picante ?comida_friaB ?comida_calienteB) 
 	(bind ?resultado 0)
+	(progn$ (?temp ?self:temporada_del_plato)
+		(if(eq ?evento_temporada (send ?temp get-temporada)) then 
+			(bind ?resultado (+ ?resultado 20))
+		)
+	)
 	(if(eq ?evento_temporada ?self:temporada_del_plato) then 
 		(bind ?resultado (+ ?resultado 1000))
 	)
