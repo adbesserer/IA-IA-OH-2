@@ -2584,7 +2584,7 @@
 
 (deffunction MAIN::elegir-bebidas (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos ?varias)
 	(if (eq ?varias TRUE)
-		then (
+		then
 			(bind ?result (create$ ))
 			(bind ?primeraBebida elegir_bebidas_una ?primero ?primero ?primero ?alcohol ?vino ?frutas ?ninyos)
 			(bind ?segundaBebida elegir_bebidas_una ?segundo ?segundo ?segundo ?alcohol ?vino ?frutas ?ninyos)
@@ -2600,11 +2600,10 @@
 			)
 			(bind $?result (insert$ ?result 1 ?primeraBebida))
 			return $?result
-			)
-		else (
+		else 
 			(bind ?unicaBebida elegir_bebidas_una ?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos)
 			return ?unicaBebida
-			)	
+				
 	)
 	return "Agua"
 )
@@ -2621,7 +2620,7 @@
 					)
 				)
 			) 
-		else(if (eq ?ninyos TRUE) 
+		else (if (eq ?ninyos TRUE) 
 				then (if (eq ?frutas TRUE) 
 					then (return "Fanta") 
 					else (return "Cola")
