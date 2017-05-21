@@ -624,7 +624,7 @@
 
     (bebida "Cerveza")
     (con_gas TRUE)
-    (precio 3.0)
+    (precio 2.0)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class117] of  Plato
@@ -942,7 +942,7 @@
 ([CateringOnto_Class2] of  Bebida
 
     (bebida "Vino Blanco")
-    (precio 2.5)
+    (precio 2.0)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class20] of  Ingrediente
@@ -1309,7 +1309,7 @@
 ([CateringOnto_Class3] of  Bebida
 
     (bebida "Vino Tinto")
-    (precio 3.0)
+    (precio 2.0)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class37] of  Tipo
@@ -1384,7 +1384,7 @@
 
     (bebida "Champagne")
     (con_gas TRUE)
-    (precio 2.0)
+    (precio 2.5)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class40] of  Tipo
@@ -1542,7 +1542,7 @@
 
     (bebida "Cola")
     (con_gas TRUE)
-    (precio 2.0)
+    (precio 1.5)
     (tiene_alcohol FALSE))
 
 ([CateringOnto_Class50] of  Plato
@@ -1712,7 +1712,7 @@
 
     (bebida "Fanta")
     (con_gas TRUE)
-    (precio 2.0))
+    (precio 1.5))
 
 ([CateringOnto_Class60] of  Ingrediente
 
@@ -1857,7 +1857,7 @@
 
     (bebida "Agua con gas")
     (con_gas TRUE)
-    (precio 1.2))
+    (precio 1.0))
 
 ([CateringOnto_Class70] of  Ingrediente
 
@@ -2024,7 +2024,7 @@
 ([CateringOnto_Class8] of  Bebida
 
     (bebida "Vino Rosado")
-    (precio 3.0)
+    (precio 2.0)
     (tiene_alcohol TRUE))
 
 ([CateringOnto_Class80] of  Plato
@@ -2579,6 +2579,7 @@
         )
     )
     ?plato
+    ;devuelve la recomendacion, plato y puntos
 )
 
 (deffunction MAIN::pregunta_bool (?pregunta)
@@ -3043,6 +3044,22 @@
 		then (bind ?resultado (+ ?resultado 10))
 	)
 	return ?resultado
+)
+
+(defmessage-handler MAIN::Plato tiene-pescado-bool ()
+	(progn$ (?var ?self:ingredientes_del_plato)
+		(bind ?x (send ?var get-ingrediente))Pescado
+		(if (eq ?x "Pescado") then (return TRUE))
+	)
+	return FALSE
+)
+
+(defmessage-handler MAIN::Plato tiene-carne-bool ()
+	(progn$ (?var ?self:ingredientes_del_plato)
+		(bind ?x (send ?var get-ingrediente))Pescado
+		(if (or (or (eq ?x "Pato") (eq ?x "Conejo")) (or (eq ?x "Pato") (eq ?x "Conejo"))) then (return TRUE))
+	)
+	return FALSE
 )
 
 ;;; Modulo de presentación del resultado --------------
