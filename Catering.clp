@@ -2580,6 +2580,7 @@
         )
     )
     ?plato
+    ;devuelve la recomendacion, plato y puntos
 )
 
 (deffunction MAIN::pregunta_bool (?pregunta)
