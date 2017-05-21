@@ -2564,26 +2564,33 @@
 (deffunction MAIN::pregunta_bool (?pregunta)
     (format t "%s " ?pregunta)
     (printout t "(Responda con un Si o un No)" crlf)
-    (bind ?resp (lowcase (read)))
+    (bind ?resp (read))
     (while
-        (not (or (eq ?resp si) (eq ?resp no)))
+        (or (not (lexemep ?resp))(not (or (eq (lowcase ?resp) si) (eq (lowcase ?resp) no))))
         (printout t "Su respuesta ha de ser SI/NO." crlf)
         (printout t "Por favor, responda otra vez." crlf)
-        (bind ?resp (lowcase (read)))
+        (bind ?resp  (read))
     )
 
     (if
-        (eq ?resp si)
+        (eq (lowcase ?resp) si)
         then (bind ?resp TRUE)
         else (bind ?resp FALSE)
     )
-
+    (printout t ?resp crlf)
     ?resp
 )
 
 (deffunction MAIN::pregunta_int (?pregunta)
     (format t "%s " ?pregunta)
-    (read)
+    (printout t "Responda con un numero." crlf)
+    (bind ?resp (read))
+    (while (lexemep ?resp)
+    	(printout t "La respuesta ha de ser un numero." crlf)
+    	(printout t "Responda de nuevo." crlf)
+    	(bind ?resp (read))
+    )
+    ?resp
 )
 
 (deffunction MAIN::pregunta_string (?pregunta $?posibles)
@@ -2597,7 +2604,7 @@
     (printout t "Su respuesta: ")
     (bind ?resp (read))
     (while
-        (or (> ?resp (length $?posibles)) (< ?resp 1))
+        (or (lexemep ?resp) (or (> ?resp (length $?posibles)) (< ?resp 1)))
         (printout t "Su respuesta ha de ser una de las opciones." crlf)
         (printout t "Porfavor, responda otra vez." crlf)
         (bind ?resp (read))
