@@ -2475,10 +2475,15 @@
         (type INSTANCE)
         (create-accessor read-write))
 )
-
-(deftemplate MAIN::Puntuaciones
-	(multislot plato (type STRING))
-	(multislot puntuacion (type FLOAT))
+(defclass recomendacion 
+    (is-a USER)
+    (role concrete)
+    (slot contenido
+        (type INSTANCE)
+        (create-accessor read-write))
+    (slot puntuacion
+        (type INTEGER)
+        (create-accessor read-write))
 )
 
 ;;; Fin de la declaración de clases propias -----------
@@ -2533,6 +2538,9 @@
     (slot menucaro (type INSTANCE))
     (multislot menu_restringido (type INSTANCE))
 )
+(deftemplate MAIN::lista-de-platos
+    (multislot recomendaciones (type INSTANCE))
+)
 
 ;;; Fin de la declaracion de templates ----------------
 ;;; ---------------------------------------------------
@@ -2550,8 +2558,8 @@
     (bind ?max -1)
     (bind ?plato nil)
     (progn$ (?aux $?lista)
-        (bind ?plato_aux (send ?aux get-contenido))
-        (bind ?score (send ?aux get-puntuacion))
+        (bind ?plato_aux (send ?aux get-plato))
+        (bind ?score (send ?aux get-score))
         (if (> ?score ?max)
             then 
             (bind ?max ?score)
@@ -2562,6 +2570,7 @@
 )
 
 (deffunction MAIN::pregunta_bool (?pregunta)
+    (printout t crlf)
     (format t "%s " ?pregunta)
     (printout t "(Responda con un Si o un No)" crlf)
     (bind ?resp (read))
@@ -2577,11 +2586,11 @@
         then (bind ?resp TRUE)
         else (bind ?resp FALSE)
     )
-    (printout t ?resp crlf)
     ?resp
 )
 
 (deffunction MAIN::pregunta_int (?pregunta)
+    (printout t crlf)
     (format t "%s " ?pregunta)
     (printout t "Responda con un numero." crlf)
     (bind ?resp (read))
@@ -2594,6 +2603,7 @@
 )
 
 (deffunction MAIN::pregunta_string (?pregunta $?posibles)
+    (printout t crlf)
     (printout t ?pregunta crlf)
     (printout t "(Elija escribiendo con el numero correspondiente)" crlf)
     (progn$ (?var ?posibles)
@@ -2618,6 +2628,7 @@
 )
 
 (deffunction MAIN::pregunta_multiple (?pregunta $?posibles)
+    (printout t crlf)
     (printout t ?pregunta crlf)
     (printout t "(Elija escribiendo con los numeros correspondientes)" crlf)
     (progn$ (?var ?posibles)
