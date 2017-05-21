@@ -2834,18 +2834,13 @@
 
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (bind ?respuestaIngredientes (create$ ))
+    (bind ?respuestaIngredientes "")
     (if (eq (pregunta_bool "¿Hay algun ingrediente que deberiamos no usar?") TRUE)
         then (bind
             ?respuestaIngredientes
             (pregunta_multiple "¿Cuales son estos ingredientes?" (takeAllIngredientes))
         )
     )
-	(progn$ (?i $?respuestaPersonasEspeciales)
-		(if(eq ?i "Abstemios del alcohol") then
-			(bind $?respuestaIngredientes (insert$ ?respuestaIngredientes 1 "Licores"))
-		)
-	)
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -2958,7 +2953,6 @@
 	)
 	(printout t crlf crlf crlf)
 	(printout t "MENU BARATO" crlf)
-	(printout t ())
 )
 
 ;;;;;DEMASES MENUS
