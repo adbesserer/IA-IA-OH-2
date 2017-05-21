@@ -2800,7 +2800,7 @@
 ;;;;Pregunta multiple respuesta
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (bind ?respuestaPersonasEspeciales "")
-    (bind ?espPeople (create$ "Vegetariano" "Infantil" "Abstemios del alcohol"))
+    (bind ?espPeople (create$ "Vegetariano" "Infantil"))
     (if (eq (pregunta_bool "¿Habrá algún niño, algun abstemio del alcohol o algun invitado que prefiera comida vegetariana?") TRUE)
         then (bind
             ?respuestaPersonasEspeciales
