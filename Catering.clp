@@ -2961,6 +2961,14 @@
 	(printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
 	(printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
 	(printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
+
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	(make-instance menuB of Menu
+		(primer_plato (send ?pp get-plato))
+		(segundo_plato (send ?sp get-plato))
+		(postre (send ?po get-plato))
+	)
 )
 
 ;;;;;DEMASES MENUS
