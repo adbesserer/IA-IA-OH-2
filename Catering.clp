@@ -2545,6 +2545,21 @@
     (format t "%s" ?texto clrf)
 )
 
+;;; funcion para conseguir el plato con maxima puntuacion
+(deffunction max-punts ($?lista)
+    (bind ?max -1)
+    (bind ?plato nil)
+    (progn$ (?aux $?lista)
+        (bind ?plato_aux (send ?aux get-contenido))
+        (bind ?score (send ?aux get-puntuacion))
+        (if (> ?score ?max)
+            then 
+            (bind ?max ?score)
+            (bind ?plato ?aux)
+        )
+    )
+    ?plato
+)
 
 (deffunction MAIN::pregunta_bool (?pregunta)
     (format t "%s " ?pregunta)
