@@ -2478,7 +2478,7 @@
 (defclass recomendacion 
     (is-a USER)
     (role concrete)
-    (slot contenido
+    (slot plato
         (type INSTANCE)
         (create-accessor read-write))
     (slot puntuacion
@@ -2555,14 +2555,21 @@
 
 ;;; funcion para conseguir el plato con maxima puntuacion
 (deffunction max-punts ($?lista)
+    (printout t "entro en la funsion" crlf)
     (bind ?max -1)
     (bind ?plato nil)
+    (if (not (eq (length ?lista) 0))
+        then
+        (bind ?firstRec (nth 1 ?lista))
+        (bind ?max (send ?firstRec get-puntuacion))
+        (bind ?plato (send ?firstRec get-plato))
+    )
     (progn$ (?aux $?lista)
         (bind ?plato_aux (send ?aux get-plato))
-        (bind ?score (send ?aux get-score))
-        (if (> ?score ?max)
+        (bind ?puntuacion (send ?aux get-puntuacion))
+        (if (> ?puntuacion ?max)
             then 
-            (bind ?max ?score)
+            (bind ?max ?puntuacion)
             (bind ?plato ?aux)
         )
     )
@@ -2820,6 +2827,7 @@
     ))  
 )
 
+
 (defrule f2
 	(Evento (maximo_precio ?maxPrecio)(evento_temporada ?temporada)(comida_picanteB ?picante)(comida_friaB ?fria)(comida_calienteB ?caliente)(estilo_comida_preferente $?estilo_comida_preferente)(ingredientes_prohibidos $?ingredientes_prohibidos)(pais_preferente $?pais_preferente))
 	=>
@@ -2832,7 +2840,7 @@
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-ing-proh $?ingredientes_prohibidos)))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-pais-pref $?pais_preferente)))
 		(bind ?name (sym-cat R**(send (nth$ ?i ?platos) get-nombre_del_plato)))
-		(bind ?aux (make-instance ?name of recomendacion(contenido (nth$ ?i ?platos))(puntuacion ?res)))
+		(bind ?aux (make-instance ?name of recomendacion(plato (nth$ ?i ?platos))(puntuacion ?res)))
 		(bind $?recomendations (insert$ ?recomendations 1 ?aux))
 		(printout t ?name)
 		(printout t " ")
@@ -2842,6 +2850,17 @@
 	    (recomendaciones $?recomendations)
 	))
 )
+;(defrule getmax
+;   (lista-de-platos(recomendaciones $?x))
+;   =>
+;   (bind ?a (max-punts ?x))
+;   (printout t "PLATO CON PUNTUACION MAXIMA:" crlf)
+;   (bind ?plato (send ?a get-plato))
+;    (bind ?punts (send ?a get-puntuacion))
+;    (printout t (send ?plato get-nombre_del_plato) crlf)
+;    (printout t "Con puntuación: ")
+;    (printout t ?punts crlf)
+;)
 
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato-comida-pref ($?estilo_comida_preferente)
 	(bind ?resultado 0)
@@ -2880,7 +2899,7 @@
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato (?evento_temporada ?maximo_precio ?comida_picante ?comida_friaB ?comida_calienteB) 
 	(bind ?resultado 0)
 	(if(eq ?evento_temporada ?self:temporada_del_plato) then 
-		(bind ?resultado (+ ?resultado 10))
+		(bind ?resultado (+ ?resultado 1000))
 	)
 	(if(> (float ?maximo_precio) ?self:precio) then
 		(bind ?resultado (+ ?resultado 10)) 
