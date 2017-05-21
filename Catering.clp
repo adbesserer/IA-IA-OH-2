@@ -3141,15 +3141,10 @@
 	return FALSE
 )
 (defmessage-handler MAIN::Menu imprimir ()
-    (printout t "1111111111111111111111111111111" crlf)
     (bind ?primero (send ?self:primer_plato get-nombre_del_plato))
-    (printout t "1111111111111111111111111111111" crlf)
     (bind ?segundo (send ?self:segundo_plato get-nombre_del_plato))
-    (printout t "1111111111111111111111111111111" crlf)
     (bind ?postre (send ?self:postre get-nombre_del_plato))
-    (printout t "1111111111111111111111111111111" crlf)
-    (printout t "1111111111111111111111111111111" crlf)
-    (printout t "1111111111111111111111111111111" crlf)
+
     (printout t "--------------------------------------------------" crlf)
     (printout t "Primer plato: " crlf)
     (format t "     %s" ?primero)
