@@ -2588,7 +2588,7 @@
 (deffunction MAIN::elegir-bebidas (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos ?varias)
 	(if (eq ?varias TRUE)
 		then
-			(bind ?result (create$ ))
+			(bind $?result (create$ ))
 			(bind ?primeraBebida elegir_bebidas_una ?primero ?primero ?primero ?alcohol ?vino ?frutas ?ninyos)
 			(bind ?segundaBebida elegir_bebidas_una ?segundo ?segundo ?segundo ?alcohol ?vino ?frutas ?ninyos)
 			(bind ?ultimaBebida "Agua")
@@ -2602,44 +2602,53 @@
 				then (bind $?result (insert$ ?result 1 ?segundaBebida))
 			)
 			(bind $?result (insert$ ?result 1 ?primeraBebida))
+			(printout t "hola putoooos" crlf)
 			return $?result
 		else 
-			(bind ?unicaBebida elegir_bebidas_una ?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos)
+			(bind $?unicaBebida (create$ ))
+			(bind ?varUnicaBebida elegir_bebidas_una ?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos)
+			(bind $?unicaBebida (insert$ ?unicaBebida 1 ?varUnicaBebida))
 			return ?unicaBebida
 				
 	)
-	return "Agua"
 )
 
 (deffunction MAIN::elegir-bebidas-una (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos)
+	(bind ?resultado "")
 	(if (eq ?vino TRUE) 
-		then (if (send ?primero tiene-pescado-bool) 
-				then (return "Vino Blanco") 
-				else (if (send ?segundo tiene-pescado-bool)
-					then (return "Vino Blanco")
-					else(if (or (send ?primero tiene-carne-bool) (send ?segundo tiene-carne-bool))
-						then (return "Vino Tinto")
-						else (return "Vino Rosado")	
+		then (if (eq (send ?primero tienepescadobool) TRUE) 
+				then (bind ?resultado "Vino Blanco") 
+				else (if (eq (send ?segundo tienepescadobool) TRUE)
+					then (bind ?resultado "Vino Blanco")
+					else(if (or (eq (send ?primero tienecarnebool) TRUE)(eq (send ?segundo tienecarnebool) TRUE))
+						then (bind ?resultado "Vino Tinto")
+						else (bind ?resultado "Vino Rosado")	
 					)
 				)
 			) 
 		else (if (eq ?ninyos TRUE) 
 				then (if (eq ?frutas TRUE) 
-					then (return "Fanta") 
-					else (return "Cola")
+					then (bind ?resultado "Fanta") 
+					else (bind ?resultado "Cola")
 					) 
 				else (if (eq ?alcohol TRUE) 
-					then (return "Cerveza") 
-					else (return "Agua")
+					then (bind ?resultado "Cerveza") 
+					else (bind ?resultado "Agua")
 					)
 			)
 	)
-	return "Agua"
+	return ?resultado
 )
 
 (deffunction MAIN::get-bebida-de-nombre (?nombre)
-	(bind ?bebida (find-all-instances ((?inst Bebida)) (eq ?inst:bebida ?nombre)))
-	return bebida 
+	(bind $?bebida (find-all-instances ((?inst Bebida)) TRUE))
+	(bind ?result "")
+	(progn$ (?var ?bebida)
+		(if(eq (send ?var get-bebida) ?nombre)
+			then(bind ?result ?var)
+		)
+	)
+	return ?result 
 )
 
 (deffunction MAIN::pregunta_bool (?pregunta)
@@ -2860,7 +2869,7 @@
     (bind ?espPeople (create$ "Vegetariano" "Infantil" "Abstemios del alcohol"))
     (if (eq (pregunta_bool "¿Habrá algún niño, algun abstemio del alcohol o algun invitado que prefiera comida vegetariana?") TRUE)
         then (bind
-            ?respuestaPersonasEspeciales
+        	?respuestaPersonasEspeciales
             (pregunta_multiple "Cuales de las siguientes personas atenderan al evento?" ?espPeople)
         )
     )
@@ -2999,22 +3008,61 @@
 
 (defrule getMenuBarato
 	(lista-de-platos-por-precio(platos-baratos $?pb))
+	(Evento (evento_temporada ?respuestaEstacion)(evento_tipo_personas $?respuestaPersonasEspeciales)(maximo_precio ?respuestaMaxPrecio)(minimo_precio ?respuestaMinPrecio)(numero_bebidaB ?respuestaBebida)(vinoB ?respuestaVino)(ingredientes_prohibidos $?respuestaIngredientes)(estilo_comida_preferente $?respuestaEstiloCocina)(pais_preferente $?respuestaPais)(comida_picanteB ?respuestaPicante)(comida_calienteB ?respuestaCaliente)(comida_friaB ?respuestaFrio))
     =>
-
 	(bind ?pp (max-punts (takePrimerPlato $?pb)))
-	
 	(bind ?sep (max-punts (takeSegundoPlato ?pp $?pb)))
 	(printout t crlf ?sep crlf)
-	
 	(bind ?po (max-punts (takePostre $?pb)))
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+	(printout t crlf crlf crlf)
+	(printout t "MENU BARATO" crlf)
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	(bind ?alcohol TRUE)
+	(bind ?ninyos FALSE)
+	(progn$ (?varAbs ?respuestaPersonasEspeciales)
+		(if(eq ?varAbs "Abstemios del alcohol")
+			then (bind ?alcohol FALSE)
+			else (if(eq ?varAbs "Infantil") then (bind ?ninyos TRUE))
+		)
+	)
+	(bind ?frutas TRUE)
+	(progn$ (?varfruita ?respuestaIngredientes)
+		(if (eq ?varfruita "Fruta")
+			then  (bind ?frutas FALSE)
+		)
+	)
+	(bind ?varias TRUE)
+	(if(eq ?respuestaBebida "Una bebida para todo el menú.")
+		then (bind ?varias FALSE)
+	)
+	(bind ?primerPlato (send ?pp get-plato))
+	(bind ?segundoPlato (send ?sep get-plato))
+	(bind ?postre (send ?po get-plato))
+	(bind $?bebidas (create$ ))
+	(if (eq ?varias TRUE)
+		then (bind ?resV1 (elegir-bebidas-una ?primerPlato ?primerPlato ?primerPlato ?alcohol ?respuestaVino ?frutas ?ninyos))
+			(bind ?resV2 (elegir-bebidas-una ?segundoPlato ?segundoPlato ?segundoPlato ?alcohol ?respuestaVino ?frutas ?ninyos))
+			(bind ?resV3 "Agua")
+			(if (eq ?alcohol TRUE)
+				then (bind ?resV3 "Champagne")
+			)
+			(bind ?resV1 (get-bebida-de-nombre ?resV1))
+			(bind ?resV2 (get-bebida-de-nombre ?resV2))
+			(bind ?resV3 (get-bebida-de-nombre ?resV3))
+			(bind $?bebidas (insert$ ?bebidas 1 ?resV3))
+			(bind $?bebidas (insert$ ?bebidas 1 ?resV2))
+			(bind $?bebidas (insert$ ?bebidas 1 ?resV1))
+		else (bind ?res1 (elegir-bebidas-una ?primerPlato ?segundoPlato ?postre ?alcohol ?respuestaVino ?frutas ?ninyos))
+			(bind ?res1 (get-bebida-de-nombre ?res1))
+			(bind $?bebidas (insert$ ?bebidas 1 ?res1))
+	)
 	(bind ?meba (make-instance menuB of Menu
-		(primer_plato (send ?pp get-plato))
-		(segundo_plato (send ?sep get-plato))
-		(postre (send ?po get-plato))
+			(primer_plato (send ?pp get-plato))
+			(segundo_plato (send ?sep get-plato))
+			(postre (send ?po get-plato))
+			(bebida $?bebidas)
 	))
     (assert (Recomendacion_de_Menus
         (menubarato ?meba))
@@ -3109,7 +3157,48 @@
 )
 ;;;;;DEMASES MENUS
 
+(defmessage-handler MAIN::Menu imprimir ()
+   (bind ?primero (send ?self:primer_plato get-nombre_del_plato))
+   (bind ?segundo (send ?self:segundo_plato get-nombre_del_plato))
+   (bind ?postre (send ?self:postre get-nombre_del_plato))
+   (printout t "Primer plato: " crlf)
+   (format t "     %s" ?primero)
+   (printout t crlf)
+   (printout t "Segundo plato: " crlf)
+   (format t "     %s" ?segundo)
+   (printout t crlf)
+   (printout t "Postre: " crlf)
+   (format t "     %s" ?postre)
+   (printout t crlf)
+   (printout t "Bebida(s): " crlf)
+   (progn$ (?aux $?self:bebida)
+   		(format t "     %s" (send ?aux get-bebida))
+   		(printout t crlf)
+   )
+   (format t "El menú le saldra por un total de: %f" ?self:precio)
+   (printout t crlf)
+   (printout t "--------------------------------------------------" crlf)
+   (printout t crlf)
+)
 
+
+(defmessage-handler MAIN::Plato tienepescadobool ()
+	(bind ?resultado FALSE)
+	(progn$ (?var ?self:ingredientes_del_plato)
+		(bind ?x (send ?var get-ingrediente))
+		(if (eq ?x "Pescado") then (bind ?resultado TRUE))
+	)
+	return ?resultado
+)
+
+(defmessage-handler MAIN::Plato tienecarnebool ()
+	(bind ?resultado FALSE)
+	(progn$ (?var ?self:ingredientes_del_plato)
+		(bind ?x (send ?var get-ingrediente))
+		(if (or (or (eq ?x "Pato") (eq ?x "Conejo")) (or (eq ?x "Pato") (eq ?x "Conejo"))) then (bind ?resultado TRUE))
+	)
+	return ?resultado
+)
 
 (defmessage-handler MAIN::Plato asignar-puntuacion-plato-comida-pref ($?estilo_comida_preferente)
 	(bind ?resultado 0)
@@ -3190,47 +3279,6 @@
 		then (bind ?resultado (+ ?resultado 10))
 	)
 	return ?resultado
-)
-
-(defmessage-handler MAIN::Plato tiene-pescado-bool ()
-	(progn$ (?var ?self:ingredientes_del_plato)
-		(bind ?x (send ?var get-ingrediente))
-		(if (eq ?x "Pescado") then (return TRUE))
-	)
-	return FALSE
-)
-
-(defmessage-handler MAIN::Plato tiene-carne-bool ()
-	(progn$ (?var ?self:ingredientes_del_plato)
-		(bind ?x (send ?var get-ingrediente))
-		(if (or (or (eq ?x "Pato") (eq ?x "Conejo")) (or (eq ?x "Pato") (eq ?x "Conejo"))) then (return TRUE))
-	)
-	return FALSE
-)
-(defmessage-handler MAIN::Menu imprimir ()
-    (bind ?primero (send ?self:primer_plato get-nombre_del_plato))
-    (bind ?segundo (send ?self:segundo_plato get-nombre_del_plato))
-    (bind ?postre (send ?self:postre get-nombre_del_plato))
-
-    (printout t "--------------------------------------------------" crlf)
-    (printout t "Primer plato: " crlf)
-    (format t "     %s" ?primero)
-    (printout t crlf)
-    (printout t "Segundo plato: " crlf)
-    (format t "     %s" ?segundo)
-    (printout t crlf)
-    (printout t "Postre: " crlf)
-    (format t "     %s" ?postre)
-    (printout t crlf)
-    (printout t "Bebida(s): " crlf)
-    (progn$ (?aux $?self:bebida)
-        (format t "     %s" (send ?aux get-bebida))
-        (printout t crlf)
-    )
-    (format t "El menú le saldra por un total de: %f" ?self:precio)
-    (printout t crlf)
-    (printout t "--------------------------------------------------" crlf)
-    (printout t crlf)
 )
 
 ;;; Modulo de presentación del resultado --------------
