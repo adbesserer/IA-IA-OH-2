@@ -1936,7 +1936,7 @@
     (nombre_del_plato "Hamburguesa vegetariana")
     (orden_del_plato Segundo)
     (origen_del_plato [CateringOnto_Class57])
-    (precio 8.5)
+    (precio 7.50)
     (temporada_del_plato
         [CateringOnto_Class29]
         [CateringOnto_Class28]
@@ -2297,6 +2297,7 @@
         [CateringOnto_Class26]
         [CateringOnto_Class27])
     (tipo_de_comida [CateringOnto_Class39]))
+
 
 ([CateringOnto_Class92] of  Plato
 
