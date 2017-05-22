@@ -2558,6 +2558,14 @@
     (multislot platos-caros (type INSTANCE))
 )
 
+(deftemplate MAIN::platos-baratos-hechos
+    (slot Bool (type SYMBOL) (allowed-values TRUE FALSE))
+)
+
+(deftemplate MAIN::platos-medianos-hechos
+    (slot Bool (type SYMBOL) (allowed-values TRUE FALSE))
+)
+
 ;;; Fin de la declaracion de templates ----------------
 ;;; ---------------------------------------------------
 
@@ -3001,18 +3009,6 @@
 	(separar_por_precio $?recomendations)
 )
 
-;(defrule getmax
-;   (lista-de-platos(recomendaciones $?x))
-;   =>
-;   (bind ?a (max-punts ?x))
-;   (printout t "PLATO CON PUNTUACION MAXIMA:" crlf)
-;   (bind ?plato (send ?a get-plato))
-;    (bind ?punts (send ?a get-puntuacion))
-;    (printout t (send ?plato get-nombre_del_plato) crlf)
-;    (printout t "Con puntuación: ")
-;    (printout t ?punts crlf)
-;)
-
 (defrule getMenuBarato
 	(lista-de-platos-por-precio(platos-baratos $?pb))
 	(Evento (evento_temporada ?respuestaEstacion)(evento_tipo_personas $?respuestaPersonasEspeciales)(maximo_precio ?respuestaMaxPrecio)(minimo_precio ?respuestaMinPrecio)(numero_bebidaB ?respuestaBebida)(vinoB ?respuestaVino)(ingredientes_prohibidos $?respuestaIngredientes)(estilo_comida_preferente $?respuestaEstiloCocina)(pais_preferente $?respuestaPais)(comida_picanteB ?respuestaPicante)(comida_calienteB ?respuestaCaliente)(comida_friaB ?respuestaFrio))
@@ -3077,14 +3073,22 @@
 			(bebida $?bebidas)
 	))
     (assert (Recomendacion_de_Menus
-        (menubarato ?meba))
-    )
+        (menubarato ?meba)
+		(menumediano ?meba)
+		(menucaro ?meba)
+	))
+	(assert (platos-baratos-hechos
+		(Bool TRUE)
+	))
+	
 )
 
 (defrule getMenuMediano
-    (lista-de-platos-por-precio (platos-baratos $?pb) (platos-medianos $?pm))
+	(lista-de-platos-por-precio(platos-baratos $?pb)(platos-medianos $?pm))
+	?rdm <- (Recomendacion_de_Menus)
+	(platos-baratos-hechos)
+	(Evento (evento_temporada ?respuestaEstacion)(evento_tipo_personas $?respuestaPersonasEspeciales)(maximo_precio ?respuestaMaxPrecio)(minimo_precio ?respuestaMinPrecio)(numero_bebidaB ?respuestaBebida)(vinoB ?respuestaVino)(ingredientes_prohibidos $?respuestaIngredientes)(estilo_comida_preferente $?respuestaEstiloCocina)(pais_preferente $?respuestaPais)(comida_picanteB ?respuestaPicante)(comida_calienteB ?respuestaCaliente)(comida_friaB ?respuestaFrio))
     =>
-    
     (bind $?tc (create$ ))
 
     (loop-for-count (?i 1 (length$ $?pb))
@@ -3103,25 +3107,73 @@
     (bind ?po (max-punts (takePostre $?tc)))
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (printout t crlf crlf crlf)
-    (printout t "MENU" crlf)
+    (printout t "MENU MEDIANO" crlf)
     (printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
     (printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
     (printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+	(bind ?alcohol TRUE)
+	(bind ?ninyos FALSE)
+	(progn$ (?varAbs ?respuestaPersonasEspeciales)
+		(if(eq ?varAbs "Abstemios del alcohol")
+			then (bind ?alcohol FALSE)
+			else (if(eq ?varAbs "Infantil") then (bind ?ninyos TRUE))
+		)
+	)
+	(bind ?frutas TRUE)
+	(progn$ (?varfruita ?respuestaIngredientes)
+		(if (eq ?varfruita "Fruta")
+			then  (bind ?frutas FALSE)
+		)
+	)
+	(bind ?varias TRUE)
+	(if(eq ?respuestaBebida "Una bebida para todo el menú.")
+		then (bind ?varias FALSE)
+	)
+	(bind ?primerPlato (send ?pp get-plato))
+	(bind ?segundoPlato (send ?sep get-plato))
+	(bind ?postre (send ?po get-plato))
+	(bind $?bebidas (create$ ))
+	(if (eq ?varias TRUE)
+		then (bind ?resV1 (elegir-bebidas-una ?primerPlato ?primerPlato ?primerPlato ?alcohol ?respuestaVino ?frutas ?ninyos))
+			(bind ?resV2 (elegir-bebidas-una ?segundoPlato ?segundoPlato ?segundoPlato ?alcohol ?respuestaVino ?frutas ?ninyos))
+			(bind ?resV3 "Agua")
+			(if (eq ?ninyos TRUE)
+				then (if (eq ?frutas TRUE)
+						then (bind ?resV3 "Zumo de fruta")
+					)
+				else (if (eq ?alcohol TRUE)
+						then (bind ?resV3 "Champagne")	
+					  )
+			) 
+			(bind ?resV1 (get-bebida-de-nombre ?resV1))
+			(bind ?resV2 (get-bebida-de-nombre ?resV2))
+			(bind ?resV3 (get-bebida-de-nombre ?resV3))
+			(bind $?bebidas (insert$ ?bebidas 1 ?resV3))
+			(bind $?bebidas (insert$ ?bebidas 1 ?resV2))
+			(bind $?bebidas (insert$ ?bebidas 1 ?resV1))
+		else (bind ?res1 (elegir-bebidas-una ?primerPlato ?segundoPlato ?postre ?alcohol ?respuestaVino ?frutas ?ninyos))
+			(bind ?res1 (get-bebida-de-nombre ?res1))
+			(bind $?bebidas (insert$ ?bebidas 1 ?res1))
+	)
     (bind $?meme (make-instance menuM of Menu
             (primer_plato (send ?pp get-plato))
             (segundo_plato (send ?sep get-plato))
             (postre (send ?po get-plato))
+			(bebida $?bebidas)
     ))
-
-    (assert (Recomendacion_de_Menus
-        (menumediano ?meme))
-    )
+	(modify ?rdm (menumediano ?meme))
+	(retract 6)
+	(assert (platos-medianos-hechos
+		(Bool TRUE)
+	))
 )
 
 (defrule getMenuCaro
     (lista-de-platos-por-precio (platos-baratos $?pb) (platos-medianos $?pm) (platos-caros $?pc))
+   	?rdm <- (Recomendacion_de_Menus)
+	(platos-medianos-hechos)
+	(Evento (evento_temporada ?respuestaEstacion)(evento_tipo_personas $?respuestaPersonasEspeciales)(maximo_precio ?respuestaMaxPrecio)(minimo_precio ?respuestaMinPrecio)(numero_bebidaB ?respuestaBebida)(vinoB ?respuestaVino)(ingredientes_prohibidos $?respuestaIngredientes)(estilo_comida_preferente $?respuestaEstiloCocina)(pais_preferente $?respuestaPais)(comida_picanteB ?respuestaPicante)(comida_calienteB ?respuestaCaliente)(comida_friaB ?respuestaFrio))
     =>
     (bind $?tc (create$ ))
 
@@ -3145,18 +3197,63 @@
     
     (bind ?po (max-punts (takePostre $?tc)))
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+    (printout t "MENU CARO" crlf)
+    (printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
+    (printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
+    (printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+	(bind ?alcohol TRUE)
+	(bind ?ninyos FALSE)
+	(progn$ (?varAbs ?respuestaPersonasEspeciales)
+		(if(eq ?varAbs "Abstemios del alcohol")
+			then (bind ?alcohol FALSE)
+			else (if(eq ?varAbs "Infantil") then (bind ?ninyos TRUE))
+		)
+	)
+	(bind ?frutas TRUE)
+	(progn$ (?varfruita ?respuestaIngredientes)
+		(if (eq ?varfruita "Fruta")
+			then  (bind ?frutas FALSE)
+		)
+	)
+	(bind ?varias TRUE)
+	(if(eq ?respuestaBebida "Una bebida para todo el menú.")
+		then (bind ?varias FALSE)
+	)
+	(bind ?primerPlato (send ?pp get-plato))
+	(bind ?segundoPlato (send ?sep get-plato))
+	(bind ?postre (send ?po get-plato))
+	(bind $?bebidas (create$ ))
+	(if (eq ?varias TRUE)
+		then (bind ?resV1 (elegir-bebidas-una ?primerPlato ?primerPlato ?primerPlato ?alcohol ?respuestaVino ?frutas ?ninyos))
+			(bind ?resV2 (elegir-bebidas-una ?segundoPlato ?segundoPlato ?segundoPlato ?alcohol ?respuestaVino ?frutas ?ninyos))
+			(bind ?resV3 "Agua")
+			(if (eq ?ninyos TRUE)
+				then (if (eq ?frutas TRUE)
+						then (bind ?resV3 "Zumo de fruta")
+					)
+				else (if (eq ?alcohol TRUE)
+						then (bind ?resV3 "Champagne")	
+					  )
+			) 
+			(bind ?resV1 (get-bebida-de-nombre ?resV1))
+			(bind ?resV2 (get-bebida-de-nombre ?resV2))
+			(bind ?resV3 (get-bebida-de-nombre ?resV3))
+			(bind $?bebidas (insert$ ?bebidas 1 ?resV3))
+			(bind $?bebidas (insert$ ?bebidas 1 ?resV2))
+			(bind $?bebidas (insert$ ?bebidas 1 ?resV1))
+		else (bind ?res1 (elegir-bebidas-una ?primerPlato ?segundoPlato ?postre ?alcohol ?respuestaVino ?frutas ?ninyos))
+			(bind ?res1 (get-bebida-de-nombre ?res1))
+			(bind $?bebidas (insert$ ?bebidas 1 ?res1))
+	)
     (bind ?meca (make-instance menuC of Menu
             (primer_plato (send ?pp get-plato))
             (segundo_plato (send ?sep get-plato))
             (postre (send ?po get-plato))
+			(bebida $?bebidas)
     ))
-
-    (assert (Recomendacion_de_Menus
-        (menucaro ?meca))
-    )
+	(modify ?rdm (menucaro ?meca))
+	(retract 8)
 )
 
 
