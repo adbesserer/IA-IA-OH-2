@@ -3079,7 +3079,24 @@
 (defrule presentar
     (Recomendacion_de_Menus (menubarato ?mb))
     =>
+    (printout t "******************************************" crlf)
+    (printout t "*                                        *" crlf)
+    (printout t "*   - - M E N U   E C O N O M I C O - -  *" crlf)
+    (printout t "*                                        *" crlf)
+    (printout t "******************************************" crlf)
     (send ?mb imprimir)
+
+    (printout t "******************************************" crlf)
+    (printout t "*                                        *" crlf)
+    (printout t "*      - - M E N U   M E D I O - -       *" crlf)
+    (printout t "*                                        *" crlf)
+    (printout t "******************************************" crlf)
+
+    (printout t "******************************************" crlf)
+    (printout t "*                                        *" crlf)
+    (printout t "*        - - M E N U   C A R O - -       *" crlf)
+    (printout t "*                                        *" crlf)
+    (printout t "******************************************" crlf)
 )
 ;;;;;DEMASES MENUS
 
@@ -3087,6 +3104,7 @@
    (bind ?primero (send ?self:primer_plato get-nombre_del_plato))
    (bind ?segundo (send ?self:segundo_plato get-nombre_del_plato))
    (bind ?postre (send ?self:postre get-nombre_del_plato))
+   (printout t "--------------------------------------------------" crlf)
    (printout t "Primer plato: " crlf)
    (format t "     %s" ?primero)
    (printout t crlf)
@@ -3101,10 +3119,9 @@
    		(format t "     %s" (send ?aux get-bebida))
    		(printout t crlf)
    )
-   (format t "El menú le saldra por un total de: %f" ?self:precio)
-   (printout t crlf)
    (printout t "--------------------------------------------------" crlf)
-   (printout t crlf)
+   (format t "El menú le saldra por un total de: %f" ?self:precio)
+    (printout t crlf crlf)  
 )
 
 
