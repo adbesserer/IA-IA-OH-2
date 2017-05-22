@@ -3059,6 +3059,11 @@
 			(if (eq ?alcohol TRUE)
 				then (bind ?resV3 "Champagne")
 			)
+			
+			(printout t ?resV1 crlf)
+			(printout t ?resV2 crlf)
+			(printout t ?resV3 crlf)
+			
 			(bind ?resV1 (get-bebida-de-nombre ?resV1))
 			(bind ?resV2 (get-bebida-de-nombre ?resV2))
 			(bind ?resV3 (get-bebida-de-nombre ?resV3))
@@ -3066,12 +3071,13 @@
 			(bind $?bebidas (insert$ ?bebidas 1 ?resV2))
 			(bind $?bebidas (insert$ ?bebidas 1 ?resV1))
 		else (bind ?res1 (elegir-bebidas-una ?primerPlato ?segundoPlato ?postre ?alcohol ?respuestaVino ?frutas ?ninyos))
+			
+			(printout t ?res1 crlf)
+			
 			(bind ?res1 (get-bebida-de-nombre ?res1))
 			(bind $?bebidas (insert$ ?bebidas 1 ?res1))
 	)
-	(printout t $?bebidas crlf)
-	(bind ?meba
-	(make-instance menuB of Menu
+	(bind ?meba(make-instance menuB of Menu
 			(primer_plato (send ?pp get-plato))
 			(segundo_plato (send ?sep get-plato))
 			(postre (send ?po get-plato))
@@ -3089,6 +3095,30 @@
     (send ?mb imprimir)
 )
 ;;;;;DEMASES MENUS
+
+(defmessage-handler MAIN::Menu imprimir ()
+   (bind ?primero (send ?self:primer_plato get-nombre_del_plato))
+   (bind ?segundo (send ?self:segundo_plato get-nombre_del_plato))
+   (bind ?postre (send ?self:postre get-nombre_del_plato))
+   (printout t "Primer plato: " crlf)
+   (format t "     %s" ?primero)
+   (printout t crlf)
+   (printout t "Segundo plato: " crlf)
+   (format t "     %s" ?segundo)
+   (printout t crlf)
+   (printout t "Postre: " crlf)
+   (format t "     %s" ?postre)
+   (printout t crlf)
+   (printout t "Bebida(s): " crlf)
+   (progn$ (?aux $?self:bebida)
+   		(send ?aux print)
+   )
+   (format t "El menú le saldra por un total de: %f" ?self:precio)
+   (printout t crlf)
+   (printout t "--------------------------------------------------" crlf)
+   (printout t crlf)
+)
+
 
 (defmessage-handler MAIN::Plato tienepescadobool ()
 	(bind ?resultado FALSE)
