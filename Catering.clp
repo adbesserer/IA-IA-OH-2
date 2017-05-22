@@ -2474,6 +2474,9 @@
     (multislot bebida
         (type INSTANCE)
         (create-accessor read-write))
+    (slot precio
+        (type FLOAT)
+        (create-accessor read-write))
 )
 
 (defclass recomendacion 
@@ -3067,14 +3070,24 @@
 			(bind $?bebidas (insert$ ?bebidas 1 ?res1))
 	)
 	(printout t $?bebidas crlf)
+	(bind ?meba
 	(make-instance menuB of Menu
-		(primer_plato (send ?pp get-plato))
-		(segundo_plato (send ?sep get-plato))
-		(postre (send ?po get-plato))
-		(bebida $?bebidas)
-	)
+			(primer_plato (send ?pp get-plato))
+			(segundo_plato (send ?sep get-plato))
+			(postre (send ?po get-plato))
+			(bebida $?bebidas)
+	))
+    (assert (Recomendacion_de_Menus
+        (menubarato ?meba))
+    )
 )
 
+
+(defrule presentar
+    (Recomendacion_de_Menus (menubarato ?mb))
+    =>
+    (send ?mb imprimir)
+)
 ;;;;;DEMASES MENUS
 
 (defmessage-handler MAIN::Plato tienepescadobool ()
