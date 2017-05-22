@@ -1,7 +1,7 @@
 ***********************************************************************
 *                                                                     *
 *   Welcome to the intelligent catering system of the 20th century!   *
-*            世紀の知的なケータリング システムへようこそ!             	      *
+*            世紀の知的なケータリング システムへようこそ!             *
 *                                                                     *
 *                  - - - R I C O   R I C O ™ - - -                    *
 *                                                                     *
@@ -95,11 +95,11 @@ Primer plato:
 Segundo plato: 
      Spaghetti bolognese
 Postre: 
-     Tarta de manzana
+     Crema catalana
 Bebida(s): 
      Vino Tinto
 --------------------------------------------------
-El menú le saldra por un total de: 24.500000
+El menú le saldra por un total de: 23.500000
 
 ******************************************
 *                                        *
@@ -112,12 +112,11 @@ Primer plato:
 Segundo plato: 
      Entrecot de buey con guarnicion
 Postre: 
-     Tarta de manzana
+     Tarta de chocolate
 Bebida(s): 
      Vino Blanco
 --------------------------------------------------
-El menú le saldra por un total de: 48.000000
-
+El menú le saldra por un total de: 47.500000
 
 
 
@@ -259,11 +258,11 @@ Primer plato:
 Segundo plato: 
      Pizza Margarita
 Postre: 
-     Sorbete de frutas de temporada
+     Tarta de manzana
 Bebida(s): 
      Fanta
 --------------------------------------------------
-El menú le saldra por un total de: 26.000000
+El menú le saldra por un total de: 27.000000
 El catering Rico Rico le ofrece esta opción, no está ajustada totalmente a sus requisitios, mas es la mejor disponible.
 
 ******************************************
@@ -277,15 +276,12 @@ Primer plato:
 Segundo plato: 
      Entrecot de buey con guarnicion
 Postre: 
-     Sorbete de frutas de temporada
+     Helado
 Bebida(s): 
      Fanta
 --------------------------------------------------
-El menú le saldra por un total de: 43.000000
+El menú le saldra por un total de: 41.500000
 El catering Rico Rico le ofrece esta opción, no está ajustada totalmente a sus requisitios, mas es la mejor disponible.
-
-
-
 
 
 
@@ -420,13 +416,13 @@ Primer plato:
 Segundo plato: 
      Paella Marinera
 Postre: 
-     Tarta de manzana
+     Crema catalana
 Bebida(s): 
      Vino Rosado
      Vino Blanco
      Zumo de fruta
 --------------------------------------------------
-El menú le saldra por un total de: 34.500000
+El menú le saldra por un total de: 33.500000
 
 ******************************************
 *                                        *
@@ -439,7 +435,7 @@ Primer plato:
 Segundo plato: 
      Ostras gratinadas en muselina de cava
 Postre: 
-     Tarta de manzana
+     Tarta vegetariana
 Bebida(s): 
      Vino Blanco
      Vino Blanco
