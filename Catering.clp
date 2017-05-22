@@ -2806,6 +2806,7 @@
 		(bind ?curr-pl (nth$ ?i ?platos))
 		(bind ?curr-pl2 (send ?curr-pl get-plato))
 		(bind ?kindpl (send ?curr-pl2 get-orden_del_plato))
+
 		(if (and (or (eq ?kindpl Segundo) (eq ?kindpl Primero%2FSegundo)) (not (eq ?curr-pl2 ?pp)))
 			then (bind $?respS (insert$ $?respS (+ (length$ $?respS) 1) ?curr-pl))
 		)
@@ -3011,7 +3012,7 @@
 	(Evento (evento_temporada ?respuestaEstacion)(evento_tipo_personas $?respuestaPersonasEspeciales)(maximo_precio ?respuestaMaxPrecio)(minimo_precio ?respuestaMinPrecio)(numero_bebidaB ?respuestaBebida)(vinoB ?respuestaVino)(ingredientes_prohibidos $?respuestaIngredientes)(estilo_comida_preferente $?respuestaEstiloCocina)(pais_preferente $?respuestaPais)(comida_picanteB ?respuestaPicante)(comida_calienteB ?respuestaCaliente)(comida_friaB ?respuestaFrio))
     =>
 	(bind ?pp (max-punts (takePrimerPlato $?pb)))
-	(bind ?sep (max-punts (takeSegundoPlato ?pp $?pb)))
+	(bind ?sep (max-punts (takeSegundoPlato (send ?pp get-plato) $?pb)))
 	(printout t crlf ?sep crlf)
 	(bind ?po (max-punts (takePostre $?pb)))
 
@@ -3205,7 +3206,7 @@
 	(progn$ (?a ?self:estilo_del_plato)
 		(progn$ (?b $?estilo_comida_preferente)
 			(if (eq (send ?a get-estilo_cocina) ?b) then 
-				(bind ?resultado (+ ?resultado 40))
+				(bind ?resultado (+ ?resultado 60))
 			)
 		)
 	)
@@ -3218,7 +3219,7 @@
 	(progn$ (?i ?self:tipo_de_comida)
 		(progn$ (?j $?evento_tipo_personas)
 			(if(eq (send ?i get-tipo) ?j) then
-				(bind ?resultado (+ ?resultado 50))
+				(bind ?resultado (+ ?resultado 80))
 			)
 		)
 	)
@@ -3241,7 +3242,7 @@
 	(bind ?resultado 0)
 	(progn$ (?w $?pais_preferente)
 		(if (eq ?w (send ?self:origen_del_plato get-origen)) then
-			(bind ?resultado (+ ?resultado 20))
+			(bind ?resultado (+ ?resultado 70))
 		) 
 	)
 	return ?resultado
@@ -3251,7 +3252,7 @@
 	(bind ?resultado 0)
 	(progn$ (?temp ?self:temporada_del_plato)
 		(if(eq ?evento_temporada (send ?temp get-temporada)) then 
-			(bind ?resultado (+ ?resultado 20))
+			(bind ?resultado (+ ?resultado 50))
 		)
 	)
 	(if(eq ?evento_temporada ?self:temporada_del_plato) then 
@@ -3273,10 +3274,10 @@
 		)
 	)
 	(if (and (eq ?self:caliente FALSE) (eq ?comida_friaB TRUE))
-		then (bind ?resultado (+ ?resultado 10))
+		then (bind ?resultado (+ ?resultado 30))
 	)
 	(if (and (eq ?self:caliente TRUE) (eq ?comida_calienteB TRUE))
-		then (bind ?resultado (+ ?resultado 10))
+		then (bind ?resultado (+ ?resultado 30))
 	)
 	return ?resultado
 )
