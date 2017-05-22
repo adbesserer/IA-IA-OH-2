@@ -2795,8 +2795,6 @@
 			then (bind $?respP (insert$ $?respP (+ (length$ $?respP) 1) ?curr-pl))
 		)
 	)
-	(printout t crlf "PRIMEROS" crlf)
-	(printout t ?respP)
 	?respP
 )
 
@@ -2808,12 +2806,11 @@
 		(bind ?curr-pl (nth$ ?i ?platos))
 		(bind ?curr-pl2 (send ?curr-pl get-plato))
 		(bind ?kindpl (send ?curr-pl2 get-orden_del_plato))
+
 		(if (and (or (eq ?kindpl Segundo) (eq ?kindpl Primero%2FSegundo)) (not (eq ?curr-pl2 ?pp)))
 			then (bind $?respS (insert$ $?respS (+ (length$ $?respS) 1) ?curr-pl))
 		)
 	)
-	(printout t crlf "SEGUNDOS" crlf)
-	(printout t ?respS)
 	?respS
 )
 
@@ -2829,11 +2826,8 @@
 			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
 		)
 	)
-	(printout t crlf "POSTRE" crlf)
-	(printout t ?resp)
 	?resp
 )
-
 
 ;;; Fin de la declaracion de funciones ----------------
 ;;; ---------------------------------------------------
@@ -3018,10 +3012,11 @@
 	(Evento (evento_temporada ?respuestaEstacion)(evento_tipo_personas $?respuestaPersonasEspeciales)(maximo_precio ?respuestaMaxPrecio)(minimo_precio ?respuestaMinPrecio)(numero_bebidaB ?respuestaBebida)(vinoB ?respuestaVino)(ingredientes_prohibidos $?respuestaIngredientes)(estilo_comida_preferente $?respuestaEstiloCocina)(pais_preferente $?respuestaPais)(comida_picanteB ?respuestaPicante)(comida_calienteB ?respuestaCaliente)(comida_friaB ?respuestaFrio))
     =>
 	(bind ?pp (max-punts (takePrimerPlato $?pb)))
-	(bind ?sep (max-punts (takeSegundoPlato ?pp $?pb)))
+	(bind ?sep (max-punts (takeSegundoPlato (send ?pp get-plato) $?pb)))
 	(printout t crlf ?sep crlf)
 	(bind ?po (max-punts (takePostre $?pb)))
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	(printout t crlf crlf crlf)
 	(printout t "MENU BARATO" crlf)
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -3075,9 +3070,87 @@
     )
 )
 
+(defrule getMenuMediano
+    (lista-de-platos-por-precio (platos-baratos $?pb) (platos-medianos $?pm))
+    =>
+    
+    (bind $?tc (create$ ))
+
+    (loop-for-count (?i 1 (length$ $?pb))
+        (bind ?curr-pl (nth$ ?i ?pb))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+    (loop-for-count (?i 1 (length$ $?pm))
+        (bind ?curr-pl (nth$ ?i ?pm))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+    (bind ?pp (max-punts (takePrimerPlato $?tc)))
+    
+    (bind ?sep (max-punts (takeSegundoPlato ?pp $?tc)))
+    (printout t crlf ?sep crlf)
+    
+    (bind ?po (max-punts (takePostre $?tc)))
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(printout t crlf crlf crlf)
+    (printout t "MENU" crlf)
+    (printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
+    (printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
+    (printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    (bind $?meme (make-instance menuM of Menu
+            (primer_plato (send ?pp get-plato))
+            (segundo_plato (send ?sep get-plato))
+            (postre (send ?po get-plato))
+    ))
+
+    (assert (Recomendacion_de_Menus
+        (menumediano ?meme))
+    )
+)
+
+(defrule getMenuCaro
+    (lista-de-platos-por-precio (platos-baratos $?pb) (platos-medianos $?pm) (platos-caros $?pc))
+    =>
+    (bind $?tc (create$ ))
+
+    (loop-for-count (?i 1 (length$ $?pb))
+        (bind ?curr-pl (nth$ ?i ?pb))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+    (loop-for-count (?i 1 (length$ $?pm))
+        (bind ?curr-pl (nth$ ?i ?pm))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+    (loop-for-count (?i 1 (length$ $?pc))
+        (bind ?curr-pl (nth$ ?i ?pc))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+
+    (bind ?pp (max-punts (takePrimerPlato $?tc)))
+    
+    (bind ?sep (max-punts (takeSegundoPlato ?pp $?tc)))
+    (printout t crlf ?sep crlf)
+    
+    (bind ?po (max-punts (takePostre $?tc)))
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    (bind ?meca (make-instance menuC of Menu
+            (primer_plato (send ?pp get-plato))
+            (segundo_plato (send ?sep get-plato))
+            (postre (send ?po get-plato))
+    ))
+
+    (assert (Recomendacion_de_Menus
+        (menucaro ?meca))
+    )
+)
+
 
 (defrule presentar
-    (Recomendacion_de_Menus (menubarato ?mb))
+    (Recomendacion_de_Menus (menubarato ?mb) (menumediano ?mm) (menucaro ?mc))
     =>
     (printout t "******************************************" crlf)
     (printout t "*                                        *" crlf)
@@ -3091,12 +3164,14 @@
     (printout t "*      - - M E N U   M E D I O - -       *" crlf)
     (printout t "*                                        *" crlf)
     (printout t "******************************************" crlf)
+    (send ?mm imprimir)
 
     (printout t "******************************************" crlf)
     (printout t "*                                        *" crlf)
     (printout t "*        - - M E N U   C A R O - -       *" crlf)
     (printout t "*                                        *" crlf)
     (printout t "******************************************" crlf)
+    (send ?mc imprimir)
 )
 ;;;;;DEMASES MENUS
 
@@ -3148,7 +3223,7 @@
 	(progn$ (?a ?self:estilo_del_plato)
 		(progn$ (?b $?estilo_comida_preferente)
 			(if (eq (send ?a get-estilo_cocina) ?b) then 
-				(bind ?resultado (+ ?resultado 40))
+				(bind ?resultado (+ ?resultado 60))
 			)
 		)
 	)
@@ -3161,7 +3236,7 @@
 	(progn$ (?i ?self:tipo_de_comida)
 		(progn$ (?j $?evento_tipo_personas)
 			(if(eq (send ?i get-tipo) ?j) then
-				(bind ?resultado (+ ?resultado 50))
+				(bind ?resultado (+ ?resultado 80))
 			)
 		)
 	)
@@ -3184,7 +3259,7 @@
 	(bind ?resultado 0)
 	(progn$ (?w $?pais_preferente)
 		(if (eq ?w (send ?self:origen_del_plato get-origen)) then
-			(bind ?resultado (+ ?resultado 20))
+			(bind ?resultado (+ ?resultado 70))
 		) 
 	)
 	return ?resultado
@@ -3194,7 +3269,7 @@
 	(bind ?resultado 0)
 	(progn$ (?temp ?self:temporada_del_plato)
 		(if(eq ?evento_temporada (send ?temp get-temporada)) then 
-			(bind ?resultado (+ ?resultado 20))
+			(bind ?resultado (+ ?resultado 50))
 		)
 	)
 	(if(eq ?evento_temporada ?self:temporada_del_plato) then 
@@ -3216,10 +3291,10 @@
 		)
 	)
 	(if (and (eq ?self:caliente FALSE) (eq ?comida_friaB TRUE))
-		then (bind ?resultado (+ ?resultado 10))
+		then (bind ?resultado (+ ?resultado 30))
 	)
 	(if (and (eq ?self:caliente TRUE) (eq ?comida_calienteB TRUE))
-		then (bind ?resultado (+ ?resultado 10))
+		then (bind ?resultado (+ ?resultado 30))
 	)
 	return ?resultado
 )
