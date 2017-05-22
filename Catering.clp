@@ -2599,34 +2599,6 @@
     ;devuelve la recomendacion: plato y puntos
 )
 
-(deffunction MAIN::elegir-bebidas (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos ?varias)
-	(if (eq ?varias TRUE)
-		then
-			(bind $?result (create$ ))
-			(bind ?primeraBebida elegir_bebidas_una ?primero ?primero ?primero ?alcohol ?vino ?frutas ?ninyos)
-			(bind ?segundaBebida elegir_bebidas_una ?segundo ?segundo ?segundo ?alcohol ?vino ?frutas ?ninyos)
-			(bind ?ultimaBebida "Agua")
-			(if (eq ?alcohol TRUE)
-				then (bind ?ultimaBebida "Champagne")
-			)
-			(if(and (not (eq ?ultimaBebida ?primeraBebida)) (not (eq ?ultimaBebida ?primeraBebida)))
-				then (bind $?result (insert$ ?result 1 ?ultimaBebida))
-			)
-			(if (not (eq ?primeraBebida ?segundaBebida))
-				then (bind $?result (insert$ ?result 1 ?segundaBebida))
-			)
-			(bind $?result (insert$ ?result 1 ?primeraBebida))
-			(printout t "hola putoooos" crlf)
-			return $?result
-		else 
-			(bind $?unicaBebida (create$ ))
-			(bind ?varUnicaBebida elegir_bebidas_una ?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos)
-			(bind $?unicaBebida (insert$ ?unicaBebida 1 ?varUnicaBebida))
-			return ?unicaBebida
-				
-	)
-)
-
 (deffunction MAIN::elegir-bebidas-una (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos)
 	(bind ?resultado "")
 	(if (eq ?vino TRUE) 
@@ -2998,9 +2970,6 @@
 		(bind ?name (sym-cat R**(send (nth$ ?i ?platos) get-nombre_del_plato)))
 		(bind ?aux (make-instance ?name of recomendacion(plato (nth$ ?i ?platos))(puntuacion ?res)))
 		(bind $?recomendations (insert$ ?recomendations 1 ?aux))
-		(printout t ?name)
-		(printout t " ")
-		(printout t ?res crlf)
 	)
 
 	(assert (lista-de-platos
@@ -3015,13 +2984,7 @@
     =>
 	(bind ?pp (max-punts (takePrimerPlato $?pb)))
 	(bind ?sep (max-punts (takeSegundoPlato (send ?pp get-plato) $?pb)))
-	(printout t crlf ?sep crlf)
 	(bind ?po (max-punts (takePostre $?pb)))
-
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	(printout t crlf crlf crlf)
-	(printout t "MENU BARATO" crlf)
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	(bind ?alcohol TRUE)
 	(bind ?ninyos FALSE)
 	(progn$ (?varAbs ?respuestaPersonasEspeciales)
@@ -3102,16 +3065,8 @@
     (bind ?pp (max-punts (takePrimerPlato $?tc)))
     
     (bind ?sep (max-punts (takeSegundoPlato (send ?pp get-plato) $?tc)))
-    (printout t crlf ?sep crlf)
     
     (bind ?po (max-punts (takePostre $?tc)))
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(printout t crlf crlf crlf)
-    (printout t "MENU MEDIANO" crlf)
-    (printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
-    (printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
-    (printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	(bind ?alcohol TRUE)
 	(bind ?ninyos FALSE)
 	(progn$ (?varAbs ?respuestaPersonasEspeciales)
@@ -3193,15 +3148,8 @@
     (bind ?pp (max-punts (takePrimerPlato $?tc)))
     
     (bind ?sep (max-punts (takeSegundoPlato (send ?pp get-plato) $?tc)))
-    (printout t crlf ?sep crlf)
     
     (bind ?po (max-punts (takePostre $?tc)))
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (printout t "MENU CARO" crlf)
-    (printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
-    (printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
-    (printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	(bind ?alcohol TRUE)
 	(bind ?ninyos FALSE)
 	(progn$ (?varAbs ?respuestaPersonasEspeciales)
