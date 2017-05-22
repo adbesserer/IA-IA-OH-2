@@ -1,0 +1,449 @@
+***********************************************************************
+*                                                                     *
+*   Welcome to the intelligent catering system of the 20th century!   *
+*            世紀の知的なケータリング システムへようこそ!             	      *
+*                                                                     *
+*                  - - - R I C O   R I C O ™ - - -                    *
+*                                                                     *
+***********************************************************************
+
+¿En que epoca del anyo se celebrara el evento?
+(Elija escribiendo con el numero correspondiente)
+    1. Otonyo
+    2. Invierno
+    3. Primavera
+    4. Verano
+Su respuesta: 3
+
+¿Habrá algún niño, algun abstemio del alcohol o algun invitado que prefiera comida vegetariana? (Responda con un Si o un No)
+si
+
+Cuales de las siguientes personas atenderan al evento?
+(Elija escribiendo con los numeros correspondientes)
+    1. Vegetariano
+    2. Infantil
+    3. Abstemios del alcohol
+Separe sus respuestas con un espacio.
+Sus opciones: 2
+
+¿Cual es el precio maximo que deberia tener el menu? Responda con un numero.
+100
+
+¿Cual es el precio minimo que deberia tener el menu? Responda con un numero.
+0
+
+¿Prefiere usted una sola bebida para toda la comida, o una adecuada para cada plato?
+(Elija escribiendo con el numero correspondiente)
+    1. Una bebida para todo el menú.
+    2. Una bebida por plato.
+Su respuesta: 1
+
+¿Le gustaria que se sirviera vino? (Responda con un Si o un No)
+si
+
+¿Hay algun ingrediente que deberiamos no usar? (Responda con un Si o un No)
+no
+
+¿Hay algun estilo de comida que se prefiera? (Responda con un Si o un No)
+si
+
+Elija pues entre los siguentes: 
+(Elija escribiendo con los numeros correspondientes)
+    1. Tradicional
+    2. Moderno
+    3. Rapida
+    4. Alta Cocina
+Separe sus respuestas con un espacio.
+Sus opciones: 1 2
+
+¿Prefiere usted recetas originales de algun pais en especial? (Responda con un Si o un No)
+no
+
+¿Le gusta la comida picante? (Responda con un Si o un No)
+no
+
+¿Quiere que se sirvan platos calientes? (Responda con un Si o un No)
+si
+
+¿Quiere que se sirvan platos fríos? (Responda con un Si o un No)
+si
+******************************************
+*                                        *
+*   - - M E N U   E C O N O M I C O - -  *
+*                                        *
+******************************************
+--------------------------------------------------
+Primer plato: 
+     Ensaladilla rusa
+Segundo plato: 
+     Macarrones a la carbonara
+Postre: 
+     Tarta de manzana
+Bebida(s): 
+     Vino Tinto
+--------------------------------------------------
+El menú le saldra por un total de: 19.000000
+
+******************************************
+*                                        *
+*      - - M E N U   M E D I O - -       *
+*                                        *
+******************************************
+--------------------------------------------------
+Primer plato: 
+     Pizza Margarita
+Segundo plato: 
+     Spaghetti bolognese
+Postre: 
+     Tarta de manzana
+Bebida(s): 
+     Vino Tinto
+--------------------------------------------------
+El menú le saldra por un total de: 24.500000
+
+******************************************
+*                                        *
+*        - - M E N U   C A R O - -       *
+*                                        *
+******************************************
+--------------------------------------------------
+Primer plato: 
+     Ostras gratinadas en muselina de cava
+Segundo plato: 
+     Entrecot de buey con guarnicion
+Postre: 
+     Tarta de manzana
+Bebida(s): 
+     Vino Blanco
+--------------------------------------------------
+El menú le saldra por un total de: 48.000000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+***********************************************************************
+*                                                                     *
+*   Welcome to the intelligent catering system of the 20th century!   *
+*            世紀の知的なケータリング システムへようこそ!             *
+*                                                                     *
+*                  - - - R I C O   R I C O ™ - - -                    *
+*                                                                     *
+***********************************************************************
+
+¿En que epoca del anyo se celebrara el evento?
+(Elija escribiendo con el numero correspondiente)
+    1. Otonyo
+    2. Invierno
+    3. Primavera
+    4. Verano
+Su respuesta: 4
+
+¿Habrá algún niño, algun abstemio del alcohol o algun invitado que prefiera comida vegetariana? (Responda con un Si o un No)
+si
+
+Cuales de las siguientes personas atenderan al evento?
+(Elija escribiendo con los numeros correspondientes)
+    1. Vegetariano
+    2. Infantil
+    3. Abstemios del alcohol
+Separe sus respuestas con un espacio.
+Sus opciones: 2
+
+¿Cual es el precio maximo que deberia tener el menu? Responda con un numero.
+20
+
+¿Cual es el precio minimo que deberia tener el menu? Responda con un numero.
+0
+
+¿Prefiere usted una sola bebida para toda la comida, o una adecuada para cada plato?
+(Elija escribiendo con el numero correspondiente)
+    1. Una bebida para todo el menú.
+    2. Una bebida por plato.
+Su respuesta: 1
+
+¿Le gustaria que se sirviera vino? (Responda con un Si o un No)
+no
+
+¿Hay algun ingrediente que deberiamos no usar? (Responda con un Si o un No)
+si
+
+¿Cuales son estos ingredientes?
+(Elija escribiendo con los numeros correspondientes)
+    1. Pato
+    2. Conejo
+    3. Chocolate
+    4. Cafe
+    5. Pasta
+    6. Carne de vaca
+    7. Carne de Cerdo
+    8. Pollo
+    9. Arroz
+    10. Leche
+    11. Verduras
+    12. Pan
+    13. Queso
+    14. Pescado
+    15. Legumbres
+    16. Licores
+    17. Harina
+    18. Azucar
+    19. Huevos
+    20. Patatas
+    21. Frutos secos
+    22. Fruta
+Separe sus respuestas con un espacio.
+Sus opciones: 16
+
+¿Hay algun estilo de comida que se prefiera? (Responda con un Si o un No)
+no
+
+¿Prefiere usted recetas originales de algun pais en especial? (Responda con un Si o un No)
+no
+
+¿Le gusta la comida picante? (Responda con un Si o un No)
+si
+
+¿Quiere que se sirvan platos calientes? (Responda con un Si o un No)
+si
+
+¿Quiere que se sirvan platos fríos? (Responda con un Si o un No)
+si
+******************************************
+*                                        *
+*   - - M E N U   E C O N O M I C O - -  *
+*                                        *
+******************************************
+--------------------------------------------------
+Primer plato: 
+     Ensaladilla rusa
+Segundo plato: 
+     Hamburguesa vegetariana
+Postre: 
+     Sorbete de frutas de temporada
+Bebida(s): 
+     Fanta
+--------------------------------------------------
+El menú le saldra por un total de: 19.000000
+
+******************************************
+*                                        *
+*      - - M E N U   M E D I O - -       *
+*                                        *
+******************************************
+--------------------------------------------------
+Primer plato: 
+     Fajitas mexicanas
+Segundo plato: 
+     Pizza Margarita
+Postre: 
+     Sorbete de frutas de temporada
+Bebida(s): 
+     Fanta
+--------------------------------------------------
+El menú le saldra por un total de: 26.000000
+El catering Rico Rico le ofrece esta opción, no está ajustada totalmente a sus requisitios, mas es la mejor disponible.
+
+******************************************
+*                                        *
+*        - - M E N U   C A R O - -       *
+*                                        *
+******************************************
+--------------------------------------------------
+Primer plato: 
+     Steak tartare
+Segundo plato: 
+     Entrecot de buey con guarnicion
+Postre: 
+     Sorbete de frutas de temporada
+Bebida(s): 
+     Fanta
+--------------------------------------------------
+El menú le saldra por un total de: 43.000000
+El catering Rico Rico le ofrece esta opción, no está ajustada totalmente a sus requisitios, mas es la mejor disponible.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+***********************************************************************
+*                                                                     *
+*   Welcome to the intelligent catering system of the 20th century!   *
+*            世紀の知的なケータリング システムへようこそ!             *
+*                                                                     *
+*                  - - - R I C O   R I C O ™ - - -                    *
+*                                                                     *
+***********************************************************************
+
+¿En que epoca del anyo se celebrara el evento?
+(Elija escribiendo con el numero correspondiente)
+    1. Otonyo
+    2. Invierno
+    3. Primavera
+    4. Verano
+Su respuesta: 2
+
+¿Habrá algún niño, algun abstemio del alcohol o algun invitado que prefiera comida vegetariana? (Responda con un Si o un No)
+si
+
+Cuales de las siguientes personas atenderan al evento?
+(Elija escribiendo con los numeros correspondientes)
+    1. Vegetariano
+    2. Infantil
+    3. Abstemios del alcohol
+Separe sus respuestas con un espacio.
+Sus opciones: 1 2 3
+
+¿Cual es el precio maximo que deberia tener el menu? Responda con un numero.
+40
+
+¿Cual es el precio minimo que deberia tener el menu? Responda con un numero.
+10
+
+¿Prefiere usted una sola bebida para toda la comida, o una adecuada para cada plato?
+(Elija escribiendo con el numero correspondiente)
+    1. Una bebida para todo el menú.
+    2. Una bebida por plato.
+Su respuesta: 2
+
+¿Le gustaria que se sirviera vino? (Responda con un Si o un No)
+si
+
+¿Hay algun ingrediente que deberiamos no usar? (Responda con un Si o un No)
+si
+
+¿Cuales son estos ingredientes?
+(Elija escribiendo con los numeros correspondientes)
+    1. Pato
+    2. Conejo
+    3. Chocolate
+    4. Cafe
+    5. Pasta
+    6. Carne de vaca
+    7. Carne de Cerdo
+    8. Pollo
+    9. Arroz
+    10. Leche
+    11. Verduras
+    12. Pan
+    13. Queso
+    14. Pescado
+    15. Legumbres
+    16. Licores
+    17. Harina
+    18. Azucar
+    19. Huevos
+    20. Patatas
+    21. Frutos secos
+    22. Fruta
+Separe sus respuestas con un espacio.
+Sus opciones: 1 5 7
+
+¿Hay algun estilo de comida que se prefiera? (Responda con un Si o un No)
+no
+
+¿Prefiere usted recetas originales de algun pais en especial? (Responda con un Si o un No)
+no
+
+¿Le gusta la comida picante? (Responda con un Si o un No)
+si
+
+¿Quiere que se sirvan platos calientes? (Responda con un Si o un No)
+si
+
+¿Quiere que se sirvan platos fríos? (Responda con un Si o un No)
+si
+******************************************
+*                                        *
+*   - - M E N U   E C O N O M I C O - -  *
+*                                        *
+******************************************
+--------------------------------------------------
+Primer plato: 
+     Ensaladilla rusa
+Segundo plato: 
+     Hamburguesa vegetariana
+Postre: 
+     Tarta de manzana
+Bebida(s): 
+     Vino Rosado
+     Vino Rosado
+     Zumo de fruta
+--------------------------------------------------
+El menú le saldra por un total de: 24.500000
+
+******************************************
+*                                        *
+*      - - M E N U   M E D I O - -       *
+*                                        *
+******************************************
+--------------------------------------------------
+Primer plato: 
+     Ensalada vegetariana
+Segundo plato: 
+     Paella Marinera
+Postre: 
+     Tarta de manzana
+Bebida(s): 
+     Vino Rosado
+     Vino Blanco
+     Zumo de fruta
+--------------------------------------------------
+El menú le saldra por un total de: 34.500000
+
+******************************************
+*                                        *
+*        - - M E N U   C A R O - -       *
+*                                        *
+******************************************
+--------------------------------------------------
+Primer plato: 
+     Ensalada de ventresca y tomates
+Segundo plato: 
+     Ostras gratinadas en muselina de cava
+Postre: 
+     Tarta de manzana
+Bebida(s): 
+     Vino Blanco
+     Vino Blanco
+     Zumo de fruta
+--------------------------------------------------
+El menú le saldra por un total de: 44.000000
+El catering Rico Rico le ofrece esta opción, no está ajustada totalmente a sus requisitios, mas es la mejor disponible.

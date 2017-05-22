@@ -3048,6 +3048,7 @@
 	))
 	(send ?pp put-puntuacion -10000)
 	(send ?sep put-puntuacion -10000)
+	(send ?po put-puntuacion -10000)
 )
 
 (defrule getMenuMediano
@@ -3128,6 +3129,7 @@
 	))
 	(send ?pp put-puntuacion -10000)
 	(send ?sep put-puntuacion -10000)
+	(send ?po put-puntuacion -10000)
 )
 
 (defrule getMenuCaro
