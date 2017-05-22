@@ -2786,8 +2786,6 @@
 			then (bind $?respP (insert$ $?respP (+ (length$ $?respP) 1) ?curr-pl))
 		)
 	)
-	(printout t crlf "PRIMEROS" crlf)
-	(printout t ?respP)
 	?respP
 )
 
@@ -2803,8 +2801,6 @@
 			then (bind $?respS (insert$ $?respS (+ (length$ $?respS) 1) ?curr-pl))
 		)
 	)
-	(printout t crlf "SEGUNDOS" crlf)
-	(printout t ?respS)
 	?respS
 )
 
@@ -2820,11 +2816,8 @@
 			then (bind $?resp (insert$ $?resp (+ (length$ $?resp) 1) ?curr-pl))
 		)
 	)
-	(printout t crlf "POSTRE" crlf)
-	(printout t ?resp)
 	?resp
 )
-
 
 ;;; Fin de la declaracion de funciones ----------------
 ;;; ---------------------------------------------------
@@ -3014,13 +3007,7 @@
 	(printout t crlf ?sep crlf)
 	
 	(bind ?po (max-punts (takePostre $?pb)))
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-	(printout t crlf crlf crlf)
-	(printout t "MENU BARATO" crlf)
-	(printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
-	(printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
-	(printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -3034,11 +3021,91 @@
     )
 )
 
+(defrule getMenuMediano
+    (lista-de-platos-por-precio (platos-baratos $?pb) (platos-medianos $?pm))
+    =>
+    
+    (bind $?tc (create$ ))
+
+    (loop-for-count (?i 1 (length$ $?pb))
+        (bind ?curr-pl (nth$ ?i ?pb))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+    (loop-for-count (?i 1 (length$ $?pm))
+        (bind ?curr-pl (nth$ ?i ?pm))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+    (bind ?pp (max-punts (takePrimerPlato $?tc)))
+    
+    (bind ?sep (max-punts (takeSegundoPlato ?pp $?tc)))
+    (printout t crlf ?sep crlf)
+    
+    (bind ?po (max-punts (takePostre $?tc)))
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(printout t crlf crlf crlf)
+    (printout t "MENU" crlf)
+    (printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
+    (printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
+    (printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    (bind $?meme (make-instance menuM of Menu
+            (primer_plato (send ?pp get-plato))
+            (segundo_plato (send ?sep get-plato))
+            (postre (send ?po get-plato))
+    ))
+
+    (assert (Recomendacion_de_Menus
+        (menumediano ?meme))
+    )
+)
+
+(defrule getMenuCaro
+    (lista-de-platos-por-precio (platos-baratos $?pb) (platos-medianos $?pm) (platos-caros $?pc))
+    =>
+    (bind $?tc (create$ ))
+
+    (loop-for-count (?i 1 (length$ $?pb))
+        (bind ?curr-pl (nth$ ?i ?pb))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+    (loop-for-count (?i 1 (length$ $?pm))
+        (bind ?curr-pl (nth$ ?i ?pm))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+    (loop-for-count (?i 1 (length$ $?pc))
+        (bind ?curr-pl (nth$ ?i ?pc))
+        (bind $?tc (insert$ $?tc (+ (length$ $?tc) 1) ?curr-pl))
+    )
+
+    (bind ?pp (max-punts (takePrimerPlato $?tc)))
+    
+    (bind ?sep (max-punts (takeSegundoPlato ?pp $?tc)))
+    (printout t crlf ?sep crlf)
+    
+    (bind ?po (max-punts (takePostre $?tc)))
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    (bind ?meca (make-instance menuC of Menu
+            (primer_plato (send ?pp get-plato))
+            (segundo_plato (send ?sep get-plato))
+            (postre (send ?po get-plato))
+    ))
+
+    (assert (Recomendacion_de_Menus
+        (menucaro ?meca))
+    )
+)
+
 
 (defrule presentar
-    (Recomendacion_de_Menus (menubarato ?mb))
+    (Recomendacion_de_Menus (menubarato ?mb) (menumediano ?mm) (menucaro ?mc))
     =>
     (send ?mb imprimir)
+    (send ?mm imprimir)
+    (send ?mc imprimir)
 )
 ;;;;;DEMASES MENUS
 
