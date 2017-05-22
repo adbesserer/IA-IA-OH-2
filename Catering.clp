@@ -2778,7 +2778,7 @@
         (bind ?curr-pl (nth$ ?i ?platos))
         (bind ?curr-pl2 (send ?curr-pl get-plato))
         (bind ?prec (send ?curr-pl2 get-precio))
-        (if (< ?prec 10.0)
+        (if (< ?prec 8.0)
             then (bind $?platoB (insert$ $?platoB (+ (length$ $?platoB) 1) ?curr-pl))
             else (if (< ?prec 18.0)
                 then (bind $?platoM (insert$ $?platoM (+ (length$ $?platoM) 1) ?curr-pl))
@@ -3101,7 +3101,7 @@
     )
     (bind ?pp (max-punts (takePrimerPlato $?tc)))
     
-    (bind ?sep (max-punts (takeSegundoPlato ?pp $?tc)))
+    (bind ?sep (max-punts (takeSegundoPlato (send ?pp get-plato) $?tc)))
     (printout t crlf ?sep crlf)
     
     (bind ?po (max-punts (takePostre $?tc)))
@@ -3192,7 +3192,7 @@
 
     (bind ?pp (max-punts (takePrimerPlato $?tc)))
     
-    (bind ?sep (max-punts (takeSegundoPlato ?pp $?tc)))
+    (bind ?sep (max-punts (takeSegundoPlato (send ?pp get-plato) $?tc)))
     (printout t crlf ?sep crlf)
     
     (bind ?po (max-punts (takePostre $?tc)))
@@ -3412,9 +3412,9 @@
 		)
 	)
 	(progn$ (?temporada ?self:temporada_del_plato)
-	(if(eq ?evento_temporada ?temporada) then 
-		(bind ?resultado (+ ?resultado 20))
-	)
+		(if(eq ?evento_temporada ?temporada) then 
+			(bind ?resultado (+ ?resultado 20))
+		)
 	)
 	(if(<= (float ?minimo_precio) ?self:precio) then
 		(bind ?resultado (+ ?resultado 5)) 
@@ -3422,6 +3422,12 @@
 	(if(> (float ?maximo_precio) ?self:precio) then
 		(bind ?resultado (+ ?resultado 10)) 
 		else (bind ?resultado (- ?resultado 1000))
+	);;<18, >18
+	(if(< 8 ?self:precio)
+		then(if(< 18 ?self:precio)
+				then (bind ?resultado (+ ?resultado 150)) 
+				else (bind ?resultado (+ ?resultado 50)) 	
+			) 
 	)
 	(if(eq ?comida_picante TRUE) 
 	then 
