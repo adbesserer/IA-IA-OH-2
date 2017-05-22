@@ -2027,6 +2027,12 @@
     (precio 2.0)
     (tiene_alcohol TRUE))
 
+([CateringOnto_Class200] of  Bebida
+
+    (bebida "Zumo de fruta")
+    (precio 2.0)
+    (tiene_alcohol FALSE))
+
 ([CateringOnto_Class80] of  Plato
 
     (caliente TRUE)
