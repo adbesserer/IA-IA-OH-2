@@ -2982,7 +2982,7 @@
 )
 
 (defrule getMenuBarato
-	(lista-de-platos-por-precio(platos-baratos $?pb))
+	?lpp <- (lista-de-platos-por-precio(platos-baratos $?pb))
 	(Evento (evento_temporada ?respuestaEstacion)(evento_tipo_personas $?respuestaPersonasEspeciales)(maximo_precio ?respuestaMaxPrecio)(minimo_precio ?respuestaMinPrecio)(numero_bebidaB ?respuestaBebida)(vinoB ?respuestaVino)(ingredientes_prohibidos $?respuestaIngredientes)(estilo_comida_preferente $?respuestaEstiloCocina)(pais_preferente $?respuestaPais)(comida_picanteB ?respuestaPicante)(comida_calienteB ?respuestaCaliente)(comida_friaB ?respuestaFrio))
     =>
 	(bind ?pp (max-punts (takePrimerPlato $?pb)))
