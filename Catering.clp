@@ -2641,8 +2641,14 @@
 )
 
 (deffunction MAIN::get-bebida-de-nombre (?nombre)
-	(bind ?bebida (find-all-instances ((?inst Bebida)) (eq ?inst:bebida ?nombre)))
-	return bebida 
+	(bind $?bebida (find-all-instances ((?inst Bebida)) TRUE))
+	(bind ?result "")
+	(progn$ (?var ?bebida)
+		(if(eq (send ?var get-bebida) ?nombre)
+			then(bind ?result ?var)
+		)
+	)
+	return ?result 
 )
 
 (deffunction MAIN::pregunta_bool (?pregunta)
@@ -3012,19 +3018,12 @@
 	(Evento (evento_temporada ?respuestaEstacion)(evento_tipo_personas $?respuestaPersonasEspeciales)(maximo_precio ?respuestaMaxPrecio)(minimo_precio ?respuestaMinPrecio)(numero_bebidaB ?respuestaBebida)(vinoB ?respuestaVino)(ingredientes_prohibidos $?respuestaIngredientes)(estilo_comida_preferente $?respuestaEstiloCocina)(pais_preferente $?respuestaPais)(comida_picanteB ?respuestaPicante)(comida_calienteB ?respuestaCaliente)(comida_friaB ?respuestaFrio))
     =>
 	(bind ?pp (max-punts (takePrimerPlato $?pb)))
-	
 	(bind ?sep (max-punts (takeSegundoPlato ?pp $?pb)))
 	(printout t crlf ?sep crlf)
-	
 	(bind ?po (max-punts (takePostre $?pb)))
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 	(printout t crlf crlf crlf)
 	(printout t "MENU BARATO" crlf)
-	(printout t (send (send ?pp get-plato) get-nombre_del_plato) crlf)
-	(printout t (send (send ?sep get-plato) get-nombre_del_plato) crlf)
-	(printout t (send (send ?po get-plato) get-nombre_del_plato) crlf)
-	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	(bind ?alcohol TRUE)
 	(bind ?ninyos FALSE)
@@ -3047,10 +3046,6 @@
 	(bind ?primerPlato (send ?pp get-plato))
 	(bind ?segundoPlato (send ?sep get-plato))
 	(bind ?postre (send ?po get-plato))
-	;;;;fotre la logica de pillar beguda aqui, oblidar-me de la funcio de varios que fa csoes rares
-	
-	
-	
 	(bind $?bebidas (create$ ))
 	(if (eq ?varias TRUE)
 		then (bind ?resV1 (elegir-bebidas-una ?primerPlato ?primerPlato ?primerPlato ?alcohol ?respuestaVino ?frutas ?ninyos))
@@ -3059,11 +3054,6 @@
 			(if (eq ?alcohol TRUE)
 				then (bind ?resV3 "Champagne")
 			)
-			
-			(printout t ?resV1 crlf)
-			(printout t ?resV2 crlf)
-			(printout t ?resV3 crlf)
-			
 			(bind ?resV1 (get-bebida-de-nombre ?resV1))
 			(bind ?resV2 (get-bebida-de-nombre ?resV2))
 			(bind ?resV3 (get-bebida-de-nombre ?resV3))
@@ -3071,13 +3061,10 @@
 			(bind $?bebidas (insert$ ?bebidas 1 ?resV2))
 			(bind $?bebidas (insert$ ?bebidas 1 ?resV1))
 		else (bind ?res1 (elegir-bebidas-una ?primerPlato ?segundoPlato ?postre ?alcohol ?respuestaVino ?frutas ?ninyos))
-			
-			(printout t ?res1 crlf)
-			
 			(bind ?res1 (get-bebida-de-nombre ?res1))
 			(bind $?bebidas (insert$ ?bebidas 1 ?res1))
 	)
-	(bind ?meba(make-instance menuB of Menu
+	(bind ?meba (make-instance menuB of Menu
 			(primer_plato (send ?pp get-plato))
 			(segundo_plato (send ?sep get-plato))
 			(postre (send ?po get-plato))
@@ -3111,7 +3098,8 @@
    (printout t crlf)
    (printout t "Bebida(s): " crlf)
    (progn$ (?aux $?self:bebida)
-   		(send ?aux print)
+   		(format t "     %s" (send ?aux get-bebida))
+   		(printout t crlf)
    )
    (format t "El menú le saldra por un total de: %f" ?self:precio)
    (printout t crlf)
