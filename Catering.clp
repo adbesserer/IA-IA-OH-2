@@ -3162,27 +3162,28 @@
 
 (defrule presentar
     (Recomendacion_de_Menus (menubarato ?mb) (menumediano ?mm) (menucaro ?mc))
+	(Evento (maximo_precio ?respuestaMaxPrecio)(minimo_precio ?respuestaMinPrecio))
     =>
     (printout t "******************************************" crlf)
     (printout t "*                                        *" crlf)
     (printout t "*   - - M E N U   E C O N O M I C O - -  *" crlf)
     (printout t "*                                        *" crlf)
     (printout t "******************************************" crlf)
-    (send ?mb imprimir)
+    (send ?mb imprimir ?respuestaMinPrecio ?respuestaMaxPrecio)
 
     (printout t "******************************************" crlf)
     (printout t "*                                        *" crlf)
     (printout t "*      - - M E N U   M E D I O - -       *" crlf)
     (printout t "*                                        *" crlf)
     (printout t "******************************************" crlf)
-    (send ?mm imprimir)
+    (send ?mm imprimir ?respuestaMinPrecio ?respuestaMaxPrecio)
 
     (printout t "******************************************" crlf)
     (printout t "*                                        *" crlf)
     (printout t "*        - - M E N U   C A R O - -       *" crlf)
     (printout t "*                                        *" crlf)
     (printout t "******************************************" crlf)
-    (send ?mc imprimir)
+    (send ?mc imprimir ?respuestaMinPrecio ?respuestaMaxPrecio)
 )
 ;;;;;DEMASES MENUS
 (defmessage-handler MAIN::Menu calcular-precio ()
@@ -3195,7 +3196,7 @@
 	)
 )
 
-(defmessage-handler MAIN::Menu imprimir ()
+(defmessage-handler MAIN::Menu imprimir (?min ?max)
    (bind ?primero (send ?self:primer_plato get-nombre_del_plato))
    (bind ?segundo (send ?self:segundo_plato get-nombre_del_plato))
    (bind ?postre (send ?self:postre get-nombre_del_plato))
@@ -3214,8 +3215,13 @@
    		(format t "     %s" (send ?aux get-bebida))
    		(printout t crlf)
    )
+   (bind ?precioFinal (send ?self calcular-precio))
+   (send ?self put-precio ?precioFinal)
    (printout t "--------------------------------------------------" crlf)
-   (format t "El menú le saldra por un total de: %f" (send ?self calcular-precio))
+   (format t "El menú le saldra por un total de: %f" ?precioFinal)
+   (if (or (< ?precioFinal ?min) (> ?precioFinal ?max))
+   	then (printout t "El catering Rico Rico le ofrece esta opción, no está ajustada totalmente a sus requisitios de precio, mas es la mejor disponible." crlf)
+   )
     (printout t crlf crlf)  
 )
 
