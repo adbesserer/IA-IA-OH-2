@@ -3315,11 +3315,12 @@
    (bind ?precioFinal (send ?self calcular-precio))
    (send ?self put-precio ?precioFinal)
    (printout t "--------------------------------------------------" crlf)
-   (format t "El menú le saldra por un total de: %f" ?precioFinal crlf)
+   (format t "El menú le saldra por un total de: %f" ?precioFinal)
+   (printout t crlf)
    (if (or (< ?precioFinal ?min) (> ?precioFinal ?max))
    	then (printout t "El catering Rico Rico le ofrece esta opción, no está ajustada totalmente a sus requisitios de precio, mas es la mejor disponible." crlf)
    )
-    (printout t crlf crlf)  
+   (printout t  crlf)  
 )
 
 
