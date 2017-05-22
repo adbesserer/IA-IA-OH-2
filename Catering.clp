@@ -2976,13 +2976,13 @@
 
 
 (defrule f2
-	(Evento (evento_tipo_personas ?respuestaPersonasEspeciales)(maximo_precio ?maxPrecio)(evento_temporada ?temporada)(comida_picanteB ?picante)(comida_friaB ?fria)(comida_calienteB ?caliente)(estilo_comida_preferente $?estilo_comida_preferente)(ingredientes_prohibidos $?ingredientes_prohibidos)(pais_preferente $?pais_preferente))
+	(Evento (evento_tipo_personas $?respuestaPersonasEspeciales)(maximo_precio ?maxPrecio)(minimo_precio ?minPrecio)(evento_temporada ?temporada)(comida_picanteB ?picante)(comida_friaB ?fria)(comida_calienteB ?caliente)(estilo_comida_preferente $?estilo_comida_preferente)(ingredientes_prohibidos $?ingredientes_prohibidos)(pais_preferente $?pais_preferente))
 	=>
 	(bind $?platos (find-all-instances ((?inst Plato)) TRUE))
 	(bind ?recomendations(create$ ))
 	(loop-for-count (?i 1 (length$ $?platos)) do
 		(bind ?res 0)
-		(bind ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato ?temporada ?maxPrecio ?picante ?fria ?caliente))
+		(bind ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato ?temporada ?maxPrecio ?minPrecio ?picante ?fria ?caliente))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-comida-pref $?estilo_comida_preferente)))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-ing-proh $?ingredientes_prohibidos)))
 		(bind ?res (+ ?res (send (nth$ ?i ?platos) asignar-puntuacion-plato-pais-pref $?pais_preferente)))
@@ -3052,9 +3052,14 @@
 		then (bind ?resV1 (elegir-bebidas-una ?primerPlato ?primerPlato ?primerPlato ?alcohol ?respuestaVino ?frutas ?ninyos))
 			(bind ?resV2 (elegir-bebidas-una ?segundoPlato ?segundoPlato ?segundoPlato ?alcohol ?respuestaVino ?frutas ?ninyos))
 			(bind ?resV3 "Agua")
-			(if (eq ?alcohol TRUE)
-				then (bind ?resV3 "Champagne")
-			)
+			(if (eq ?ninyos TRUE)
+				then (if (eq ?frutas TRUE)
+						then (bind ?resV3 "Zumo de fruta")
+					)
+				else (if (eq ?alcohol TRUE)
+						then (bind ?resV3 "Champagne")	
+					  )
+			) 
 			(bind ?resV1 (get-bebida-de-nombre ?resV1))
 			(bind ?resV2 (get-bebida-de-nombre ?resV2))
 			(bind ?resV3 (get-bebida-de-nombre ?resV3))
@@ -3180,6 +3185,15 @@
     (send ?mc imprimir)
 )
 ;;;;;DEMASES MENUS
+(defmessage-handler MAIN::Menu calcular-precio ()
+	(bind ?precio 0)
+	(bind ?precio (+ ?precio (send ?self:primer_plato get-precio)))
+	(bind ?precio (+ ?precio (send ?self:segundo_plato get-precio)))
+	(bind ?precio (+ ?precio (send ?self:postre get-precio)))
+	(progn$ (?bebidaN ?self:bebida)
+		(bind ?precio (+ ?precio (send ?bebidaN get-precio)))
+	)
+)
 
 (defmessage-handler MAIN::Menu imprimir ()
    (bind ?primero (send ?self:primer_plato get-nombre_del_plato))
@@ -3201,7 +3215,7 @@
    		(printout t crlf)
    )
    (printout t "--------------------------------------------------" crlf)
-   (format t "El menú le saldra por un total de: %f" ?self:precio)
+   (format t "El menú le saldra por un total de: %f" (send ?self calcular-precio))
     (printout t crlf crlf)  
 )
 
@@ -3271,15 +3285,20 @@
 	return ?resultado
 )
 
-(defmessage-handler MAIN::Plato asignar-puntuacion-plato (?evento_temporada ?maximo_precio ?comida_picante ?comida_friaB ?comida_calienteB) 
+(defmessage-handler MAIN::Plato asignar-puntuacion-plato (?evento_temporada ?maximo_precio ?minimo_precio ?comida_picante ?comida_friaB ?comida_calienteB)
 	(bind ?resultado 0)
 	(progn$ (?temp ?self:temporada_del_plato)
 		(if(eq ?evento_temporada (send ?temp get-temporada)) then 
 			(bind ?resultado (+ ?resultado 50))
 		)
 	)
-	(if(eq ?evento_temporada ?self:temporada_del_plato) then 
-		(bind ?resultado (+ ?resultado 1000))
+	(progn$ (?temporada ?self:temporada_del_plato)
+	(if(eq ?evento_temporada ?temporada) then 
+		(bind ?resultado (+ ?resultado 20))
+	)
+	)
+	(if(<= (float ?minimo_precio) ?self:precio) then
+		(bind ?resultado (+ ?resultado 5)) 
 	)
 	(if(> (float ?maximo_precio) ?self:precio) then
 		(bind ?resultado (+ ?resultado 10)) 
