@@ -3226,6 +3226,10 @@
 		(bind ?x (send ?var get-ingrediente))
 		(if (eq ?x "Pescado") then (bind ?resultado TRUE))
 	)
+	(progn$ (?var2 ?self:tipo_de_comida)
+		(bind ?x (send ?var2 get-tipo))
+		(if (eq ?x "Marisco y Pescado") then (bind ?resultado TRUE))
+	)
 	return ?resultado
 )
 
@@ -3234,6 +3238,10 @@
 	(progn$ (?var ?self:ingredientes_del_plato)
 		(bind ?x (send ?var get-ingrediente))
 		(if (or (or (eq ?x "Pato") (eq ?x "Conejo")) (or (eq ?x "Pato") (eq ?x "Conejo"))) then (bind ?resultado TRUE))
+	)
+	(progn$ (?var2 ?self:tipo_de_comida)
+		(bind ?x (send ?var2 get-tipo))
+		(if (eq ?x "Carne") then (bind ?resultado TRUE))
 	)
 	return ?resultado
 )
