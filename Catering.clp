@@ -3258,6 +3258,14 @@
 			(if(eq (send ?i get-tipo) ?j) then
 				(bind ?resultado (+ ?resultado 80))
 			)
+			(if (eq ?j "Vegetariano")
+				then (progn$ (?w ?self:tipo_de_comida)
+					(if (eq (send ?w get-tipo) ?j)
+						then(bind ?resultado (+ ?resultado 500))
+						else (bind ?resultado (- ?resultado 50))	
+					) 
+				)
+			)
 		)
 	)
 	return ?resultado
