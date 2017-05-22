@@ -2600,6 +2600,8 @@
     ;devuelve la recomendacion: plato y puntos
 )
 
+
+
 (deffunction MAIN::elegir-bebidas-una (?primero ?segundo ?postre ?alcohol ?vino ?frutas ?ninyos)
 	(bind ?resultado "")
 	(if (eq ?vino TRUE) 
@@ -3044,7 +3046,8 @@
 	(assert (platos-baratos-hechos
 		(Bool TRUE)
 	))
-	
+	(send ?pp put-puntuacion -10000)
+	(send ?sep put-puntuacion -10000)
 )
 
 (defrule getMenuMediano
@@ -3123,6 +3126,8 @@
 	(assert (platos-medianos-hechos
 		(Bool TRUE)
 	))
+	(send ?pp put-puntuacion -10000)
+	(send ?sep put-puntuacion -10000)
 )
 
 (defrule getMenuCaro
@@ -3267,7 +3272,7 @@
    (format t "El menú le saldra por un total de: %f" ?precioFinal)
    (printout t crlf)
    (if (or (< ?precioFinal ?min) (> ?precioFinal ?max))
-   	then (printout t "El catering Rico Rico le ofrece esta opción, no está ajustada totalmente a sus requisitios de precio, mas es la mejor disponible." crlf)
+   	then (printout t "El catering Rico Rico le ofrece esta opción, no está ajustada totalmente a sus requisitios, mas es la mejor disponible." crlf)
    )
    (printout t  crlf)  
 )
@@ -3320,12 +3325,10 @@
 				(bind ?resultado (+ ?resultado 80))
 			)
 			(if (eq ?j "Vegetariano")
-				then (progn$ (?w ?self:tipo_de_comida)
-					(if (eq (send ?w get-tipo) ?j)
-						then(bind ?resultado (+ ?resultado 500))
-						else (bind ?resultado (- ?resultado 50))	
-					) 
-				)
+				then (if (eq (send ?self tienecarnebool) TRUE)
+						then (bind ?resultado (- ?resultado 1000))
+						else (bind ?resultado (+ ?resultado 500))
+					)
 			)
 		)
 	)
